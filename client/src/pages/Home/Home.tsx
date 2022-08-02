@@ -9,7 +9,7 @@ import { MovieCard, MovieCardSelected } from "../../common/components";
 import { useQuery } from "@apollo/client";
 
 import { GET_ALL_MOVIES } from "./queries";
-import { useMovie } from "./../../services/hooks/useMovie";
+import { useMovie } from "./../../services/hooks";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
