@@ -4,16 +4,26 @@ import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { CardMenu } from "../CardMenu/CardMenu";
 interface MovieCardSelectedprops {
   movie: IMovie;
-  onDeleteMovie: () => void;
+  onDeleteMovie: (id: string) => void;
 }
 export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
   movie,
   onDeleteMovie,
 }) => {
-  const menu = ["add", "remove"];
+  const menu = ["remove"];
   return (
-    <Card sx={{ display: "flex", position: "relative" }}>
-      <CardMenu menuItems={menu} handleClickMenu={() => {}} />
+    <Card
+      sx={{
+        display: "flex",
+        position: "relative",
+        width: "100%",
+        margin: "15px",
+      }}
+    >
+      <CardMenu
+        menuItems={menu}
+        handleClickMenu={() => onDeleteMovie(movie.id)}
+      />
       <CardMedia
         component="img"
         sx={{ width: 100 }}

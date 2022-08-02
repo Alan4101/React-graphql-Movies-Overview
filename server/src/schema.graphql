@@ -1,5 +1,5 @@
 type Query {
-  movies: Movies
+  movies(page: Int): Movies
 }
 type Movies {
   page: Int!
@@ -8,10 +8,18 @@ type Movies {
   results: [Movie]!
 }
 type Movie {
+  id: ID
   title: String!
   releaseDate: String!
   poster: String
   genre: [Genre]
+  adult: Boolean
+  overview: String
+  originalLanguage: String
+  backdropPath: String
+  voteCount: Int
+  video: Boolean
+  voteAverage: Float
 }
 
 type Genre {

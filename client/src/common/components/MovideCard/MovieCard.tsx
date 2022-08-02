@@ -5,12 +5,15 @@ import { IMovie } from "../../models";
 
 interface MovieCardProps {
   movie: IMovie;
-  onCardSelect: () => void;
+  onCardSelect: (movie: IMovie) => void;
 }
 export const MovieCard: FC<MovieCardProps> = ({ movie, onCardSelect }) => {
   return (
     <Card sx={{ maxWidth: 250, position: "relative" }}>
-      <CardMenu menuItems={["add"]} handleClickMenu={onCardSelect} />
+      <CardMenu
+        menuItems={["add"]}
+        handleClickMenu={() => onCardSelect(movie)}
+      />
       <CardMedia
         component="img"
         height="250"
@@ -18,7 +21,7 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onCardSelect }) => {
         alt={movie.title}
       />
       <CardContent>
-        <Typography variant="h5" color="text.secondary">
+        <Typography variant="h6" color="text.secondary">
           {movie.title}
         </Typography>
         <Typography variant="body1" color="text.secondary">

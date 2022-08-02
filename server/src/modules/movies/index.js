@@ -1,10 +1,15 @@
 const axios = require('axios')
-const key = 'f6b1fc60dfa4b565e46025dc0de1fa24'
-const url = `https://api.themoviedb.org/3/movie/popular?api_key=f6b1fc60dfa4b565e46025dc0de1fa24`
-const getPopular = async () => {
-  const res = await axios.get(url)
-  return res.data
+const { API_KEY } = require('../../config')
+const url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US`
+const {Movies} = require('./entities/Movies')
+
+const getPopular = async (page) => {
+  const pageNumber = `&page=${page}` 
+  const {data} = await axios.get(url+pageNumber)
+
+  return new Movies(data) 
 }
+
 
 module.exports = {
   getPopular

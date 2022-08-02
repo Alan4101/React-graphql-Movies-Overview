@@ -16,3 +16,8 @@ export const MovieMain = Template.bind({});
 MovieMain.args = {
   movie: movies[0],
 };
+export const MoviePrimary = Template.bind({});
+
+MoviePrimary.args = {
+  movie: movies[3],
+};

@@ -1,20 +1,27 @@
-import { FC } from "react";
-import { Grid, Paper } from "@mui/material";
-import { SelectedMoviePaper } from "./Home.style";
-import { MovieCard } from "../../common/components";
-import { IMovie } from "../../common/models";
-export const Home: FC = () => {
-  const movie: IMovie = {
-    title: "Sherlock Holmes",
-    poster:
-      "https://media-cache.cinematerial.com/p/500x/pdufvdif/sherlock-holmes-movie-cover.jpg?v=1456822182",
-    releaseDate: "20/05/20",
-  };
-  const onCardSelect = () => {};
+import { FC, useState } from "react";
+import { Grid, Pagination, Paper, Typography } from "@mui/material";
 
-  const props = {
-    movie,
-    onCardSelect,
+import { SelectedMoviePaper } from "./Home.style";
+
+import { MovieCard, MovieCardSelected } from "../../common/components";
+
+import { useQuery } from "@apollo/client";
+
+import { GET_ALL_MOVIES } from "./queries";
+import { useMovie } from "./../../services/hooks/useMovie";
+
+export const Home: FC = () => {
+  const [page, setPage] = useState(1);
+  const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
+    variables: { page },
+  });
+  const { selectMovie, selectedMovies, deleteMovie } = useMovie();
+
+  if (error) {
+    return <>{error}</>;
+  }
+  const paginationHandler = (event: any, page: number) => {
+    setPage(page);
   };
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
@@ -24,23 +31,34 @@ export const Home: FC = () => {
       <Grid item xs={12} md={8}>
         <Paper sx={{ padding: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <MovieCard {...props} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <MovieCard {...props} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <MovieCard {...props} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <MovieCard {...props} />
-            </Grid>
+            {loading
+              ? "Loading..."
+              : data.movies.results.map((item: any) => (
+                  <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+                    <MovieCard movie={item} onCardSelect={selectMovie} />
+                  </Grid>
+                ))}
           </Grid>
+          <Pagination
+            count={data?.movies?.totalPages}
+            page={page}
+            onChange={paginationHandler}
+          />
         </Paper>
       </Grid>
       <Grid item xs={12} md={4}>
-        <SelectedMoviePaper>third</SelectedMoviePaper>
+        <SelectedMoviePaper>
+          <Typography variant="h5">Selected Movies</Typography>
+          <Grid container>
+            {selectedMovies.map((item) => (
+              <MovieCardSelected
+                key={item.id}
+                movie={item}
+                onDeleteMovie={deleteMovie}
+              />
+            ))}
+          </Grid>
+        </SelectedMoviePaper>
       </Grid>
     </Grid>
   );
