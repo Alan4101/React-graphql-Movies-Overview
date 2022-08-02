@@ -1,8 +1,9 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Grid, Pagination, Paper, Typography } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 
-import { SelectedMoviePaper } from "./Home.style";
-
+import { EmptyMovieList, SelectedMoviePaper } from "./Home.style";
+import "react-toastify/dist/ReactToastify.css";
 import { MovieCard, MovieCardSelected } from "../../common/components";
 
 import { useQuery } from "@apollo/client";
@@ -12,14 +13,21 @@ import { useMovie } from "./../../services/hooks/useMovie";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
+  const [isEmptySeleceList, setIsEmptySelectList] = useState(false);
   const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
     variables: { page },
   });
   const { selectMovie, selectedMovies, deleteMovie } = useMovie();
+  useEffect(() => {
+    selectedMovies.length > 0
+      ? setIsEmptySelectList(true)
+      : setIsEmptySelectList(false);
+  }, [selectedMovies]);
 
   if (error) {
     return <>{error}</>;
   }
+
   const paginationHandler = (event: any, page: number) => {
     setPage(page);
   };
@@ -49,17 +57,28 @@ export const Home: FC = () => {
       <Grid item xs={12} md={4}>
         <SelectedMoviePaper>
           <Typography variant="h5">Selected Movies</Typography>
-          <Grid container>
-            {selectedMovies.map((item) => (
-              <MovieCardSelected
-                key={item.id}
-                movie={item}
-                onDeleteMovie={deleteMovie}
-              />
-            ))}
+          <Grid
+            container
+            sx={{
+              alignItems: !isEmptySeleceList ? "center" : "start",
+              height: "80%",
+            }}
+          >
+            {isEmptySeleceList ? (
+              selectedMovies.map((item) => (
+                <MovieCardSelected
+                  key={item.id}
+                  movie={item}
+                  onDeleteMovie={deleteMovie}
+                />
+              ))
+            ) : (
+              <EmptyMovieList />
+            )}
           </Grid>
         </SelectedMoviePaper>
       </Grid>
+      <ToastContainer />
     </Grid>
   );
 };

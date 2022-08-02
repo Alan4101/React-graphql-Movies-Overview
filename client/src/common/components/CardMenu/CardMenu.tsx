@@ -16,6 +16,10 @@ export const CardMenu: FC<CardMenuProps> = ({ handleClickMenu, menuItems }) => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleSelectMenu = () => {
+    handleClose();
+    handleClickMenu();
+  };
   return (
     <>
       <IconButton sx={{ position: "absolute", right: 0 }} onClick={handleClick}>
@@ -37,7 +41,7 @@ export const CardMenu: FC<CardMenuProps> = ({ handleClickMenu, menuItems }) => {
         }}
       >
         {menuItems.map((item, index) => (
-          <MenuItem key={index + item} onClick={handleClickMenu}>
+          <MenuItem key={index + item} onClick={handleSelectMenu}>
             {item}
           </MenuItem>
         ))}
