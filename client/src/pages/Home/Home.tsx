@@ -20,7 +20,7 @@ import { useQuery } from "@apollo/client";
 
 import { GET_ALL_MOVIES, GET_SELECTED_MOVIES } from "./queries";
 import { useMovie } from "./../../services/hooks";
-import { IMovie } from "../../common/models";
+import { IMovie } from "../../services/models/models";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
@@ -31,6 +31,8 @@ export const Home: FC = () => {
   const { data: selectedData } = useQuery(GET_SELECTED_MOVIES);
   const { selectedMovies, handleDeleteMove, handleSelecMovie } = useMovie();
 
+  const pagesCount =
+    data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500;
   useEffect(() => {
     selectedData && selectedData.getSelectedMovies.length > 0
       ? setIsEmptySelectList(true)
@@ -70,7 +72,7 @@ export const Home: FC = () => {
             )}
           </Grid>
           <Pagination
-            count={data?.movies?.totalPages}
+            count={pagesCount}
             page={page}
             onChange={paginationHandler}
           />

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ISelectedMovie } from "../../models";
+import { ISelectedMovie } from "../../../services/models/models";
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { CardMenu } from "../CardMenu/CardMenu";
 

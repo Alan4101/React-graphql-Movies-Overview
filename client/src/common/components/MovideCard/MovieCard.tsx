@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { CardMenu } from "../CardMenu/CardMenu";
-import { IMovie } from "../../models";
+import { IMovie } from "../../../services/models/models";
 
 interface MovieCardProps {
   movie: IMovie;
