@@ -8,8 +8,9 @@ import { MovieCard, MovieCardSelected } from "../../common/components";
 
 import { useQuery } from "@apollo/client";
 
-import { GET_ALL_MOVIES } from "./queries";
+import { GET_ALL_MOVIES, GET_SELECTED_MOVIES } from "./queries";
 import { useMovie } from "./../../services/hooks";
+import { IMovie } from "../../common/models";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
@@ -17,20 +18,22 @@ export const Home: FC = () => {
   const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
     variables: { page },
   });
-  const { selectMovie, selectedMovies, deleteMovie } = useMovie();
+  const { data: selectedData } = useQuery(GET_SELECTED_MOVIES);
+  const { selectedMovies, handleDeleteMove, handleSelecMovie } = useMovie();
+
   useEffect(() => {
-    selectedMovies.length > 0
+    selectedData && selectedData.getSelectedMovies.length > 0
       ? setIsEmptySelectList(true)
       : setIsEmptySelectList(false);
-  }, [selectedMovies]);
+  }, [selectedData]);
 
   if (error) {
     return <>{error}</>;
   }
-
   const paginationHandler = (event: any, page: number) => {
     setPage(page);
   };
+
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
       <Grid item xs={12} md={12}>
@@ -41,9 +44,9 @@ export const Home: FC = () => {
           <Grid container spacing={2}>
             {loading
               ? "Loading..."
-              : data.movies.results.map((item: any) => (
+              : data.movies.results.map((item: IMovie) => (
                   <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                    <MovieCard movie={item} onCardSelect={selectMovie} />
+                    <MovieCard movie={item} onCardSelect={handleSelecMovie} />
                   </Grid>
                 ))}
           </Grid>
@@ -65,11 +68,11 @@ export const Home: FC = () => {
             }}
           >
             {isEmptySeleceList ? (
-              selectedMovies.map((item) => (
+              selectedMovies.map((item: any, index) => (
                 <MovieCardSelected
-                  key={item.id}
+                  key={index}
                   movie={item}
-                  onDeleteMovie={deleteMovie}
+                  onDeleteMovie={handleDeleteMove}
                 />
               ))
             ) : (

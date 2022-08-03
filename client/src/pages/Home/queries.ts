@@ -19,3 +19,15 @@ export const GET_ALL_MOVIES = gql`
     }
   }
 `;
+
+export const GET_SELECTED_MOVIES = gql`
+  query GetMovies {
+    getSelectedMovies {
+      _id
+      title
+      poster
+      adult
+      movieId
+    }
+  }
+`;

@@ -6,11 +6,13 @@
   "dependencies": {
     "apollo-server": "^3.10.0",
     "axios": "^0.27.2",
-    "graphql": "^16.5.0"
+    "dotenv": "^16.0.1",
+    "graphql": "^16.5.0",
+    "mongoose": "^6.5.0"
   },
   "devDependencies": {},
   "scripts": {
-    "server": "node ./src/app.js",
+    "server": "nodemon ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

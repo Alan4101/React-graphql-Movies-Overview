@@ -1,6 +1,3 @@
-type Query {
-  movies(page: Int): Movies
-}
 type Movies {
   page: Int!
   totalResults: Int!
@@ -25,4 +22,37 @@ type Movie {
 type Genre {
   id: ID!
   name: String
+}
+type MovieSelected {
+  _id: ID
+  title: String!
+  releaseDate: String!
+  poster: String
+  genres: String
+  adult: Boolean
+  movieId: String
+}
+input MovieInput {
+  title: String!
+  releaseDate: String!
+  poster: String
+  genres: String
+  adult: Boolean
+}
+
+type Query {
+  movies(page: Int): Movies
+  getSelectedMovies: [MovieSelected]
+}
+type Mutation {
+  createMovie(
+    title: String
+    poster: String
+    genres: String
+    adult: Boolean
+    releaseDate: String
+    movieId: String
+  ): MovieSelected
+
+  deleteMovie(_id: ID): MovieSelected
 }

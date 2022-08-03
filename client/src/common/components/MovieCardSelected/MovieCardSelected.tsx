@@ -1,16 +1,17 @@
 import { FC } from "react";
-import { IMovie } from "../../models";
+import { ISelectedMovie } from "../../models";
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { CardMenu } from "../CardMenu/CardMenu";
+
 interface MovieCardSelectedprops {
-  movie: IMovie;
-  onDeleteMovie: (id: string) => void;
+  movie: ISelectedMovie;
+  onDeleteMovie: (movie: any) => void;
 }
 export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
   movie,
   onDeleteMovie,
 }) => {
-  const menu = ["remove"];
+  const menu = ["Remove"];
   return (
     <Card
       sx={{
@@ -20,10 +21,7 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
         margin: "15px",
       }}
     >
-      <CardMenu
-        menuItems={menu}
-        handleClickMenu={() => onDeleteMovie(movie.id)}
-      />
+      <CardMenu menuItems={menu} handleClickMenu={() => onDeleteMovie(movie)} />
       <CardMedia
         component="img"
         sx={{ width: 100 }}
@@ -45,10 +43,9 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
           <Typography variant={"body1"}>
             Genre:
             {movie.genres?.length
-              ? movie.genres.map((g) => <span>{g.name},</span>)
+              ? movie.genres.map((g: any) => <span>{g.name},</span>)
               : "unknown"}
           </Typography>
-          <Typography variant={"body1"}>Length: {movie.runtime}</Typography>
         </CardContent>
       </Box>
     </Card>
