@@ -32,3 +32,10 @@ export const EmptyMovieList = styled(Box)(() => ({
   backgroundSize: "contain",
   opacity: ".5",
 }));
+export const LoaderContainer = styled(Box)(() => ({
+  height: "100%",
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+}));

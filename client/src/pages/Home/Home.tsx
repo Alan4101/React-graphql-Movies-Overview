@@ -1,8 +1,18 @@
 import { FC, useEffect, useState } from "react";
-import { Grid, Pagination, Paper, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  Grid,
+  Pagination,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { ToastContainer } from "react-toastify";
 
-import { EmptyMovieList, SelectedMoviePaper } from "./Home.style";
+import {
+  EmptyMovieList,
+  LoaderContainer,
+  SelectedMoviePaper,
+} from "./Home.style";
 import "react-toastify/dist/ReactToastify.css";
 import { MovieCard, MovieCardSelected } from "../../common/components";
 
@@ -14,7 +24,7 @@ import { IMovie } from "../../common/models";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
-  const [isEmptySeleceList, setIsEmptySelectList] = useState(false);
+  const [isEmptySelectList, setIsEmptySelectList] = useState(false);
   const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
     variables: { page },
   });
@@ -27,9 +37,6 @@ export const Home: FC = () => {
       : setIsEmptySelectList(false);
   }, [selectedData]);
 
-  if (error) {
-    return <>{error}</>;
-  }
   const paginationHandler = (event: any, page: number) => {
     setPage(page);
   };
@@ -41,14 +48,26 @@ export const Home: FC = () => {
       </Grid>
       <Grid item xs={12} md={8}>
         <Paper sx={{ padding: 2 }}>
-          <Grid container spacing={2}>
-            {loading
-              ? "Loading..."
-              : data.movies.results.map((item: IMovie) => (
-                  <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                    <MovieCard movie={item} onCardSelect={handleSelecMovie} />
-                  </Grid>
-                ))}
+          <Grid
+            container
+            spacing={2}
+            sx={{ height: loading ? "calc(100vh - 250px)" : "100%" }}
+          >
+            {error ? (
+              <LoaderContainer>
+                Somthing went wrong, try it later!
+              </LoaderContainer>
+            ) : loading ? (
+              <LoaderContainer>
+                <CircularProgress />
+              </LoaderContainer>
+            ) : (
+              data.movies.results.map((item: IMovie) => (
+                <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+                  <MovieCard movie={item} onCardSelect={handleSelecMovie} />
+                </Grid>
+              ))
+            )}
           </Grid>
           <Pagination
             count={data?.movies?.totalPages}
@@ -63,11 +82,11 @@ export const Home: FC = () => {
           <Grid
             container
             sx={{
-              alignItems: !isEmptySeleceList ? "center" : "start",
+              alignItems: !isEmptySelectList ? "center" : "start",
               height: "80%",
             }}
           >
-            {isEmptySeleceList ? (
+            {isEmptySelectList ? (
               selectedMovies.map((item: any, index) => (
                 <MovieCardSelected
                   key={index}
