@@ -14,15 +14,25 @@ import {
   Typography,
   Hidden,
   Link,
+  FormControl,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Link as RouterLink } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
 
+type Languages = "en-US" | "uk-UA";
 export const Nav: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [language, setLanguage] = useState<Languages>("en-US");
+
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+  const handleChange = (event: SelectChangeEvent) => {
+    setLanguage(event.target.value as Languages);
   };
   const list = () => (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer}>
@@ -88,6 +98,19 @@ export const Nav: FC = () => {
                 Settings
               </Link>
             </Button>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <Select
+                labelId="label-language"
+                value={language}
+                onChange={handleChange}
+                label=""
+                displayEmpty
+              >
+                <MenuItem value="">EN</MenuItem>
+                <MenuItem value={10}>EN</MenuItem>
+                <MenuItem value={20}>UA</MenuItem>
+              </Select>
+            </FormControl>
           </Box>
         </Toolbar>
       </AppBar>

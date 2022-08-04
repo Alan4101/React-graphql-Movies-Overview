@@ -10,7 +10,12 @@ interface MovieCardProps {
 }
 export const MovieCard: FC<MovieCardProps> = ({ movie, onCardSelect }) => {
   return (
-    <Card sx={{ maxWidth: 250, position: "relative", height: "400px" }}>
+    <Card
+      className={classes.cardWrapper}
+      onClick={() => {
+        onCardSelect(movie);
+      }}
+    >
       <CardMenu
         menuItems={["add"]}
         handleClickMenu={() => onCardSelect(movie)}
