@@ -9,7 +9,7 @@ type Movie {
   title: String!
   releaseDate: String!
   poster: String
-  genre: [Genre]
+  genreIds: [Int]
   adult: Boolean
   overview: String
   originalLanguage: String
@@ -23,12 +23,19 @@ type Genre {
   id: ID!
   name: String
 }
+type GenreInput {
+  id: ID
+}
+input GenresInputs {
+  id: ID
+  name: String
+}
 type MovieSelected {
   _id: ID
   title: String!
   releaseDate: String!
   poster: String
-  genres: String
+  genres: [String]
   adult: Boolean
   movieId: String
 }
@@ -42,13 +49,14 @@ input MovieInput {
 
 type Query {
   movies(page: Int): Movies
+  genres: [Genre]
   getSelectedMovies: [MovieSelected]
 }
 type Mutation {
   createMovie(
     title: String
     poster: String
-    genres: String
+    genres: [String]
     adult: Boolean
     releaseDate: String
     movieId: String

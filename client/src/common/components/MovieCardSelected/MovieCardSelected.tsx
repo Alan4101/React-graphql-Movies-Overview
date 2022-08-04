@@ -29,8 +29,8 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
         alt={movie.title}
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <CardContent sx={{ flex: "1 0 auto" }}>
-          <Typography component="div" variant="h5">
+        <CardContent sx={{ flex: "1 0 auto", paddingRight: "20px" }}>
+          <Typography sx={{ fontSize: "1.1rem" }} component="div" variant="h6">
             {movie.title}
           </Typography>
           <Typography
@@ -42,9 +42,7 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
           </Typography>
           <Typography variant={"body1"}>
             Genre:
-            {movie.genres?.length
-              ? movie.genres.map((g: any) => <span>{g.name},</span>)
-              : "unknown"}
+            <span> {movie?.genres ? movie.genres.join(", ") : "unknown"}</span>
           </Typography>
         </CardContent>
       </Box>

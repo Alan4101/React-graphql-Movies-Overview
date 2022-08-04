@@ -6,7 +6,8 @@ export const ADD_MOVIE_TO_SELECTED = gql`
     $releaseDate: String
     $adult: Boolean
     $poster: String
-    $genres: String
+    $genres: [String]
+    # $genres: String
     $movieId: String
   ) {
     createMovie(

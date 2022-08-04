@@ -1,25 +1,29 @@
-const axios = require('axios')
-const { API_KEY } = require('../../config')
-const {Movies} = require('./entities/Movies')
+const axios = require("axios");
 
-const url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US`
+const { Movies } = require("./entities/Movies");
+const { createUrl } = require("../../utils");
+const { GetPopularMovies, GetGenres } = require("../../config/endpoints");
 
-const MoviesSchema = require("../../models/Movies.model")
+const MoviesSchema = require("../../models/Movies.model");
+const { Genres } = require("./entities/Genres");
 
 const getPopular = async (page) => {
-  const pageNumber = `&page=${page}` 
-  const {data} = await axios.get(url+pageNumber)
-
-  return new Movies(data) 
-}
+  const { data } = await axios.get(createUrl(GetPopularMovies, page, "en-US"));
+  return new Movies(data);
+};
 
 const getMovies = async () => {
-  const data = await MoviesSchema.find({}); 
-  console.log(data)
-  return data
-}
+  const data = await MoviesSchema.find({});
+  return data;
+};
 
+const getGenres = async () => {
+  const { data } = await axios.get(createUrl(GetGenres));
+  const newData = data.genres.map((item) => new Genres(item));
+  return newData;
+};
 module.exports = {
   getPopular,
-  getMovies
-}
+  getMovies,
+  getGenres,
+};

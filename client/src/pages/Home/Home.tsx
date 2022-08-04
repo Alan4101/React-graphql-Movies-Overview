@@ -5,6 +5,7 @@ import {
   Pagination,
   Paper,
   Typography,
+  Box,
 } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 
@@ -18,7 +19,7 @@ import { MovieCard, MovieCardSelected } from "../../common/components";
 
 import { useQuery } from "@apollo/client";
 
-import { GET_ALL_MOVIES, GET_SELECTED_MOVIES } from "./queries";
+import { GET_ALL_MOVIES } from "./queries";
 import { useMovie } from "./../../services/hooks";
 import { IMovie } from "../../services/models/models";
 
@@ -28,16 +29,16 @@ export const Home: FC = () => {
   const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
     variables: { page },
   });
-  const { data: selectedData } = useQuery(GET_SELECTED_MOVIES);
   const { selectedMovies, handleDeleteMove, handleSelecMovie } = useMovie();
 
   const pagesCount =
     data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500;
+
   useEffect(() => {
-    selectedData && selectedData.getSelectedMovies.length > 0
+    selectedMovies.length > 0
       ? setIsEmptySelectList(true)
       : setIsEmptySelectList(false);
-  }, [selectedData]);
+  }, [selectedMovies]);
 
   const paginationHandler = (event: any, page: number) => {
     setPage(page);
@@ -71,11 +72,19 @@ export const Home: FC = () => {
               ))
             )}
           </Grid>
-          <Pagination
-            count={pagesCount}
-            page={page}
-            onChange={paginationHandler}
-          />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "10px",
+            }}
+          >
+            <Pagination
+              count={pagesCount}
+              page={page}
+              onChange={paginationHandler}
+            />
+          </Box>
         </Paper>
       </Grid>
       <Grid item xs={12} md={4}>
@@ -85,7 +94,6 @@ export const Home: FC = () => {
             container
             sx={{
               alignItems: !isEmptySelectList ? "center" : "start",
-              height: "80%",
             }}
           >
             {isEmptySelectList ? (

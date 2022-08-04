@@ -6,7 +6,7 @@ interface IInitialMovie {
   title: string;
   poster: string;
   releaseDate: string;
-  genres?: IGenre[];
+  genres?: string[];
   adult?: Boolean;
 }
 export interface IMovie extends IInitialMovie {

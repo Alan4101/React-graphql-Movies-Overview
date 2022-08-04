@@ -15,6 +15,7 @@ export const GET_ALL_MOVIES = gql`
         voteAverage
         backdropPath
         id
+        genreIds
       }
     }
   }
@@ -28,6 +29,15 @@ export const GET_SELECTED_MOVIES = gql`
       poster
       adult
       movieId
+      genres
+    }
+  }
+`;
+export const GET_GENRES = gql`
+  query {
+    genres {
+      id
+      name
     }
   }
 `;

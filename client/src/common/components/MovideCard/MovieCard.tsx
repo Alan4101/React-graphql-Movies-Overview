@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { CardMenu } from "../CardMenu/CardMenu";
 import { IMovie } from "../../../services/models/models";
+import classes from "./MovieCard.module.css";
 
 interface MovieCardProps {
   movie: IMovie;
@@ -9,7 +10,7 @@ interface MovieCardProps {
 }
 export const MovieCard: FC<MovieCardProps> = ({ movie, onCardSelect }) => {
   return (
-    <Card sx={{ maxWidth: 250, position: "relative" }}>
+    <Card sx={{ maxWidth: 250, position: "relative", height: "400px" }}>
       <CardMenu
         menuItems={["add"]}
         handleClickMenu={() => onCardSelect(movie)}
@@ -20,7 +21,7 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onCardSelect }) => {
         image={movie.poster}
         alt={movie.title}
       />
-      <CardContent>
+      <CardContent className={classes.cardContent}>
         <Typography variant="h6" color="text.secondary">
           {movie.title}
         </Typography>

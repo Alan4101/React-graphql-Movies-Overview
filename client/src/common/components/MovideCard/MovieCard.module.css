@@ -1,0 +1,7 @@
+.cardContent{
+  display: flex;
+  height: 150px;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
