@@ -7,3 +7,14 @@
   width: 150px;
   height: 200px;
 }
+.movieForm{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.movieInput{
+  width: 100%;
+  outline: none;
+}

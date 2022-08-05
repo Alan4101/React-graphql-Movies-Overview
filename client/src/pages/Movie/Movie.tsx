@@ -12,12 +12,14 @@ import {
 // othe library
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import { useFormik } from "formik";
 // query, mutation
 import { GET_MOVIE_BY_ID } from "../Home/queries";
 import { ISelectedMovie } from "../../services/models/models";
 import { MovieModal } from "../../common/components";
 //style
 import classes from "./Movie.module.css";
+import { MovieTextField } from "../../common/components/UI";
 
 export const Movie: FC = () => {
   const { id } = useParams<{ id: any }>();
@@ -27,6 +29,16 @@ export const Movie: FC = () => {
     variables: { id },
     // fetchPolicy: "no-cache",
   });
+
+  const movieFormik = useFormik({
+    initialValues: {
+      description: "",
+    },
+    onSubmit: (values) => console.log(values),
+  });
+
+  const { values, handleChange, handleSubmit, setFieldValue, handleReset } =
+    movieFormik;
   useEffect(() => {
     if (data) {
       setMovie(data.movieById);
@@ -35,6 +47,16 @@ export const Movie: FC = () => {
   const toggleModal = () => {
     setIsOpenModal(!isOpenModal);
   };
+
+  const resetForm = (e: any) => {
+    handleReset(e);
+    toggleModal();
+  };
+
+  const handleChangeInput = (event: any) => {
+    // setFieldValue("desc");
+  };
+
   const renderLoading = () => (
     <Grid sx={{ width: "100%", height: "90vh" }}>
       <CircularProgress />
@@ -83,7 +105,23 @@ export const Movie: FC = () => {
           <Grid item xs={12}>
             <Typography variant="h4">Add your review</Typography>
           </Grid>
-          <Grid container item md={12} xs={12}></Grid>
+          <Grid container item md={12} xs={12}>
+            <form className={classes.movieForm}>
+              <MovieTextField
+                value={values.description}
+                onChange={handleChange}
+                placeholder="Enter your review, please."
+                multiline={true}
+                name="description"
+                className={classes.movieInput}
+                rows={8}
+              />
+              <Grid container flexDirection="row">
+                <Button onClick={resetForm}>Cancel</Button>
+                <Button onClick={(e: any) => handleSubmit(e)}>Save</Button>
+              </Grid>
+            </form>
+          </Grid>
         </Grid>
       </MovieModal>
     </Container>
