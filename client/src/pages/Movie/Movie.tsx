@@ -37,8 +37,7 @@ export const Movie: FC = () => {
     onSubmit: (values) => console.log(values),
   });
 
-  const { values, handleChange, handleSubmit, setFieldValue, handleReset } =
-    movieFormik;
+  const { values, handleChange, handleSubmit, handleReset } = movieFormik;
   useEffect(() => {
     if (data) {
       setMovie(data.movieById);
@@ -51,10 +50,6 @@ export const Movie: FC = () => {
   const resetForm = (e: any) => {
     handleReset(e);
     toggleModal();
-  };
-
-  const handleChangeInput = (event: any) => {
-    // setFieldValue("desc");
   };
 
   const renderLoading = () => (
