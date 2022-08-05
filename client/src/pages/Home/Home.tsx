@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import {
   CircularProgress,
   Grid,
@@ -22,12 +22,17 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_MOVIES } from "./queries";
 import { useMovie } from "./../../services/hooks";
 import { IMovie } from "../../services/models/models";
+import { LanguageContext } from "../../services/context/LanguageContext";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
   const [isEmptySelectList, setIsEmptySelectList] = useState(false);
+
+  const context = useContext(LanguageContext);
+
   const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
-    variables: { page },
+    variables: { page, language: context?.state.locale || "en-US" },
+    fetchPolicy: "no-cache",
   });
   const { selectedMovies, handleDeleteMove, handleSelecMovie } = useMovie();
 

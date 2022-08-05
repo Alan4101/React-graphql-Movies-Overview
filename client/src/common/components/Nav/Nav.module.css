@@ -1,0 +1,19 @@
+.formWrapper{
+  display: flex;
+  justify-content: center;
+  flex-direction: row !important;
+  align-items: center;
+}
+.formWrapper>.MuiButton-root>.MuiInput-root>.MuiInputBase-root.MuiSelect-root:before{
+  border-bottom: 0 !important;
+}
+.formWrapper>.MuiButton-root>.MuiInput-root>.MuiInputBase-root-MuiInput-root-MuiSelect-root:hover:not(.Mui-disabled):before{
+  border-bottom: 0 !important;
+}
+fieldset.MuiOutlinedInput-root>.MuiOutlinedInput-notchedOutline{
+  border: none !important;
+}
+.dropdownSelect{
+  width: 100px;
+  color: #fff;
+}

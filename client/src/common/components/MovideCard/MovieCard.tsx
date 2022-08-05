@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { CardMenu } from "../CardMenu/CardMenu";
 import { IMovie } from "../../../services/models/models";
+
 import classes from "./MovieCard.module.css";
 
 interface MovieCardProps {
@@ -16,10 +16,6 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onCardSelect }) => {
         onCardSelect(movie);
       }}
     >
-      <CardMenu
-        menuItems={["add"]}
-        handleClickMenu={() => onCardSelect(movie)}
-      />
       <CardMedia
         component="img"
         height="250"

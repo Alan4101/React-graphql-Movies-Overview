@@ -7,8 +7,8 @@ const { GetPopularMovies, GetGenres } = require("../../config/endpoints");
 const MoviesSchema = require("../../models/Movies.model");
 const { Genres } = require("./entities/Genres");
 
-const getPopular = async (page) => {
-  const { data } = await axios.get(createUrl(GetPopularMovies, page, "en-US"));
+const getPopular = async (page, language) => {
+  const { data } = await axios.get(createUrl(GetPopularMovies,  language , page ));
   return new Movies(data);
 };
 

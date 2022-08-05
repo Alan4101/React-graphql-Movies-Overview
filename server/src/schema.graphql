@@ -48,7 +48,7 @@ input MovieInput {
 }
 
 type Query {
-  movies(page: Int): Movies
+  movies(page: Int, language: String): Movies
   genres: [Genre]
   getSelectedMovies: [MovieSelected]
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import {
   AppBar,
   Box,
@@ -14,7 +14,6 @@ import {
   Typography,
   Hidden,
   Link,
-  FormControl,
   Select,
   SelectChangeEvent,
   MenuItem,
@@ -23,16 +22,23 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Link as RouterLink } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 
+import classes from "./Nav.module.css";
+import { LanguageContext } from "../../../services/context/LanguageContext";
+
 type Languages = "en-US" | "uk-UA";
+
 export const Nav: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [language, setLanguage] = useState<Languages>("en-US");
+  const context = useContext(LanguageContext);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
   const handleChange = (event: SelectChangeEvent) => {
-    setLanguage(event.target.value as Languages);
+    context?.dispatch({
+      type: "setLocale",
+      payload: event.target.value as Languages,
+    });
   };
   const list = () => (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer}>
@@ -98,19 +104,28 @@ export const Nav: FC = () => {
                 Settings
               </Link>
             </Button>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <Select
-                labelId="label-language"
-                value={language}
-                onChange={handleChange}
-                label=""
-                displayEmpty
-              >
-                <MenuItem value="">EN</MenuItem>
-                <MenuItem value={10}>EN</MenuItem>
-                <MenuItem value={20}>UA</MenuItem>
-              </Select>
-            </FormControl>
+            <Select
+              variant="standard"
+              labelId="label-language"
+              value={context?.state.locale || "en-US"}
+              onChange={handleChange}
+              label=""
+              displayEmpty
+              MenuProps={{
+                classes: { paper: classes.dropdownSelect },
+                variant: "menu",
+              }}
+              sx={{
+                border: "none !important",
+                outline: "none !important",
+                color: "#fff",
+                fontSize: "14px",
+              }}
+            >
+              <MenuItem value="en-US">EN</MenuItem>
+              <MenuItem value="uk-UA">UA</MenuItem>
+            </Select>
+            {/* </FormControl> */}
           </Box>
         </Toolbar>
       </AppBar>
