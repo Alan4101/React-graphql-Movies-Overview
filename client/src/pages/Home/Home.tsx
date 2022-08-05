@@ -36,7 +36,6 @@ export const Home: FC = () => {
     variables: { page, language: context?.state.locale || "en-US" },
     fetchPolicy: "no-cache",
   });
-  console.log(data);
 
   const pagesCount =
     data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500;
@@ -59,9 +58,6 @@ export const Home: FC = () => {
 
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
-      <Grid item xs={12} md={12}>
-        <Paper>first</Paper>
-      </Grid>
       <Grid item xs={12} md={8}>
         <Paper sx={{ padding: 2 }}>
           <Grid

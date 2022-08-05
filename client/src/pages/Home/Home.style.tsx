@@ -2,7 +2,7 @@ import { Box, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { backgroungEmptyFilmList } from "../../common/assets";
 
-export const SelectedMoviePaper = styled(Paper)(() => ({
+export const SelectedMoviePaper = styled(Paper)(({ theme }) => ({
   height: "calc(100vh - 200px)",
   position: "sticky",
   overflowY: "scroll",
@@ -18,11 +18,11 @@ export const SelectedMoviePaper = styled(Paper)(() => ({
     borderRadius: "10px",
   },
   "&::-webkit-scrollbar-thumb": {
-    background: "red",
+    background: theme.palette.primary.main,
     borderRadius: "10px",
   },
   "&::-webkit-scrollbar-thumb:hover": {
-    background: "green",
+    background: theme.palette.primary.light,
   },
 }));
 export const EmptyMovieList = styled(Box)(() => ({
