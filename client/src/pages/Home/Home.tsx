@@ -34,10 +34,11 @@ export const Home: FC = () => {
     variables: { page, language: context?.state.locale || "en-US" },
     fetchPolicy: "no-cache",
   });
-  const { selectedMovies, handleDeleteMove, handleSelecMovie } = useMovie();
-
+  
   const pagesCount =
     data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500;
+
+  const { selectedMovies, handleDeleteMove, handleSelecMovie } = useMovie();
 
   useEffect(() => {
     selectedMovies.length > 0

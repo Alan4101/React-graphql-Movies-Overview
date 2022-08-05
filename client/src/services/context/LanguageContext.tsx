@@ -1,24 +1,10 @@
-import {
-  createContext,
-  FC,
-  useReducer,
-  ReactNode,
-  Dispatch,
-  Reducer,
-} from "react";
+import { createContext, Dispatch, Reducer } from "react";
+import { LanguageAction } from "../../common/constants/constants";
 import { saveTolocalStorage, getFromLocalStorage } from "../../utils/utils";
 
 interface IContext {
   state: any;
   dispatch: Dispatch<any>;
-}
-export const LanguageContext = createContext<IContext | null>(null);
-
-const defaultContext = getFromLocalStorage("language") || "en-US";
-
-enum LanguageAction {
-  reset = "reset",
-  setLocale = "setLocale",
 }
 interface LanguageReduserAction {
   type: LanguageAction;
@@ -27,8 +13,10 @@ interface LanguageReduserAction {
 interface ReduserState {
   locale: string;
 }
+export const defaultContext = getFromLocalStorage("language") || "en-US";
+export const LanguageContext = createContext<IContext | null>(null);
 
-const languageReduser: Reducer<ReduserState, LanguageReduserAction> = (
+export const languageReduser: Reducer<ReduserState, LanguageReduserAction> = (
   state,
   action
 ) => {
@@ -42,19 +30,4 @@ const languageReduser: Reducer<ReduserState, LanguageReduserAction> = (
     default:
       return state;
   }
-};
-
-export const LanguageContextProvider: FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const [state, dispatch] = useReducer(languageReduser, {
-    locale: defaultContext,
-  });
-  const value = { state, dispatch };
-
-  return (
-    <LanguageContext.Provider value={value}>
-      {children}
-    </LanguageContext.Provider>
-  );
 };
