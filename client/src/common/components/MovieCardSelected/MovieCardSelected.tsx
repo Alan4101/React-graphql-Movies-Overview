@@ -1,15 +1,24 @@
 import { FC } from "react";
 import { ISelectedMovie } from "../../../services/models/models";
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import { CardMenu } from "../CardMenu/CardMenu";
 
 interface MovieCardSelectedprops {
   movie: ISelectedMovie;
   onDeleteMovie: (movie: any) => void;
+  handleGetMovie: (movie: ISelectedMovie) => void;
 }
 export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
   movie,
   onDeleteMovie,
+  handleGetMovie,
 }) => {
   const menu = ["Remove"];
   return (
@@ -44,6 +53,7 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
             Genre:
             <span> {movie?.genres ? movie.genres.join(", ") : "unknown"}</span>
           </Typography>
+          <Button onClick={() => handleGetMovie(movie)}>Open movie</Button>
         </CardContent>
       </Box>
     </Card>

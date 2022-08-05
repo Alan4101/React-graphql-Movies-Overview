@@ -23,4 +23,5 @@ export interface IMovie extends IInitialMovie {
 export interface ISelectedMovie extends IInitialMovie {
   _id: string;
   movieId?: string;
+  overview?: string;
 }

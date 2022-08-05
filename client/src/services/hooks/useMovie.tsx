@@ -28,7 +28,6 @@ export const useMovie = () => {
   };
 
   const handleAddMovieToSelected = (movie: any) => {
-    console.log({ ...movie, genres: getGenresName(movie.genreIds) });
     createMovie({
       variables: {
         ...movie,

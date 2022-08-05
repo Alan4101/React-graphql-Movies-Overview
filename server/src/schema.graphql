@@ -18,16 +18,8 @@ type Movie {
   video: Boolean
   voteAverage: Float
 }
-
 type Genre {
   id: ID!
-  name: String
-}
-type GenreInput {
-  id: ID
-}
-input GenresInputs {
-  id: ID
   name: String
 }
 type MovieSelected {
@@ -38,17 +30,14 @@ type MovieSelected {
   genres: [String]
   adult: Boolean
   movieId: String
+  overview: String
 }
-input MovieInput {
-  title: String!
-  releaseDate: String!
-  poster: String
-  genres: String
-  adult: Boolean
+type Status {
+  success: Boolean
 }
-
 type Query {
   movies(page: Int, language: String): Movies
+  movieById(_id: ID!): MovieSelected
   genres: [Genre]
   getSelectedMovies: [MovieSelected]
 }
@@ -60,7 +49,9 @@ type Mutation {
     adult: Boolean
     releaseDate: String
     movieId: String
-  ): MovieSelected
+    overview: String
+  ): Status
+  # ): MovieSelected
 
   deleteMovie(_id: ID): MovieSelected
 }

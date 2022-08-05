@@ -1,0 +1,9 @@
+.pictureWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.picture{
+  width: 150px;
+  height: 200px;
+}

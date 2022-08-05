@@ -16,6 +16,7 @@ export const GET_ALL_MOVIES = gql`
         backdropPath
         id
         genreIds
+        overview
       }
     }
   }
@@ -38,6 +39,20 @@ export const GET_GENRES = gql`
     genres {
       id
       name
+    }
+  }
+`;
+
+export const GET_MOVIE_BY_ID = gql`
+  query GetMovieBYId($id: ID!) {
+    movieById(_id: $id) {
+      title
+      genres
+      releaseDate
+      overview
+      poster
+      adult
+      movieId
     }
   }
 `;

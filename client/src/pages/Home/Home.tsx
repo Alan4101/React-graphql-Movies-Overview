@@ -21,20 +21,23 @@ import { useQuery } from "@apollo/client";
 
 import { GET_ALL_MOVIES } from "./queries";
 import { useMovie } from "./../../services/hooks";
-import { IMovie } from "../../services/models/models";
+import { IMovie, ISelectedMovie } from "../../services/models/models";
 import { LanguageContext } from "../../services/context/LanguageContext";
+import { useNavigate } from "react-router-dom";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
   const [isEmptySelectList, setIsEmptySelectList] = useState(false);
 
+  const navigate = useNavigate();
   const context = useContext(LanguageContext);
 
   const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
     variables: { page, language: context?.state.locale || "en-US" },
     fetchPolicy: "no-cache",
   });
-  
+  console.log(data);
+
   const pagesCount =
     data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500;
 
@@ -48,6 +51,10 @@ export const Home: FC = () => {
 
   const paginationHandler = (event: any, page: number) => {
     setPage(page);
+  };
+
+  const handleOpenMoviePage = (movie: ISelectedMovie) => {
+    navigate(`${movie._id}`);
   };
 
   return (
@@ -107,6 +114,7 @@ export const Home: FC = () => {
                 <MovieCardSelected
                   key={index}
                   movie={item}
+                  handleGetMovie={handleOpenMoviePage}
                   onDeleteMovie={handleDeleteMove}
                 />
               ))

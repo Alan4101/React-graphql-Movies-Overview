@@ -16,7 +16,10 @@ const getMovies = async () => {
   const data = await MoviesSchema.find({});
   return data;
 };
-
+const getMovieById = async (_id) => {
+  const movie = await MoviesSchema.findById({_id});
+  return movie;
+} 
 const getGenres = async () => {
   const { data } = await axios.get(createUrl(GetGenres));
   const newData = data.genres.map((item) => new Genres(item));
@@ -25,5 +28,6 @@ const getGenres = async () => {
 module.exports = {
   getPopular,
   getMovies,
+  getMovieById,
   getGenres,
 };
