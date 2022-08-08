@@ -39,3 +39,8 @@ export const ADD_USER_DESCRIPTION = gql`
     }
   }
 `;
+// export const REMOVE_USER_DESCRIPTION = gql`
+//   mutation RemoveUserDescription($id: ID, ){
+
+//   }
+// `;

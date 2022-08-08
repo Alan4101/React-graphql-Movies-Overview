@@ -8,21 +8,21 @@ import {
   Container,
   Grid,
   Typography,
+  IconButton,
 } from "@mui/material";
 // othe library
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
-import { useFormik } from "formik";
+import { useQuery } from "@apollo/client";
 // query, mutation
 import { GET_MOVIE_BY_ID } from "../Home/queries";
-import { ADD_USER_DESCRIPTION } from "../Home/mutation";
 //other
 import { ISelectedMovie } from "../../services/models/models";
 //style
 import classes from "./Movie.module.css";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 //components
-import { MovieTextField } from "../../common/components/UI";
-import { MovieModal } from "../../common/components";
+import { CreateAndDeleteDescrModal } from "../../common/components";
 
 export const Movie: FC = () => {
   const { id } = useParams<{ id: any }>();
@@ -34,45 +34,30 @@ export const Movie: FC = () => {
     variables: { id },
     // fetchPolicy: "no-cache",
   });
-  const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION);
+  const [isUpdate, setIsUpdate] = useState(false);
 
-  const movieFormik = useFormik({
-    initialValues: {
-      description: "",
-    },
-    onSubmit: (values) => {
-      handleUpdate(values.description, id);
-    },
-  });
+  console.log(isUpdate);
 
-  const { values, handleChange, handleSubmit, handleReset } = movieFormik;
   useEffect(() => {
     if (data) {
       setMovie(data.movieById);
+      data.movieById.userDescription ? setIsUpdate(true) : setIsUpdate(false);
+      // console.log(data.movieById.userDescription);
     }
   }, [data]);
   const toggleModal = () => {
     setIsOpenModal(!isOpenModal);
   };
 
-  const resetForm = (e: any) => {
-    handleReset(e);
+  const handleEditDescription = () => {
     toggleModal();
   };
-
-  const handleUpdate = (value: string, id: string) => {
-    addUserDescription({ variables: { id, userDescription: value } })
-      .then(() => {
-        toggleModal();
-        refetch();
-      })
-      .catch((error) => console.log(error));
-  };
+  const handleRemoveDescription = () => {};
 
   const handleReturnToHomePage = () => {
     navigate("/");
   };
-
+  console.log("desc", movie?.userDescription && movie?.userDescription);
   const renderLoading = () => (
     <Grid sx={{ width: "100%", height: "90vh" }}>
       <CircularProgress />
@@ -114,41 +99,41 @@ export const Movie: FC = () => {
             <Typography variant="body1">{movie?.overview}</Typography>
           </Grid>
           {movie?.userDescription && movie?.userDescription?.length > 0 ? (
-            <Grid>
-              <Typography variant="h5">User overview: </Typography>
-              <Typography variant="body1">{movie?.userDescription}</Typography>
+            <Grid container>
+              <Grid item md={10}>
+                <Typography variant="h5">User overview: </Typography>
+              </Grid>
+              <Grid item md={2}>
+                <IconButton onClick={handleEditDescription}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={handleRemoveDescription}>
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <Typography variant="body1">
+                  {movie?.userDescription}
+                </Typography>
+              </Grid>
             </Grid>
           ) : (
             <Button onClick={toggleModal}>Add your review</Button>
           )}
+
           <Button onClick={handleReturnToHomePage}> Go back to the list</Button>
         </Grid>
       </Grid>
-      {/* <MovieModal isOpen={true} toggleModal={toggleModal}> */}
-      <MovieModal isOpen={isOpenModal} toggleModal={toggleModal}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography variant="h4">Add your review</Typography>
-          </Grid>
-          <Grid container item md={12} xs={12}>
-            <form className={classes.movieForm}>
-              <MovieTextField
-                value={values.description}
-                onChange={handleChange}
-                placeholder="Enter your review, please."
-                multiline={true}
-                name="description"
-                className={classes.movieInput}
-                rows={8}
-              />
-              <Grid container flexDirection="row">
-                <Button onClick={resetForm}>Cancel</Button>
-                <Button onClick={(e: any) => handleSubmit(e)}>Save</Button>
-              </Grid>
-            </form>
-          </Grid>
-        </Grid>
-      </MovieModal>
+      {movie && (
+        <CreateAndDeleteDescrModal
+          id={id}
+          isUpdate={isUpdate}
+          isOpenModal={isOpenModal}
+          toggleModal={toggleModal}
+          refetch={refetch}
+          value={movie && movie.userDescription}
+        />
+      )}
     </Container>
   );
 
