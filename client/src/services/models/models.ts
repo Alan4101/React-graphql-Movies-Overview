@@ -24,4 +24,5 @@ export interface ISelectedMovie extends IInitialMovie {
   _id: string;
   movieId?: string;
   overview?: string;
+  userDescription?: string;
 }

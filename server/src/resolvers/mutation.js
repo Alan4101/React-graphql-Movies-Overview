@@ -9,6 +9,7 @@ const createMovie = async (parent, args) => {
     adult: args.adult,
     movieId: args.movieId,
     overview: args.overview,
+    userDescription: args.userDescription,
   })
   try {
     const movie = await newMovie.save()
@@ -22,7 +23,11 @@ const createMovie = async (parent, args) => {
 const deleteMovie = async (parent, args)=>{
   return await Movie.findByIdAndRemove(args._id)
 }
+const addUserDescription = async (parent, args) => {
+  return await Movie.findByIdAndUpdate(args._id, {userDescription: args.userDescription})
+}
 module.exports = {  
   createMovie,
-   deleteMovie
+   deleteMovie,
+   addUserDescription,
   }

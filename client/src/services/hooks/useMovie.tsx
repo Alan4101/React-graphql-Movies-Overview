@@ -33,6 +33,7 @@ export const useMovie = () => {
         ...movie,
         genres: getGenresName(movie.genreIds),
         movieId: movie.id,
+        userDescription: "",
       },
     }).then(() => {
       toast.success("Movie added!", toastOptions as ToastOptions);

@@ -8,5 +8,6 @@ const Movies = new Schema({
   movieId: String,
   genres: [String],
   overview: String,
+  userDescription: String,
 })
 module.exports = model("Movie", Movies)

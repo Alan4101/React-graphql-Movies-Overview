@@ -53,6 +53,7 @@ export const GET_MOVIE_BY_ID = gql`
       poster
       adult
       movieId
+      userDescription
     }
   }
 `;

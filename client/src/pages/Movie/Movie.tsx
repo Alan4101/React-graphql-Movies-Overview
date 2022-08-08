@@ -10,31 +10,39 @@ import {
   Typography,
 } from "@mui/material";
 // othe library
-import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery, useMutation } from "@apollo/client";
 import { useFormik } from "formik";
 // query, mutation
 import { GET_MOVIE_BY_ID } from "../Home/queries";
+import { ADD_USER_DESCRIPTION } from "../Home/mutation";
+//other
 import { ISelectedMovie } from "../../services/models/models";
-import { MovieModal } from "../../common/components";
 //style
 import classes from "./Movie.module.css";
+//components
 import { MovieTextField } from "../../common/components/UI";
+import { MovieModal } from "../../common/components";
 
 export const Movie: FC = () => {
   const { id } = useParams<{ id: any }>();
+  const navigate = useNavigate();
+
   const [movie, setMovie] = useState<ISelectedMovie>();
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const { loading, data, error } = useQuery(GET_MOVIE_BY_ID, {
+  const { loading, data, error, refetch } = useQuery(GET_MOVIE_BY_ID, {
     variables: { id },
     // fetchPolicy: "no-cache",
   });
+  const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION);
 
   const movieFormik = useFormik({
     initialValues: {
       description: "",
     },
-    onSubmit: (values) => console.log(values),
+    onSubmit: (values) => {
+      handleUpdate(values.description, id);
+    },
   });
 
   const { values, handleChange, handleSubmit, handleReset } = movieFormik;
@@ -50,6 +58,19 @@ export const Movie: FC = () => {
   const resetForm = (e: any) => {
     handleReset(e);
     toggleModal();
+  };
+
+  const handleUpdate = (value: string, id: string) => {
+    addUserDescription({ variables: { id, userDescription: value } })
+      .then(() => {
+        toggleModal();
+        refetch();
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleReturnToHomePage = () => {
+    navigate("/");
   };
 
   const renderLoading = () => (
@@ -82,16 +103,25 @@ export const Movie: FC = () => {
           </Box>
         </Grid>
         <Grid item lg={9} md={9} xs={12}>
-          <Typography>Genres:</Typography>
+          <Typography variant="h5">Genres:</Typography>
           <Typography>
             {movie?.genres ? movie.genres.join(", ") : "unknown"}
           </Typography>
-          <Typography>Realise data: {movie?.releaseDate}</Typography>
-
+          <Typography variant="h5">Realise data: </Typography>
+          <Typography variant="body1">{movie?.releaseDate}</Typography>
           <Grid>
+            <Typography variant="h5">Overview: </Typography>
             <Typography variant="body1">{movie?.overview}</Typography>
           </Grid>
-          <Button onClick={toggleModal}>Add your review</Button>
+          {movie?.userDescription && movie?.userDescription?.length > 0 ? (
+            <Grid>
+              <Typography variant="h5">User overview: </Typography>
+              <Typography variant="body1">{movie?.userDescription}</Typography>
+            </Grid>
+          ) : (
+            <Button onClick={toggleModal}>Add your review</Button>
+          )}
+          <Button onClick={handleReturnToHomePage}> Go back to the list</Button>
         </Grid>
       </Grid>
       {/* <MovieModal isOpen={true} toggleModal={toggleModal}> */}

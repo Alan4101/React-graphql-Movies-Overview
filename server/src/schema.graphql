@@ -31,6 +31,7 @@ type MovieSelected {
   adult: Boolean
   movieId: String
   overview: String
+  userDescription: String
 }
 type Status {
   success: Boolean
@@ -50,8 +51,11 @@ type Mutation {
     releaseDate: String
     movieId: String
     overview: String
+    userDescription: String
   ): Status
   # ): MovieSelected
 
   deleteMovie(_id: ID): MovieSelected
+
+  addUserDescription(_id: ID, userDescription: String): MovieSelected
 }
