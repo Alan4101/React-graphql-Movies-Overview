@@ -21,8 +21,10 @@ import { ISelectedMovie } from "../../services/models/models";
 import classes from "./Movie.module.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 //components
 import { CreateAndDeleteDescrModal } from "../../common/components";
+import { MovieButton } from "../../common/components/UI";
 
 export const Movie: FC = () => {
   const { id } = useParams<{ id: any }>();
@@ -35,8 +37,6 @@ export const Movie: FC = () => {
     // fetchPolicy: "no-cache",
   });
   const [isUpdate, setIsUpdate] = useState(false);
-
-  console.log(isUpdate);
 
   useEffect(() => {
     if (data) {
@@ -57,7 +57,7 @@ export const Movie: FC = () => {
   const handleReturnToHomePage = () => {
     navigate("/");
   };
-  console.log("desc", movie?.userDescription && movie?.userDescription);
+
   const renderLoading = () => (
     <Grid sx={{ width: "100%", height: "90vh" }}>
       <CircularProgress />
@@ -120,8 +120,11 @@ export const Movie: FC = () => {
           ) : (
             <Button onClick={toggleModal}>Add your review</Button>
           )}
-
-          <Button onClick={handleReturnToHomePage}> Go back to the list</Button>
+          <MovieButton variant="outlined" onClick={handleReturnToHomePage}>
+            <KeyboardReturnIcon sx={{ paddingRight: "5px" }} /> Go back to the
+            list
+          </MovieButton>
+          
         </Grid>
       </Grid>
       {movie && (
