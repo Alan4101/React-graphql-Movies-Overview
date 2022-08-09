@@ -3,14 +3,8 @@ import { FC, useContext, useState } from "react";
 import {
   AppBar,
   Box,
-  Button,
   Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   Toolbar,
   Typography,
   Hidden,
@@ -22,15 +16,14 @@ import {
 //icon & style
 import classes from "./Nav.module.css";
 
-import SettingsIcon from "@mui/icons-material/Settings";
 import MenuIcon from "@mui/icons-material/Menu";
-import LanguageIcon from "@mui/icons-material/Language";
 // lib
 import { Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 // other
 import { LanguageContext } from "../../../services/context/LanguageContext";
 import { changeLanguage } from "../../../utils/utils";
+import { MenuSidebar } from "../MenuSideBar/MenuSideBar";
 
 type Languages = "en-US" | "uk-UA";
 
@@ -76,32 +69,6 @@ export const Nav: FC = () => {
     </Select>
   );
 
-  const list = () => (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer}>
-      <List>
-        <Link component={RouterLink} to="settings">
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("home.settings")} />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <LanguageIcon />
-            </ListItemIcon>
-            <ListItemText primary={t("home.language")} />
-            {dropdown()}
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </Box>
-  );
-
   return (
     <Box sx={{ width: "250" }}>
       <AppBar position="static">
@@ -140,31 +107,17 @@ export const Nav: FC = () => {
               justifyContent: "left",
             }}
           >
-            <Button sx={{ my: 2, display: "block" }}>
-              <Link
-                sx={{ color: "#fff", textDecoration: "none" }}
-                component={RouterLink}
-                to="settings"
-              >
-                {t("page.settings")}
-              </Link>
-            </Button>
-            <Button sx={{ my: 2, display: "block" }}>
-              <Link
-                sx={{ color: "#fff", textDecoration: "none" }}
-                component={RouterLink}
-                to="recomended"
-              >
-                {t("page.recomended")}
-              </Link>
-            </Button>
-            {dropdown()}
+            <MenuSidebar toggleDrawer={toggleDrawer} isSideBar={false}>
+              {dropdown()}
+            </MenuSidebar>
           </Box>
         </Toolbar>
       </AppBar>
 
       <Drawer anchor={"left"} open={isDrawerOpen} onClose={toggleDrawer}>
-        {list()}
+        <MenuSidebar toggleDrawer={toggleDrawer} isSideBar={true}>
+          {dropdown()}
+        </MenuSidebar>
       </Drawer>
     </Box>
   );

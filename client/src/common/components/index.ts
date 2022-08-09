@@ -6,6 +6,7 @@ import { MovieModal } from "./Modals/MainModal/MovieModal";
 import { CreateAndDeleteDescrModal } from "./Modals/CreateAndUpdateDescriptionModal/CreateAndUpdateDescrModal";
 import { StyledForm } from "./Modals/common";
 import { CreateRecomendedList } from "./Modals/CreateRecomendedList/CreateRecomendedList";
+import { MovieCardRecommended } from "./MovieCardReccomended/MovieCardRecomended";
 
 export {
   StyledForm,
@@ -16,4 +17,5 @@ export {
   MovieModal,
   CreateAndDeleteDescrModal,
   CreateRecomendedList,
+  MovieCardRecommended,
 };
