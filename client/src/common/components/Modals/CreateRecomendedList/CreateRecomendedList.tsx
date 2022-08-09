@@ -58,7 +58,7 @@ export const CreateRecomendedList: FC<CreateRecomendedProps> = ({
       variables: {
         ...newList,
       },
-    });
+    }).then(() => toggleModal());
   };
 
   return (

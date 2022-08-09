@@ -146,7 +146,16 @@ export const Nav: FC = () => {
                 component={RouterLink}
                 to="settings"
               >
-                {t("home.settings")}
+                {t("page.settings")}
+              </Link>
+            </Button>
+            <Button sx={{ my: 2, display: "block" }}>
+              <Link
+                sx={{ color: "#fff", textDecoration: "none" }}
+                component={RouterLink}
+                to="recomended"
+              >
+                {t("page.recomended")}
               </Link>
             </Button>
             {dropdown()}

@@ -1,4 +1,8 @@
 {
+  "page":{
+    "recomended": "Recomended",
+    "settings":"Settings"
+  },
   "home": {
     "header": "Movies recomendation",
     "settings": "Settings",
@@ -23,7 +27,10 @@
       "cancel": "Cancel",
       "save": "Save",
       "update": "Update",
-      "remove": "Remove"
+      "remove": "Remove",
+      "createNewList": "Create new list",
+      "clearList" : "Clean selected"
+
 
     }
   }

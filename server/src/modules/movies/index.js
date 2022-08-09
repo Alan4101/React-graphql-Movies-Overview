@@ -2,6 +2,8 @@ const axios = require("axios");
 
 const { Movies } = require("./entities/Movies");
 const { createUrl } = require("../../utils");
+const RecomendedMovies = require('../../models/RecomendedMovies.model');
+
 const { GetPopularMovies, GetGenres } = require("../../config/endpoints");
 
 const MoviesSchema = require("../../models/Movies.model");
@@ -25,9 +27,13 @@ const getGenres = async () => {
   const newData = data.genres.map((item) => new Genres(item));
   return newData;
 };
+const getReccomendedMovies = async()=> {
+  return await RecomendedMovies.find({})
+}
 module.exports = {
   getPopular,
   getMovies,
   getMovieById,
   getGenres,
+  getReccomendedMovies
 };

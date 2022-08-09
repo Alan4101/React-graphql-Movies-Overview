@@ -58,6 +58,7 @@ type Query {
   movieById(_id: ID!): MovieSelected
   genres: [Genre]
   getSelectedMovies: [MovieSelected]
+  getRecommended: [RecomendedMovies]
 }
 type Mutation {
   createMovie(

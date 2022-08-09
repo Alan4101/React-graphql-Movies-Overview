@@ -7,7 +7,6 @@ import {
   Paper,
   Typography,
   Box,
-  Button,
 } from "@mui/material";
 // library
 import { ToastContainer } from "react-toastify";
@@ -35,6 +34,7 @@ import {
 import { useControlModal, useMovie } from "./../../services/hooks";
 import { IMovie, ISelectedMovie } from "../../services/models/models";
 import { LanguageContext } from "../../services/context/LanguageContext";
+import { MovieButton } from "../../common/components/UI";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
@@ -132,8 +132,19 @@ export const Home: FC = () => {
               <EmptyMovieList />
             )}
           </Grid>
-          <Grid>
-            <Button onClick={hanleCreate}>create</Button>
+          <Grid
+            container
+            p={2}
+            gap={2}
+            justifyContent="space-between"
+            sx={{ position: "absolute", bottom: 0, backgroundColor: "#fff" }}
+          >
+            <MovieButton onClick={hanleCreate} variant="outlined">
+              {t("content.button.createNewList")}
+            </MovieButton>
+            <MovieButton onClick={() => {}} variant="outlined">
+              {t("content.button.clearList")}
+            </MovieButton>
           </Grid>
         </SelectedMoviePaper>
       </Grid>
