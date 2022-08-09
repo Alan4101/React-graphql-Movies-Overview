@@ -1,7 +1,8 @@
 {
   "home": {
     "header": "Movies recomendation",
-    "settings": "Settings"
+    "settings": "Settings",
+    "language":"Language"
   },
   "selectedMovies":{
     "titlePanel": "Selected movies",

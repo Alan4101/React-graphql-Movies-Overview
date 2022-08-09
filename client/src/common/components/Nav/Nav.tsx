@@ -1,4 +1,5 @@
 import { FC, useContext, useState } from "react";
+// mui
 import {
   AppBar,
   Box,
@@ -18,13 +19,17 @@ import {
   SelectChangeEvent,
   MenuItem,
 } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { Link as RouterLink } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
-
+//icon & style
 import classes from "./Nav.module.css";
-import { LanguageContext } from "../../../services/context/LanguageContext";
+
+import SettingsIcon from "@mui/icons-material/Settings";
+import MenuIcon from "@mui/icons-material/Menu";
+import LanguageIcon from "@mui/icons-material/Language";
+// lib
+import { Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+// other
+import { LanguageContext } from "../../../services/context/LanguageContext";
 import { changeLanguage } from "../../../utils/utils";
 
 type Languages = "en-US" | "uk-UA";
@@ -37,6 +42,7 @@ export const Nav: FC = () => {
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+
   const handleChange = (event: SelectChangeEvent) => {
     context?.dispatch({
       type: "setLocale",
@@ -44,6 +50,32 @@ export const Nav: FC = () => {
     });
     i18n.changeLanguage(changeLanguage(event.target.value));
   };
+
+  const dropdown = () => (
+    <Select
+      variant="standard"
+      labelId="label-language"
+      value={context?.state.locale || "en-US"}
+      onChange={handleChange}
+      label=""
+      displayEmpty
+      MenuProps={{
+        classes: { paper: classes.dropdownSelect },
+        variant: "menu",
+      }}
+      sx={{
+        border: "none !important",
+        outline: "none !important",
+        color: "#fff",
+
+        fontSize: "14px",
+      }}
+    >
+      <MenuItem value="en-US">EN</MenuItem>
+      <MenuItem value="uk-UA">UA</MenuItem>
+    </Select>
+  );
+
   const list = () => (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer}>
       <List>
@@ -53,10 +85,19 @@ export const Nav: FC = () => {
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary={"Settings"} />
+              <ListItemText primary={t("home.settings")} />
             </ListItemButton>
           </ListItem>
         </Link>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <LanguageIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("home.language")} />
+            {dropdown()}
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -108,29 +149,7 @@ export const Nav: FC = () => {
                 {t("home.settings")}
               </Link>
             </Button>
-            <Select
-              variant="standard"
-              labelId="label-language"
-              value={context?.state.locale || "en-US"}
-              onChange={handleChange}
-              label=""
-              displayEmpty
-              MenuProps={{
-                classes: { paper: classes.dropdownSelect },
-                variant: "menu",
-              }}
-              sx={{
-                border: "none !important",
-                outline: "none !important",
-                color: "#fff",
-
-                fontSize: "14px",
-              }}
-            >
-              <MenuItem value="en-US">EN</MenuItem>
-              <MenuItem value="uk-UA">UA</MenuItem>
-            </Select>
-            {/* </FormControl> */}
+            {dropdown()}
           </Box>
         </Toolbar>
       </AppBar>
