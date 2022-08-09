@@ -33,6 +33,23 @@ type MovieSelected {
   overview: String
   userDescription: String
 }
+input MovieSelectedInput {
+  _id: ID!
+  title: String!
+  releaseDate: String!
+  poster: String
+  genres: [String]
+  adult: Boolean
+  movieId: String
+  overview: String
+  userDescription: String
+}
+type RecomendedMovies {
+  _id: ID
+  title: String
+  createdData: String
+  movies: [MovieSelected]
+}
 type Status {
   success: Boolean
 }
@@ -58,5 +75,10 @@ type Mutation {
   deleteMovie(_id: ID): MovieSelected
 
   addUserDescription(_id: ID, userDescription: String): MovieSelected
-  
+
+  createRecomendedMovies(
+    title: String
+    createdData: String
+    movies: [MovieSelectedInput]
+  ): RecomendedMovies
 }

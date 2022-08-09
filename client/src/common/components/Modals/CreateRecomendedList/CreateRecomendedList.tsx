@@ -13,77 +13,75 @@ import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 
 // mutation
-import { ADD_USER_DESCRIPTION } from "../../../../pages/Home/mutation";
+import { CREATE_RECOMENDED_MOVIES } from "../../../../pages/Home/mutation";
+// other
+import { ISelectedMovie } from "../../../../services/models/models";
 
-interface CreateUpdateProps {
-  id: string;
-  value: any;
-  isUpdate: boolean;
+interface CreateRecomendedProps {
+  moviesList: ISelectedMovie[];
   isOpenModal: boolean;
   toggleModal: () => void;
-  refetch: () => void;
 }
 
-export const CreateAndDeleteDescrModal: FC<CreateUpdateProps> = ({
-  id,
-  value,
-  isUpdate,
+export const CreateRecomendedList: FC<CreateRecomendedProps> = ({
   isOpenModal,
+  moviesList,
   toggleModal,
-  refetch,
 }) => {
-  const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION);
-
   const { t } = useTranslation();
+  const [createRecomendedMovies] = useMutation(CREATE_RECOMENDED_MOVIES);
+
   const movieFormik = useFormik({
     initialValues: {
-      description: value,
+      title: "",
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      updateDescription(values.description, id);
+      createRecomendedList(values.title);
     },
   });
   const { values, handleSubmit, handleReset, setFieldValue } = movieFormik;
 
   const resetForm = (e: any) => {
     handleReset(e);
-
     toggleModal();
   };
 
-  const updateDescription = (value: string, id: string) => {
-    addUserDescription({ variables: { id, userDescription: value } })
-      .then(() => {
-        toggleModal();
-        refetch();
-      })
-      .catch((error) => console.log(error));
+  const createRecomendedList = (value: string) => {
+    const newList = {
+      title: value,
+      createdData: new Date().toLocaleDateString(),
+      movies: [...moviesList],
+    };
+
+    createRecomendedMovies({
+      variables: {
+        ...newList,
+      },
+    });
   };
 
   return (
     <MovieModal isOpen={isOpenModal} toggleModal={toggleModal}>
       <Grid container>
         <Grid item xs={12}>
-          <Typography variant="h4">{t("content.button.addreview")}</Typography>
+          <Typography variant="h4">
+            {t("selectedMovies.recomendedModal.title")}
+          </Typography>
         </Grid>
         <Grid container item md={12} xs={12}>
           <StyledForm>
             <MovieTextField
-              value={values.description}
-              onChange={(e) => setFieldValue("description", e.target.value)}
-              placeholder="Enter your review, please."
-              multiline={true}
-              name="description"
+              value={values.title}
+              onChange={(e) => setFieldValue("title", e.target.value)}
+              placeholder="Enter your title, please."
+              name="title"
               sx={{ width: "100%" }}
-              rows={8}
             />
             <Grid container flexDirection="row">
               <Button onClick={resetForm}>{t("content.button.cancel")}</Button>
               <Button onClick={(e: any) => handleSubmit(e)}>
-                {isUpdate
-                  ? t("content.button.update")
-                  : t("content.button.save")}
+                {t("content.button.save")}
               </Button>
             </Grid>
           </StyledForm>

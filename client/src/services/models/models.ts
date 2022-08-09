@@ -19,6 +19,7 @@ export interface IMovie extends IInitialMovie {
   video?: boolean;
   voteAverage?: number;
   movieId?: string;
+  genreIds?: [number];
 }
 export interface ISelectedMovie extends IInitialMovie {
   _id: string;

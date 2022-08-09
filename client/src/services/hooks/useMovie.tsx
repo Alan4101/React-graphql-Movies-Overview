@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_GENRES, GET_SELECTED_MOVIES } from "../../pages/Home/queries";
 import { ADD_MOVIE_TO_SELECTED, REMOVE_MOVIE } from "../../pages/Home/mutation";
 
-import { ISelectedMovie } from "../models/models";
+import { IMovie, ISelectedMovie } from "../models/models";
 import { toastOptions } from "../../pages/Home/Home.helper";
 
 const MAX_SELECTED = 5;
@@ -18,16 +18,26 @@ export const useMovie = () => {
   const { data: genres } = useQuery(GET_GENRES);
 
   useEffect(() => {
-    data && setSelectedMovies(data.getSelectedMovies);
+    if (data) {
+      const arr = data.getSelectedMovies.map((item: any) => {
+        const { __typename, ...partial } = item;
+        return partial;
+      });
+      setSelectedMovies(arr);
+    }
   }, [data]);
 
-  const getGenresName = (genresIds: number[]) => {
+  const getGenresName = (genresIds: number[] | undefined) => {
+    if (!genresIds) {
+      return null;
+    }
+
     return genresIds.map(
       (id) => genres.genres.find((item: any) => +item.id === id).name
     );
   };
 
-  const handleAddMovieToSelected = (movie: any) => {
+  const handleAddMovieToSelected = (movie: IMovie) => {
     createMovie({
       variables: {
         ...movie,
@@ -40,7 +50,7 @@ export const useMovie = () => {
       refetch();
     });
   };
-  const handleSelecMovie = (movie: any) => {
+  const handleSelecMovie = (movie: IMovie) => {
     const isNew = selectedMovies.some((item) => item.movieId === movie.id);
 
     if (!isNew && selectedMovies.length < MAX_SELECTED) {

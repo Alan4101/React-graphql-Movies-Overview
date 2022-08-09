@@ -1,4 +1,5 @@
 import { FC, useContext, useEffect, useState } from "react";
+// mui
 import {
   CircularProgress,
   Grid,
@@ -6,28 +7,38 @@ import {
   Paper,
   Typography,
   Box,
+  Button,
 } from "@mui/material";
+// library
 import { ToastContainer } from "react-toastify";
+import { useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+// mutation & query
+import { GET_ALL_MOVIES } from "./queries";
 
+// styles
 import {
   EmptyMovieList,
   LoaderContainer,
   SelectedMoviePaper,
 } from "./Home.style";
 import "react-toastify/dist/ReactToastify.css";
-import { MovieCard, MovieCardSelected } from "../../common/components";
 
-import { useQuery } from "@apollo/client";
-
-import { GET_ALL_MOVIES } from "./queries";
-import { useMovie } from "./../../services/hooks";
+// components
+import {
+  CreateRecomendedList,
+  MovieCard,
+  MovieCardSelected,
+} from "../../common/components";
+// other
+import { useControlModal, useMovie } from "./../../services/hooks";
 import { IMovie, ISelectedMovie } from "../../services/models/models";
 import { LanguageContext } from "../../services/context/LanguageContext";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
+  const [isOpenModal, toggleModal] = useControlModal();
   const { t } = useTranslation();
   const [isEmptySelectList, setIsEmptySelectList] = useState(false);
 
@@ -58,6 +69,9 @@ export const Home: FC = () => {
     navigate(`${movie._id}`);
   };
 
+  const hanleCreate = () => {
+    toggleModal();
+  };
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
       <Grid item xs={12} md={8}>
@@ -118,8 +132,16 @@ export const Home: FC = () => {
               <EmptyMovieList />
             )}
           </Grid>
+          <Grid>
+            <Button onClick={hanleCreate}>create</Button>
+          </Grid>
         </SelectedMoviePaper>
       </Grid>
+      <CreateRecomendedList
+        moviesList={selectedMovies}
+        isOpenModal={isOpenModal}
+        toggleModal={toggleModal}
+      />
       <ToastContainer />
     </Grid>
   );

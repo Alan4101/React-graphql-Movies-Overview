@@ -6,7 +6,10 @@
   },
   "selectedMovies":{
     "titlePanel": "Selected movies",
-    "buttonTitle": "Open movie"
+    "buttonTitle": "Open movie",
+    "recomendedModal":{
+      "title": "Add title"
+    }
   },
   "content":{
     "error": "Somthing went wrong, try it later!",

@@ -1,7 +1,6 @@
 import { createContext, Dispatch, Reducer } from "react";
 import { LanguageAction } from "../../common/constants/constants";
 import { saveTolocalStorage, getFromLocalStorage } from "../../utils/utils";
-import { changeLanguage } from "./../../utils/utils";
 
 interface IContext {
   state: any;

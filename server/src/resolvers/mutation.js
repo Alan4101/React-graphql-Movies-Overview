@@ -1,4 +1,5 @@
-const Movie = require('../models/Movies.model')
+const Movie = require('../models/Movies.model');
+const RecomendedMovies = require('../models/RecomendedMovies.model');
 
 const createMovie = async (parent, args) => {
   const newMovie = new Movie({
@@ -26,8 +27,19 @@ const deleteMovie = async (parent, args)=>{
 const addUserDescription = async (parent, args) => {
   return await Movie.findByIdAndUpdate(args._id, {userDescription: args.userDescription})
 }
+
+const createRecomendedMovies = async (parent, args) => {
+  const data = new RecomendedMovies({
+    title: args.title,
+    createdData: args.createdData,
+    movies: args.movies
+  }) 
+return await data.save()
+}
+
 module.exports = {  
   createMovie,
    deleteMovie,
    addUserDescription,
+   createRecomendedMovies,
   }

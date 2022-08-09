@@ -26,11 +26,9 @@ export const changeLanguage = (language: string) => {
   switch (language) {
     case LOCALES.ENGLISH:
       return SHOURT_LOCALES.EN;
-      break;
     case LOCALES.UKRANIAN:
       return SHOURT_LOCALES.UA;
     default:
       return SHOURT_LOCALES.EN;
-      break;
   }
 };
