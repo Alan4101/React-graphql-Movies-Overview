@@ -21,6 +21,7 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onCardSelect }) => {
         height="250"
         image={movie.poster}
         alt={movie.title}
+        classes={{ root: classes.media }}
       />
       <CardContent className={classes.cardContent}>
         <Typography variant="h6" color="text.secondary">

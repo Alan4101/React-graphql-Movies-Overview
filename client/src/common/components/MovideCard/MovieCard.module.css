@@ -23,3 +23,12 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.media{
+  text-align: center;
+  margin: 0 auto;
+  width: inherit !important;
+  object-fit: contain !important;
+  -webkit-box-shadow: 1px -1px 11px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 1px -1px 11px 0px rgba(0,0,0,0.75);
+box-shadow: 1px -1px 11px 0px rgba(0,0,0,0.75);
+}
