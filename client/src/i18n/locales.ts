@@ -1,4 +1,8 @@
 export const LOCALES = {
   ENGLISH: "en-US",
-  UKRANIAN: "uK-UA",
+  UKRANIAN: "uk-UA",
+};
+export const SHOURT_LOCALES = {
+  EN: "en",
+  UA: "ua",
 };

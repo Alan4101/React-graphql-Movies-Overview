@@ -1,0 +1,25 @@
+{
+  "home": {
+    "header": "Рекомендація фільмів",
+    "settings": "Налаштування"
+
+  },
+  "selectedMovies":{
+    "titlePanel": "Обрані фільми",
+    "buttonTitle": "Детальніше"
+  },
+  "content":{
+    "error": "Сталась помилка, спробуйте пізніше!",
+    "genres": "Жанри",
+    "realeaseData" : "Дата виходу",
+    "overview":"Огляд",
+    "userOverview": "Користувацький огляд",
+    "button":{
+      "goback": "Повернутись до списку",
+      "addreview" : "Додати огляд",
+      "cancel": "Закрити",
+      "save": "Зберегти",
+      "update": "Оновити"
+    }
+  }
+}

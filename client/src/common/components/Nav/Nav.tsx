@@ -24,10 +24,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import classes from "./Nav.module.css";
 import { LanguageContext } from "../../../services/context/LanguageContext";
+import { useTranslation } from "react-i18next";
+import { changeLanguage } from "../../../utils/utils";
 
 type Languages = "en-US" | "uk-UA";
 
 export const Nav: FC = () => {
+  const { t, i18n } = useTranslation();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const context = useContext(LanguageContext);
 
@@ -39,6 +42,7 @@ export const Nav: FC = () => {
       type: "setLocale",
       payload: event.target.value as Languages,
     });
+    i18n.changeLanguage(changeLanguage(event.target.value));
   };
   const list = () => (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer}>
@@ -85,7 +89,7 @@ export const Nav: FC = () => {
               component="div"
               sx={{ color: "#fff", flexGrow: 1 }}
             >
-              Movies recomendation
+              {t("home.header")}
             </Typography>
           </Link>
 
@@ -101,7 +105,7 @@ export const Nav: FC = () => {
                 component={RouterLink}
                 to="settings"
               >
-                Settings
+                {t("home.settings")}
               </Link>
             </Button>
             <Select
@@ -119,6 +123,7 @@ export const Nav: FC = () => {
                 border: "none !important",
                 outline: "none !important",
                 color: "#fff",
+
                 fontSize: "14px",
               }}
             >

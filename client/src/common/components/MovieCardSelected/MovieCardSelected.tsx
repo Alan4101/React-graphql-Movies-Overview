@@ -9,6 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { CardMenu } from "../CardMenu/CardMenu";
+import { useTranslation } from "react-i18next";
+import { MovieButton } from "../UI";
 
 interface MovieCardSelectedprops {
   movie: ISelectedMovie;
@@ -21,6 +23,7 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
   handleGetMovie,
 }) => {
   const menu = ["Remove"];
+  const { t } = useTranslation();
   return (
     <Card
       sx={{
@@ -50,10 +53,13 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
             {movie.releaseDate}
           </Typography>
           <Typography variant={"body1"}>
-            Genre:
+            {t("content.genres")}
             <span> {movie?.genres ? movie.genres.join(", ") : "unknown"}</span>
           </Typography>
-          <Button onClick={() => handleGetMovie(movie)}>Open movie</Button>
+
+          <MovieButton variant="outlined" onClick={() => handleGetMovie(movie)}>
+            {t("selectedMovies.buttonTitle")}
+          </MovieButton>
         </CardContent>
       </Box>
     </Card>

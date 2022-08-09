@@ -10,6 +10,8 @@ import { MovieTextField } from "../../UI";
 //library
 import { useFormik } from "formik";
 import { useMutation } from "@apollo/client";
+import { useTranslation } from "react-i18next";
+
 // mutation
 import { ADD_USER_DESCRIPTION } from "../../../../pages/Home/mutation";
 
@@ -40,6 +42,7 @@ export const CreateAndDeleteDescrModal: FC<CreateUpdateProps> = ({
 }) => {
   const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION);
 
+  const { t } = useTranslation();
   const movieFormik = useFormik({
     initialValues: {
       description: value,
@@ -70,7 +73,7 @@ export const CreateAndDeleteDescrModal: FC<CreateUpdateProps> = ({
     <MovieModal isOpen={isOpenModal} toggleModal={toggleModal}>
       <Grid container>
         <Grid item xs={12}>
-          <Typography variant="h4">Add your review</Typography>
+          <Typography variant="h4">{t("content.button.addreview")}</Typography>
         </Grid>
         <Grid container item md={12} xs={12}>
           <StyledForm>
@@ -84,9 +87,11 @@ export const CreateAndDeleteDescrModal: FC<CreateUpdateProps> = ({
               rows={8}
             />
             <Grid container flexDirection="row">
-              <Button onClick={resetForm}>Cancel</Button>
+              <Button onClick={resetForm}>{t("content.button.cancel")}</Button>
               <Button onClick={(e: any) => handleSubmit(e)}>
-                {isUpdate ? "Update" : "Save"}
+                {isUpdate
+                  ? t("content.button.update")
+                  : t("content.button.save")}
               </Button>
             </Grid>
           </StyledForm>

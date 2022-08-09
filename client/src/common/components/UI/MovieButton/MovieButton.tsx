@@ -14,6 +14,7 @@ interface MovieButtonProps {
 
 export const StyledButton = styled(Button)(({ theme }) => ({
   borderRadius: "15px",
+  marginTop: "15px",
 
   "&:hover": {
     backgroundColor: theme.palette.primary.main,

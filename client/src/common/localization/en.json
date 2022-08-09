@@ -1,0 +1,24 @@
+{
+  "home": {
+    "header": "Movies recomendation",
+    "settings": "Settings"
+  },
+  "selectedMovies":{
+    "titlePanel": "Selected movies",
+    "buttonTitle": "Open movie"
+  },
+  "content":{
+    "error": "Somthing went wrong, try it later!",
+    "genres": "Genres",
+    "realeaseData" : "Realise data",
+    "overview":"Overview",
+    "userOverview": "User overview",
+    "button":{
+      "goback": "Go back to the list",
+      "addreview" : "Add your review",
+      "cancel": "Cancel",
+      "save": "Save",
+      "update": "Update"
+    }
+  }
+}

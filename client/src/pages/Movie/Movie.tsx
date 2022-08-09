@@ -13,6 +13,8 @@ import {
 // othe library
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import { useTranslation } from "react-i18next";
+
 // query, mutation
 import { GET_MOVIE_BY_ID } from "../Home/queries";
 //other
@@ -29,6 +31,7 @@ import { MovieButton } from "../../common/components/UI";
 export const Movie: FC = () => {
   const { id } = useParams<{ id: any }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [movie, setMovie] = useState<ISelectedMovie>();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -88,20 +91,22 @@ export const Movie: FC = () => {
           </Box>
         </Grid>
         <Grid item lg={9} md={9} xs={12}>
-          <Typography variant="h5">Genres:</Typography>
+          <Typography variant="h5"> {t("content.genres")}:</Typography>
           <Typography>
             {movie?.genres ? movie.genres.join(", ") : "unknown"}
           </Typography>
-          <Typography variant="h5">Realise data: </Typography>
+          <Typography variant="h5">{t("content.realeaseData")}: </Typography>
           <Typography variant="body1">{movie?.releaseDate}</Typography>
           <Grid>
-            <Typography variant="h5">Overview: </Typography>
+            <Typography variant="h5">{t("content.overview")} </Typography>
             <Typography variant="body1">{movie?.overview}</Typography>
           </Grid>
           {movie?.userDescription && movie?.userDescription?.length > 0 ? (
             <Grid container>
               <Grid item md={10}>
-                <Typography variant="h5">User overview: </Typography>
+                <Typography variant="h5">
+                  {t("content.userOverview")}
+                </Typography>
               </Grid>
               <Grid item md={2}>
                 <IconButton onClick={handleEditDescription}>
@@ -118,13 +123,14 @@ export const Movie: FC = () => {
               </Grid>
             </Grid>
           ) : (
-            <Button onClick={toggleModal}>Add your review</Button>
+            <Button onClick={toggleModal}>
+              {t("content.button.addreview")}
+            </Button>
           )}
           <MovieButton variant="outlined" onClick={handleReturnToHomePage}>
-            <KeyboardReturnIcon sx={{ paddingRight: "5px" }} /> Go back to the
-            list
+            <KeyboardReturnIcon sx={{ paddingRight: "5px" }} />
+            {t("content.button.goback")}
           </MovieButton>
-          
         </Grid>
       </Grid>
       {movie && (

@@ -24,9 +24,11 @@ import { useMovie } from "./../../services/hooks";
 import { IMovie, ISelectedMovie } from "../../services/models/models";
 import { LanguageContext } from "../../services/context/LanguageContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
+  const { t } = useTranslation();
   const [isEmptySelectList, setIsEmptySelectList] = useState(false);
 
   const navigate = useNavigate();
@@ -66,9 +68,7 @@ export const Home: FC = () => {
             sx={{ height: loading ? "calc(100vh - 250px)" : "100%" }}
           >
             {error ? (
-              <LoaderContainer>
-                Somthing went wrong, try it later!
-              </LoaderContainer>
+              <LoaderContainer>{t("content.error")}</LoaderContainer>
             ) : loading ? (
               <LoaderContainer>
                 <CircularProgress />
@@ -98,7 +98,7 @@ export const Home: FC = () => {
       </Grid>
       <Grid item xs={12} md={4}>
         <SelectedMoviePaper>
-          <Typography variant="h5">Selected Movies</Typography>
+          <Typography variant="h5">{t("selectedMovies.titlePanel")}</Typography>
           <Grid
             container
             sx={{
