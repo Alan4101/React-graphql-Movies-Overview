@@ -1,15 +1,10 @@
 import { FC } from "react";
-import { ISelectedMovie } from "../../../services/models/models";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
-import { CardMenu } from "../CardMenu/CardMenu";
 import { useTranslation } from "react-i18next";
+// mui
+import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+
+import { ISelectedMovie } from "../../../services/models/models";
+import { CardMenu } from "../CardMenu/CardMenu";
 import { MovieButton } from "../UI";
 
 interface MovieCardSelectedprops {
@@ -22,8 +17,9 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
   onDeleteMovie,
   handleGetMovie,
 }) => {
-  const menu = ["Remove"];
   const { t } = useTranslation();
+  const menu = [t("content.button.remove")];
+
   return (
     <Card
       sx={{

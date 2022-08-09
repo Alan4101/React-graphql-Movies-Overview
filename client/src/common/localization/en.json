@@ -18,7 +18,9 @@
       "addreview" : "Add your review",
       "cancel": "Cancel",
       "save": "Save",
-      "update": "Update"
+      "update": "Update",
+      "remove": "Remove"
+
     }
   }
 }
