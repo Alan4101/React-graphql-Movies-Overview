@@ -71,9 +71,13 @@ export const useMovie = () => {
     deleteMovie({ variables: { id: movie._id } });
   };
 
+  const handleClearList = () => {
+    setSelectedMovies([]);
+  };
   return {
     selectedMovies,
     handleDeleteMove,
     handleSelecMovie,
+    handleClearList,
   };
 };

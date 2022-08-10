@@ -7,10 +7,11 @@ import {
   Paper,
   Typography,
   Box,
+  Divider,
 } from "@mui/material";
 // library
 import { ToastContainer } from "react-toastify";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 // mutation & query
@@ -18,6 +19,7 @@ import { GET_ALL_MOVIES } from "./queries";
 
 // styles
 import {
+  ButtonWrapper,
   EmptyMovieList,
   LoaderContainer,
   SelectedMoviePaper,
@@ -30,11 +32,13 @@ import {
   MovieCard,
   MovieCardSelected,
 } from "../../common/components";
+import { MovieButton } from "../../common/components/UI";
+
 // other
 import { useControlModal, useMovie } from "./../../services/hooks";
 import { IMovie, ISelectedMovie } from "../../services/models/models";
 import { LanguageContext } from "../../services/context/LanguageContext";
-import { MovieButton } from "../../common/components/UI";
+import { FELETE_ALL_SELECTED_MOVIES } from "./mutation";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
@@ -49,11 +53,17 @@ export const Home: FC = () => {
     variables: { page, language: context?.state.locale || "en-US" },
     fetchPolicy: "no-cache",
   });
+  const [deleteAll] = useMutation(FELETE_ALL_SELECTED_MOVIES);
 
   const pagesCount =
     data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500;
 
-  const { selectedMovies, handleDeleteMove, handleSelecMovie } = useMovie();
+  const {
+    selectedMovies,
+    handleDeleteMove,
+    handleSelecMovie,
+    handleClearList,
+  } = useMovie();
 
   useEffect(() => {
     selectedMovies.length > 0
@@ -72,6 +82,12 @@ export const Home: FC = () => {
   const hanleCreate = () => {
     toggleModal();
   };
+
+  const handleCleanList = () => {
+    deleteAll();
+    handleClearList();
+  };
+
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
       <Grid item xs={12} md={8}>
@@ -111,42 +127,57 @@ export const Home: FC = () => {
         </Paper>
       </Grid>
       <Grid item xs={12} md={4}>
-        <SelectedMoviePaper>
-          <Typography variant="h5">{t("selectedMovies.titlePanel")}</Typography>
-          <Grid
-            container
-            sx={{
-              alignItems: !isEmptySelectList ? "center" : "start",
-            }}
-          >
-            {isEmptySelectList ? (
-              selectedMovies.map((item: any, index) => (
-                <MovieCardSelected
-                  key={index}
-                  movie={item}
-                  handleGetMovie={handleOpenMoviePage}
-                  onDeleteMovie={handleDeleteMove}
-                />
-              ))
-            ) : (
-              <EmptyMovieList />
-            )}
-          </Grid>
-          <Grid
-            container
-            p={2}
-            gap={2}
-            justifyContent="space-between"
-            sx={{ position: "absolute", bottom: 0, backgroundColor: "#fff" }}
-          >
-            <MovieButton onClick={hanleCreate} variant="outlined">
+        <Grid
+          container
+          sx={{ backgroundColor: "#fff", textTransform: "uppercase" }}
+          flexDirection="column"
+        >
+          <SelectedMoviePaper>
+            <Typography
+              sx={{ textAlign: "center", margin: "15px 0" }}
+              variant="h5"
+            >
+              {t("selectedMovies.titlePanel")}
+            </Typography>
+            <Divider />
+            <Grid
+              container
+              sx={{
+                alignItems: !isEmptySelectList ? "center" : "start",
+                height: !isEmptySelectList ? "100%" : "auto",
+              }}
+            >
+              {isEmptySelectList ? (
+                selectedMovies.map((item: any, index) => (
+                  <MovieCardSelected
+                    key={index}
+                    movie={item}
+                    handleGetMovie={handleOpenMoviePage}
+                    onDeleteMovie={handleDeleteMove}
+                  />
+                ))
+              ) : (
+                <EmptyMovieList />
+              )}
+            </Grid>
+          </SelectedMoviePaper>
+          <ButtonWrapper container p={2} gap={2}>
+            <MovieButton
+              sx={{ backgroundColor: "#fff" }}
+              onClick={hanleCreate}
+              variant="outlined"
+            >
               {t("content.button.createNewList")}
             </MovieButton>
-            <MovieButton onClick={() => {}} variant="outlined">
+            <MovieButton
+              sx={{ backgroundColor: "#fff" }}
+              onClick={handleCleanList}
+              variant="outlined"
+            >
               {t("content.button.clearList")}
             </MovieButton>
-          </Grid>
-        </SelectedMoviePaper>
+          </ButtonWrapper>
+        </Grid>
       </Grid>
       <CreateRecomendedList
         moviesList={selectedMovies}

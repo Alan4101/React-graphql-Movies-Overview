@@ -12,11 +12,13 @@ import {
 } from "@mui/material";
 // othe library
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 
 // query, mutation
 import { GET_MOVIE_BY_ID } from "../Home/queries";
+import { ADD_USER_DESCRIPTION } from "../Home/mutation";
+
 //other
 import { ISelectedMovie } from "../../services/models/models";
 //style
@@ -39,13 +41,14 @@ export const Movie: FC = () => {
     variables: { id },
     // fetchPolicy: "no-cache",
   });
+  const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION);
+
   const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     if (data) {
       setMovie(data.movieById);
       data.movieById.userDescription ? setIsUpdate(true) : setIsUpdate(false);
-      // console.log(data.movieById.userDescription);
     }
   }, [data]);
   const toggleModal = () => {
@@ -55,8 +58,20 @@ export const Movie: FC = () => {
   const handleEditDescription = () => {
     toggleModal();
   };
-  const handleRemoveDescription = () => {};
+  const handleRemoveDescription = () => {
+    addUserDescription({ variables: { id, userDescription: "" } }).then(() =>
+      refetch()
+    );
+  };
 
+  const updateDescription = (value: string) => {
+    addUserDescription({ variables: { id, userDescription: value } })
+      .then(() => {
+        toggleModal();
+        refetch();
+      })
+      .catch((error) => console.log(error));
+  };
   const handleReturnToHomePage = () => {
     navigate("/");
   };
@@ -127,6 +142,8 @@ export const Movie: FC = () => {
               {t("content.button.addreview")}
             </Button>
           )}
+        </Grid>
+        <Grid item md={12} justifyContent="center">
           <MovieButton variant="outlined" onClick={handleReturnToHomePage}>
             <KeyboardReturnIcon sx={{ paddingRight: "5px" }} />
             {t("content.button.goback")}
@@ -135,12 +152,11 @@ export const Movie: FC = () => {
       </Grid>
       {movie && (
         <CreateAndDeleteDescrModal
-          id={id}
           isUpdate={isUpdate}
           isOpenModal={isOpenModal}
           toggleModal={toggleModal}
-          refetch={refetch}
           value={movie && movie.userDescription}
+          updateDescription={updateDescription}
         />
       )}
     </Container>

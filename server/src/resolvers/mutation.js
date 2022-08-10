@@ -1,7 +1,7 @@
 const Movie = require('../models/Movies.model');
 const RecomendedMovies = require('../models/RecomendedMovies.model');
 
-const createMovie = async (parent, args) => {
+const createMovie = async (_, args) => {
   const newMovie = new Movie({
     title: args.title,
     poster: args.poster,
@@ -12,17 +12,22 @@ const createMovie = async (parent, args) => {
     overview: args.overview,
     userDescription: args.userDescription,
   })
-  try {
     const movie = await newMovie.save()
-    if(movie){
-      return true
+    if(!movie){
+      return {
+        success: false,
+        message: "Error",
+      }
     }
-  } catch (error) {
-    return false
-  }
+    return {
+      success: true,
+      message: "Movie was created.",
+      movies: movie
+    }
+  
 }
-const deleteMovie = async (parent, args)=>{
-  return await Movie.findByIdAndRemove(args._id)
+const deleteMovie = async (parent, {_id})=>{
+  return await Movie.findByIdAndRemove(_id)
 }
 const addUserDescription = async (parent, args) => {
   return await Movie.findByIdAndUpdate(args._id, {userDescription: args.userDescription})
@@ -36,10 +41,30 @@ const createRecomendedMovies = async (parent, args) => {
   }) 
 return await data.save()
 }
+const deleteAll =  async (_, args) =>{
+    const data = await Movie.remove({});
+    if(!data){
+      return {
+        success: false,
+        message: 'Error'
+      }
+    }
+    return {
+      success: true,
+      message: 'Success'
+    }
+ 
+  }
+
+
+  
+  
+
 
 module.exports = {  
   createMovie,
    deleteMovie,
    addUserDescription,
    createRecomendedMovies,
+   deleteAll,
   }

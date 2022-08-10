@@ -22,6 +22,10 @@ export const ADD_MOVIE_TO_SELECTED = gql`
       userDescription: $userDescription
     ) {
       success
+      message
+      movies {
+        title
+      }
     }
   }
 `;
@@ -59,6 +63,14 @@ export const CREATE_RECOMENDED_MOVIES = gql`
       movies {
         title
       }
+    }
+  }
+`;
+export const FELETE_ALL_SELECTED_MOVIES = gql`
+  mutation DeleteAll {
+    deleteAll {
+      success
+      message
     }
   }
 `;

@@ -53,6 +53,15 @@ type RecomendedMovies {
 type Status {
   success: Boolean
 }
+type CreateResponse {
+  success: Boolean!
+  message: String
+  movies: MovieSelected
+}
+type DeleteResponse {
+  success: Boolean!
+  message: String
+}
 type Query {
   movies(page: Int, language: String): Movies
   movieById(_id: ID!): MovieSelected
@@ -70,7 +79,7 @@ type Mutation {
     movieId: String
     overview: String
     userDescription: String
-  ): Status
+  ): CreateResponse
   # ): MovieSelected
 
   deleteMovie(_id: ID): MovieSelected
@@ -82,4 +91,6 @@ type Mutation {
     createdData: String
     movies: [MovieSelectedInput]
   ): RecomendedMovies
+
+  deleteAll: DeleteResponse
 }

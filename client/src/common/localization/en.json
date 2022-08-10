@@ -1,7 +1,9 @@
 {
   "page":{
     "recommended": "Recomended",
-    "settings":"Settings"
+    "settings":"Settings",
+    "home": "Home"
+  
   },
   "home": {
     "header": "Movies recomendation",

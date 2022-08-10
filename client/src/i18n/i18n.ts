@@ -13,17 +13,13 @@ const resources = {
     translation: ua,
   },
 };
-i18n
-  .use(Backend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources,
-    fallbackLng: "en",
-    // debug: true,
-    interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
-    },
-  });
+i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
+  resources,
+  fallbackLng: "en",
+  // debug: true,
+  // interpolation: {
+  //   escapeValue: false, // not needed for react as it escapes by default
+  // },
+});
 
 export default i18n;

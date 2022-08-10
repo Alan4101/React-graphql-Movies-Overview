@@ -8,6 +8,11 @@ interface IMenuItem {
 export const menuItem: IMenuItem[] = [
   {
     icon: <SettingsIcon />,
+    title: "page.home",
+    route: "/",
+  },
+  {
+    icon: <SettingsIcon />,
     title: "page.settings",
     route: "settings",
   },
