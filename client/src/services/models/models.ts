@@ -27,3 +27,10 @@ export interface ISelectedMovie extends IInitialMovie {
   overview?: string;
   userDescription?: string;
 }
+
+export interface IRecommendedMovies {
+  _id: string;
+  title: string;
+  createdData: string;
+  movies: Array<ISelectedMovie>;
+}

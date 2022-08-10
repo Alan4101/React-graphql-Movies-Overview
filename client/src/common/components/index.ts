@@ -7,6 +7,7 @@ import { CreateAndDeleteDescrModal } from "./Modals/CreateAndUpdateDescriptionMo
 import { StyledForm } from "./Modals/common";
 import { CreateRecomendedList } from "./Modals/CreateRecomendedList/CreateRecomendedList";
 import { MovieCardRecommended } from "./MovieCardReccomended/MovieCardRecomended";
+import { ShereMovieList } from "./Modals/ShereMoviesLists/ShereMoviesList";
 
 export {
   StyledForm,
@@ -18,4 +19,5 @@ export {
   CreateAndDeleteDescrModal,
   CreateRecomendedList,
   MovieCardRecommended,
+  ShereMovieList,
 };

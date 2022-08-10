@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import componnents
 import { LanguageContextProvider } from "./common/components";
 import { Layout } from "./common/Layout/Layout";
-import { Home, Movie, Recomended, Settings } from "./pages";
+import { Home, Movie, Recomended, RecommendedList, Settings } from "./pages";
 
 export const App: FC = () => {
   return (
@@ -20,6 +20,7 @@ export const App: FC = () => {
               <Route path="/:id" element={<Movie />} />
               <Route path="settings" element={<Settings />} />
               <Route path="recomended" element={<Recomended />} />
+              <Route path="recomended/:id" element={<RecommendedList />} />
             </Routes>
           </Layout>
         </LanguageContextProvider>
