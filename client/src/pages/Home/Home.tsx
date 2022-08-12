@@ -92,7 +92,7 @@ export const Home: FC = () => {
     deleteAll();
     handleClearList();
   };
-  console.log(selectedMovies);
+
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
       <Grid item xs={12} md={8}>
