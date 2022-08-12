@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { CORE_SELECTED_MOVIE_FIELDS } from "../../services/graphql/fragment";
+import { CORE_SELECTED_MOVIE_FIELDS } from "./fragment";
 
 export const GET_ALL_MOVIES = gql`
   query Movies($page: Int, $language: String) {

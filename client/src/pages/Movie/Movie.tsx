@@ -16,8 +16,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 
 // query, mutation
-import { GET_MOVIE_BY_ID } from "../Home/queries";
-import { ADD_USER_DESCRIPTION } from "../Home/mutation";
+import { ADD_USER_DESCRIPTION, GET_MOVIE_BY_ID } from "../../services/graphql";
 
 //other
 import { ISelectedMovie } from "../../services/models/models";

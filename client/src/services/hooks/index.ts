@@ -1,4 +1,2 @@
-import { useMovie } from "./useMovie";
-import { useControlModal } from "./useControlModal";
-
-export { useMovie, useControlModal };
+export * from "./useMovie";
+export * from "./useControlModal";

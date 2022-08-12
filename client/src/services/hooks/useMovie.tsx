@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import { toast, ToastOptions } from "react-toastify";
 import { useQuery, useMutation } from "@apollo/client";
 
-import { GET_GENRES, GET_SELECTED_MOVIES } from "../../pages/Home/queries";
-import { ADD_MOVIE_TO_SELECTED, REMOVE_MOVIE } from "../../pages/Home/mutation";
-
 import { IMovie, ISelectedMovie } from "../models/models";
-import { toastOptions } from "../../pages/Home/Home.helper";
+import { toastOptions } from "../helpers/helper";
+import {
+  ADD_MOVIE_TO_SELECTED,
+  GET_GENRES,
+  GET_SELECTED_MOVIES,
+  REMOVE_MOVIE,
+} from "../graphql";
 
 const MAX_SELECTED = 5;
 

@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+// mui
 import {
   Grid,
   Typography,
@@ -13,6 +14,7 @@ import { styled } from "@mui/material/styles";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// other
 import { IRecommendedMovies } from "../../../services/models/models";
 
 interface RecommendedProps {

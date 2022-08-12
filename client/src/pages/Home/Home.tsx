@@ -15,7 +15,6 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 // mutation & query
-import { GET_ALL_MOVIES } from "./queries";
 
 // styles
 import {
@@ -29,16 +28,19 @@ import "react-toastify/dist/ReactToastify.css";
 // components
 import {
   CreateRecomendedList,
+  MovieButton,
   MovieCard,
   MovieCardSelected,
 } from "../../common/components";
-import { MovieButton } from "../../common/components/UI";
 
 // other
 import { useControlModal, useMovie } from "./../../services/hooks";
 import { IMovie, ISelectedMovie } from "../../services/models/models";
 import { LanguageContext } from "../../services/context/LanguageContext";
-import { FELETE_ALL_SELECTED_MOVIES } from "./mutation";
+import {
+  FELETE_ALL_SELECTED_MOVIES,
+  GET_ALL_MOVIES,
+} from "../../services/graphql";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
@@ -79,7 +81,7 @@ export const Home: FC = () => {
     navigate(`${movie._id}`);
   };
 
-  const hanleCreate = () => {
+  const hanleCreateList = () => {
     toggleModal();
   };
 
@@ -164,7 +166,7 @@ export const Home: FC = () => {
           <ButtonWrapper container p={2} gap={2}>
             <MovieButton
               sx={{ backgroundColor: "#fff" }}
-              onClick={hanleCreate}
+              onClick={hanleCreateList}
               variant="outlined"
             >
               {t("content.button.createNewList")}

@@ -1,3 +1,4 @@
+// Global toast options;
 export const toastOptions = {
   position: "top-right",
   autoClose: 2000,

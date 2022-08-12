@@ -11,11 +11,11 @@ export const menuItem: IMenuItem[] = [
     title: "page.home",
     route: "/",
   },
-  {
-    icon: <SettingsIcon />,
-    title: "page.settings",
-    route: "settings",
-  },
+  // {
+  //   icon: <SettingsIcon />,
+  //   title: "page.settings",
+  //   route: "settings",
+  // },
   {
     icon: <SettingsIcon />,
     title: "page.recommended",

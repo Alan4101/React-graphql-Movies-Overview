@@ -1,23 +1,11 @@
-import { Nav } from "./Nav/Nav";
-import { MovieCard } from "./MovideCard/MovieCard";
-import { MovieCardSelected } from "./MovieCardSelected/MovieCardSelected";
-import { LanguageContextProvider } from "./LanguageContextProvider/LanguageContextProvider";
-import { MovieModal } from "./Modals/MainModal/MovieModal";
-import { CreateAndDeleteDescrModal } from "./Modals/CreateAndUpdateDescriptionModal/CreateAndUpdateDescrModal";
-import { StyledForm } from "./Modals/common";
-import { CreateRecomendedList } from "./Modals/CreateRecomendedList/CreateRecomendedList";
-import { MovieCardRecommended } from "./MovieCardReccomended/MovieCardRecomended";
-import { ShereMovieList } from "./Modals/ShereMoviesLists/ShereMoviesList";
-
-export {
-  StyledForm,
-  Nav,
-  MovieCard,
-  MovieCardSelected,
-  LanguageContextProvider,
-  MovieModal,
-  CreateAndDeleteDescrModal,
-  CreateRecomendedList,
-  MovieCardRecommended,
-  ShereMovieList,
-};
+export * from "./Nav/Nav";
+export * from "./MovideCard/MovieCard";
+export * from "./MovieCardSelected/MovieCardSelected";
+export * from "./LanguageContextProvider/LanguageContextProvider";
+export * from "./Modals/MainModal/MovieModal";
+export * from "./Modals/CreateAndUpdateDescriptionModal/CreateAndUpdateDescrModal";
+export * from "./Modals/common";
+export * from "./Modals/CreateRecomendedList/CreateRecomendedList";
+export * from "./MovieCardReccomended/MovieCardRecomended";
+export * from "./Modals/ShereMoviesLists/ShereMoviesList";
+export * from "./UI";
