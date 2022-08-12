@@ -42,3 +42,11 @@ npm run start
 ```sh
 npm run storybook
 ```
+
+## Build
+
+From client folder
+
+```sh
+npm run build
+```
