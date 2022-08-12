@@ -5,7 +5,7 @@ import { backgroungEmptyFilmList } from "../../common/assets";
 export const SelectedMoviePaper = styled(Paper)(({ theme }) => ({
   height: "calc(100vh - 200px)",
   position: "sticky",
-  overflowY: "scroll",
+  overflowY: "auto",
   boxShadow: "none !important",
   "&::-webkit-scrollbar": {
     width: "6px",

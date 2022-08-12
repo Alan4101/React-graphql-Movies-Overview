@@ -10,12 +10,16 @@ import {
   Divider,
 } from "@mui/material";
 // library
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast, ToastOptions } from "react-toastify";
+
 import { useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 // mutation & query
-
+import {
+  FELETE_ALL_SELECTED_MOVIES,
+  GET_ALL_MOVIES,
+} from "../../services/graphql";
 // styles
 import {
   ButtonWrapper,
@@ -37,10 +41,7 @@ import {
 import { useControlModal, useMovie } from "./../../services/hooks";
 import { IMovie, ISelectedMovie } from "../../services/models/models";
 import { LanguageContext } from "../../services/context/LanguageContext";
-import {
-  FELETE_ALL_SELECTED_MOVIES,
-  GET_ALL_MOVIES,
-} from "../../services/graphql";
+import { toastOptions } from "../../services/helpers/helper";
 
 export const Home: FC = () => {
   const [page, setPage] = useState(1);
@@ -82,14 +83,16 @@ export const Home: FC = () => {
   };
 
   const hanleCreateList = () => {
-    toggleModal();
+    isEmptySelectList
+      ? toggleModal()
+      : toast.warn("List is empty", toastOptions as ToastOptions);
   };
 
   const handleCleanList = () => {
     deleteAll();
     handleClearList();
   };
-
+  console.log(selectedMovies);
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
       <Grid item xs={12} md={8}>
@@ -129,14 +132,14 @@ export const Home: FC = () => {
         </Paper>
       </Grid>
       <Grid item xs={12} md={4}>
-        <Grid
-          container
-          sx={{ backgroundColor: "#fff", textTransform: "uppercase" }}
-          flexDirection="column"
-        >
+        <Grid container flexDirection="column">
           <SelectedMoviePaper>
             <Typography
-              sx={{ textAlign: "center", margin: "15px 0" }}
+              sx={{
+                textAlign: "center",
+                margin: "15px 0",
+                textTransform: "uppercase",
+              }}
               variant="h5"
             >
               {t("selectedMovies.titlePanel")}
@@ -146,7 +149,7 @@ export const Home: FC = () => {
               container
               sx={{
                 alignItems: !isEmptySelectList ? "center" : "start",
-                height: !isEmptySelectList ? "100%" : "auto",
+                height: !isEmptySelectList ? "80%" : "auto",
               }}
             >
               {isEmptySelectList ? (
@@ -186,6 +189,7 @@ export const Home: FC = () => {
         isOpenModal={isOpenModal}
         toggleModal={toggleModal}
       />
+
       <ToastContainer />
     </Grid>
   );

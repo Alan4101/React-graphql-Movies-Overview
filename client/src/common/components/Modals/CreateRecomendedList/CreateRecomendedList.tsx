@@ -10,13 +10,11 @@ import { StyledForm } from "../common";
 import { useFormik } from "formik";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
-import { toast, ToastOptions } from "react-toastify";
 
 // mutation
 import { CREATE_RECOMENDED_MOVIES } from "../../../../services/graphql";
 // other
 import { ISelectedMovie } from "../../../../services/models/models";
-import { toastOptions } from "../../../../services/helpers/helper";
 import { MovieTextField } from "../../UI";
 
 interface CreateRecomendedProps {
@@ -50,21 +48,17 @@ export const CreateRecomendedList: FC<CreateRecomendedProps> = ({
   };
 
   const createRecomendedList = (value: string) => {
-    if (moviesList.length > 0) {
-      const newList = {
-        title: value,
-        createdData: new Date().toLocaleDateString(),
-        movies: [...moviesList],
-      };
+    const newList = {
+      title: value,
+      createdData: new Date().toLocaleDateString(),
+      movies: [...moviesList],
+    };
 
-      createRecomendedMovies({
-        variables: {
-          ...newList,
-        },
-      }).then(() => toggleModal());
-    } else {
-      toast.success("Movie added!", toastOptions as ToastOptions);
-    }
+    createRecomendedMovies({
+      variables: {
+        ...newList,
+      },
+    }).then(() => toggleModal());
   };
 
   return (
