@@ -14,5 +14,6 @@ const server = new ApolloServer({
   typeDefs: fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8'),
   resolvers,
 })
+
 connectDB();
 server.listen().then(({url})=> console.log('Server runing on '+ url))
