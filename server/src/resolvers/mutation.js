@@ -42,7 +42,7 @@ const createRecomendedMovies = async (parent, args) => {
 return await data.save()
 }
 const deleteAll =  async (_, args) =>{
-    const data = await Movie.remove({});
+    const data = await Movie.deleteMany({});
     if(!data){
       return {
         success: false,
