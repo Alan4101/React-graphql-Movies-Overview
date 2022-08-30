@@ -11,11 +11,11 @@ import {
   Collapse,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // other
 import { IRecommendedMovies } from "../../../services/models/models";
+// import { useNavigate } from 'react-router-dom';
 
 interface RecommendedProps {
   movie: Required<IRecommendedMovies>;
@@ -40,10 +40,17 @@ export const MovieCardRecommended: FC<RecommendedProps> = ({
   shareMovieList,
 }) => {
   const [expanded, setExpanded] = useState(false);
+  // const navigate = useNavigate();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const handleOpenMovie = (id:string) => {
+    console.log(id)
+    // navigate(`/${id}`);
+
+  }
+  console.log(movie)
   return (
     <Grid item md={3}>
       <Card sx={{ maxWidth: 345 }}>
@@ -53,9 +60,6 @@ export const MovieCardRecommended: FC<RecommendedProps> = ({
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
           <IconButton
             aria-label="share"
             onClick={() => shareMovieList(movie._id)}
@@ -73,8 +77,8 @@ export const MovieCardRecommended: FC<RecommendedProps> = ({
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            {movie.movies.map((item: any, k: number) => (
-              <Typography key={k} paragraph>
+            {movie.movies.map((item, k: number) => (
+              <Typography key={k} paragraph onClick={()=>handleOpenMovie(item._id)}>
                 {item.title}
               </Typography>
             ))}

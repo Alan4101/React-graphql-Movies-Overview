@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import {
   FELETE_ALL_SELECTED_MOVIES,
   GET_ALL_MOVIES,
+  SEARCH_MOVIE,
 } from "../../services/graphql";
 // styles
 import {
@@ -32,22 +33,25 @@ import "react-toastify/dist/ReactToastify.css";
 // components
 import {
   CreateRecomendedList,
+  // Filters,
   MovieButton,
   MovieCard,
   MovieCardSelected,
+  Search,
 } from "../../common/components";
 
 // other
-import { useControlModal, useMovie } from "./../../services/hooks";
+import { useControlModal, useDebounce, useMovie } from "./../../services/hooks";
 import { IMovie, ISelectedMovie } from "../../services/models/models";
 import { LanguageContext } from "../../services/context/LanguageContext";
 import { toastOptions } from "../../services/helpers/helper";
 
 export const Home: FC = () => {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [isOpenModal, toggleModal] = useControlModal();
-  const { t } = useTranslation();
   const [isEmptySelectList, setIsEmptySelectList] = useState(false);
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
   const context = useContext(LanguageContext);
@@ -56,6 +60,10 @@ export const Home: FC = () => {
     variables: { page, language: context?.state.locale || "en-US" },
     fetchPolicy: "no-cache",
   });
+  const { data: movie, refetch: refetchMovie } = useQuery(SEARCH_MOVIE);
+  
+  const debounced = useDebounce(search, 500)
+
   const [deleteAll] = useMutation(FELETE_ALL_SELECTED_MOVIES);
 
   const pagesCount =
@@ -93,8 +101,41 @@ export const Home: FC = () => {
     handleClearList();
   };
 
+  const handleSearch = (s:string) => {
+    setSearch(s)
+    // console.log(search);
+    // refetchMovie({ query: search, language: context?.state.locale || "en-US" });
+    refetchMovie({ query: debounced, language: context?.state.locale || "en-US" });
+    console.log(debounced)
+  };
+  console.log(search);
+
+  const renderMoviesCard = () => (
+    <>
+      {error ? (
+        <LoaderContainer>{t("content.error")}</LoaderContainer>
+      ) : loading ? (
+        <LoaderContainer>
+          <CircularProgress />
+        </LoaderContainer>
+      ) : (
+        data.movies.results.map((item: IMovie) => (
+          <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+            <MovieCard movie={item} onCardSelect={handleSelecMovie} />
+          </Grid>
+        ))
+      )}
+    </>
+  );
+
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
+      <Grid item xs={12} md={12}>
+        {/* <Filters data={data.movies.results}/> */}
+        {/* <input value={search} onChange={(e) => setSearch(e.target.value)} /> */}
+        <input value={search} onChange={(e) => handleSearch(e.target.value)} />
+        {/* <MovieButton onClick={handleSearch}>Search</MovieButton> */}
+      </Grid>
       <Grid item xs={12} md={8}>
         <Paper sx={{ padding: 2 }}>
           <Grid
@@ -102,19 +143,7 @@ export const Home: FC = () => {
             spacing={2}
             sx={{ height: loading ? "calc(100vh - 250px)" : "100%" }}
           >
-            {error ? (
-              <LoaderContainer>{t("content.error")}</LoaderContainer>
-            ) : loading ? (
-              <LoaderContainer>
-                <CircularProgress />
-              </LoaderContainer>
-            ) : (
-              data.movies.results.map((item: IMovie) => (
-                <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                  <MovieCard movie={item} onCardSelect={handleSelecMovie} />
-                </Grid>
-              ))
-            )}
+            {search.length>0? <Search data={movie} handleSelecMovie={handleSelecMovie}/> : renderMoviesCard()  }
           </Grid>
           <Box
             sx={{
@@ -122,12 +151,14 @@ export const Home: FC = () => {
               justifyContent: "center",
               margin: "10px",
             }}
-          >
-            <Pagination
-              count={pagesCount}
-              page={page}
-              onChange={paginationHandler}
-            />
+          >{
+            search.length === 0? <Pagination
+            count={pagesCount}
+            page={page}
+            onChange={paginationHandler}
+          />: null
+          }
+            
           </Box>
         </Paper>
       </Grid>

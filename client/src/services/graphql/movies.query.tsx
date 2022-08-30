@@ -49,3 +49,21 @@ export const GET_MOVIE_BY_ID = gql`
     }
   }
 `;
+export const SEARCH_MOVIE = gql`
+  query SearchMovie($query: String, $language: String){
+    searchMovie(query: $query, language: $language){
+      results {
+        adult
+        title
+        releaseDate
+        poster
+        voteCount
+        voteAverage
+        backdropPath
+        id
+        genreIds
+        overview
+      }
+    }
+  }
+`

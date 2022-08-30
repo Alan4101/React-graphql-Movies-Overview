@@ -68,6 +68,7 @@ type Query {
   genres: [Genre]
   getSelectedMovies: [MovieSelected]
   getRecommended: [RecomendedMovies]
+  searchMovie(query: String, language: String): Movies
 }
 type Mutation {
   createMovie(

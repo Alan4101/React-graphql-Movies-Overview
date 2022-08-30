@@ -11,11 +11,10 @@ export const Recomended: FC = () => {
   const [sharedLink, setSharedLink] = useState("");
 
   const shareMovieList = (id: string) => {
-    console.log(id);
     toggleModal();
     setSharedLink(id);
   };
-
+  console.log('dart',data)
   return (
     <Container>
       <Grid container gap={2} mt={2}>

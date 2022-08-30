@@ -4,7 +4,7 @@ const { Movies } = require("./entities/Movies");
 const { createUrl } = require("../../utils");
 const RecomendedMovies = require('../../models/RecomendedMovies.model');
 
-const { GetPopularMovies, GetGenres } = require("../../config/endpoints");
+const { GetPopularMovies, GetGenres, SearchMovie } = require("../../config/endpoints");
 
 const MoviesSchema = require("../../models/Movies.model");
 const { Genres } = require("./entities/Genres");
@@ -30,10 +30,15 @@ const getGenres = async () => {
 const getReccomendedMovies = async()=> {
   return await RecomendedMovies.find({})
 }
+const searchMovieByName = async (query, language) =>{
+  const {data } = await axios.get(`${createUrl(SearchMovie, language)}&query=${query}`)
+  return new Movies(data);
+}
 module.exports = {
   getPopular,
   getMovies,
   getMovieById,
   getGenres,
-  getReccomendedMovies
+  getReccomendedMovies,
+  searchMovieByName
 };
