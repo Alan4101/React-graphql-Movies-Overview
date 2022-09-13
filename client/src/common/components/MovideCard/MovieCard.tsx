@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { IMovie } from "../../../services/models/models";
 
 import classes from "./MovieCard.module.css";
@@ -16,15 +16,17 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onCardSelect }) => {
         onCardSelect(movie);
       }}
     >
-      <CardMedia
-        component="img"
-        height="250"
-        image={movie.poster}
-        alt={movie.title}
-        classes={{ root: classes.media }}
-      />
+      <Grid container className={classes.mediaWrapper}>
+        <CardMedia
+          component="img"
+          image={movie.poster}
+          alt={movie.title}
+          classes={{ media: classes.media  }}
+        />
+      </Grid>
+      
       <CardContent className={classes.cardContent}>
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="h6" color="text.secondary" sx={{fontSize: '18px'}}>
           {movie.title}
         </Typography>
         <Typography variant="body1" color="text.secondary">
