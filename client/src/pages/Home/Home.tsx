@@ -4,7 +4,6 @@ import {
   CircularProgress,
   Grid,
   Pagination,
-  Paper,
   Box,
 } from "@mui/material";
 // library
@@ -39,6 +38,7 @@ import { toastOptions } from "../../services/helpers/helper";
 
 export const Home: FC = () => {
   const { t } = useTranslation();
+
   const [page, setPage] = useState(1);
   const [isOpenModal, toggleModal] = useControlModal();
   const [isEmptySelectList, setIsEmptySelectList] = useState(false);
@@ -75,6 +75,7 @@ export const Home: FC = () => {
       : toast.warn("List is empty", toastOptions as ToastOptions);
   };
 
+ 
   const renderMoviesCard = () => (
     <>
       {error ? (
@@ -85,8 +86,8 @@ export const Home: FC = () => {
         </LoaderContainer>
       ) : (
         data.movies.results.map((item: IMovie) => (
-          <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-            <MovieCard movie={item} onCardSelect={handleSelecMovie} />
+          <Grid key={item.id} item xs={12} sm={6} md={4} lg={3} flexWrap="wrap">
+            <MovieCard movie={item} onCardSelect={handleSelecMovie}/>
           </Grid>
         ))
       )}
@@ -98,8 +99,7 @@ export const Home: FC = () => {
       {/* <Grid item xs={12} md={12}>
         <input value={search} onChange={(e) => handleSearch(e.target.value)} />
       </Grid> */}
-      <Grid item xs={12} md={8}>
-        <Paper sx={{ padding: 2 }}>
+      <Grid item xs={12} md={8} sx={{paddingBottom: '20px'}}>
           <Grid
             container
             spacing={2}
@@ -123,7 +123,6 @@ export const Home: FC = () => {
           }
             
           </Box>
-        </Paper>
       </Grid>
       <Grid item xs={12} md={4}>
           <SelectedMoviesPaper isEmptySelectList={isEmptySelectList} hanleCreateList={hanleCreateList} />

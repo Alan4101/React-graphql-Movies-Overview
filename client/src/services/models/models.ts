@@ -8,6 +8,9 @@ interface IInitialMovie {
   releaseDate: string;
   genres?: string[];
   adult?: Boolean;
+  voteAverage?: number;
+  voteCount?: number;
+
 }
 export interface IMovie extends IInitialMovie {
   id: string;
@@ -15,9 +18,7 @@ export interface IMovie extends IInitialMovie {
   overview?: string;
   originalLanguage?: String;
   backdropPath?: String;
-  voteCount?: number;
   video?: boolean;
-  voteAverage?: number;
   movieId?: string;
   genreIds?: [number];
 }

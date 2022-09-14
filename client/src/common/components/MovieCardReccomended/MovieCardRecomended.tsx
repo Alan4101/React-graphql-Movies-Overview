@@ -50,7 +50,6 @@ export const MovieCardRecommended: FC<RecommendedProps> = ({
     // navigate(`/${id}`);
 
   }
-  console.log(movie)
   return (
     <Grid item md={3}>
       <Card sx={{ maxWidth: 345 }}>

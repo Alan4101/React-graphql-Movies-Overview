@@ -10,6 +10,7 @@ export const ADD_MOVIE_TO_SELECTED = gql`
     $movieId: String
     $overview: String
     $userDescription: String
+    $voteCount: Int
   ) {
     createMovie(
       title: $title
@@ -19,6 +20,7 @@ export const ADD_MOVIE_TO_SELECTED = gql`
       genres: $genres
       movieId: $movieId
       overview: $overview
+      voteCount:$voteCount
       userDescription: $userDescription
     ) {
       success

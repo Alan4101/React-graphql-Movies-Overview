@@ -74,7 +74,6 @@ export const Movie: FC = () => {
   const handleReturnToHomePage = () => {
     navigate("/");
   };
-
   const renderLoading = () => (
     <Grid sx={{ width: "100%", height: "90vh" }}>
       <CircularProgress />
@@ -111,6 +110,8 @@ export const Movie: FC = () => {
           </Typography>
           <Typography variant="h5">{t("content.realeaseData")}: </Typography>
           <Typography variant="body1">{movie?.releaseDate}</Typography>
+          <Typography variant="h5">Vote count</Typography>
+          <Typography variant="body1">{movie?.voteCount}</Typography>
           <Grid>
             <Typography variant="h5">{t("content.overview")} </Typography>
             <Typography variant="body1">{movie?.overview}</Typography>

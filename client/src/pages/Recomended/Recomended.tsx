@@ -14,7 +14,6 @@ export const Recomended: FC = () => {
     toggleModal();
     setSharedLink(id);
   };
-  console.log('dart',data)
   return (
     <Container>
       <Grid container gap={2} mt={2}>
