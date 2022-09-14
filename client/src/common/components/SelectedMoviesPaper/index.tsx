@@ -1,26 +1,32 @@
 import {FC} from 'react'
+import { useNavigate } from 'react-router-dom';
+// mui
+import { Grid, Typography, Box , Divider} from '@mui/material';
+// lib
+import { useTranslation } from 'react-i18next';
+import { useMutation } from '@apollo/client';
+// components
 import { EmptyMovieList, SelectedMoviePaper } from '../../../pages/Home/Home.style'
 import { MovieButton } from '../UI'
-import { Grid, Typography, Box , Divider} from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { ISelectedMovie } from '../../../services/models/models';
 import { MovieCardSelected } from '../MovieCardSelected/MovieCardSelected';
-import { useNavigate } from 'react-router-dom';
+// other
+import { ISelectedMovie } from '../../../services/models/models';
 import { useMovie } from '../../../services/hooks';
-import { useMutation } from '@apollo/client';
 import { FELETE_ALL_SELECTED_MOVIES } from '../../../services/graphql';
+
+import classes from "./index.module.css";
 
 interface SelectedMoviePaperProps {
   isEmptySelectList: boolean;
   hanleCreateList: ()=> void;
+  onDeleteList: () => void;
 }
-export const SelectedMoviesPaper:FC<SelectedMoviePaperProps> = ({isEmptySelectList, hanleCreateList}) => {
+export const SelectedMoviesPaper:FC<SelectedMoviePaperProps> = ({isEmptySelectList, hanleCreateList, onDeleteList}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const {
     selectedMovies,
     handleDeleteMove,
-    handleClearList,
   } = useMovie();
 
   const [deleteAll] = useMutation(FELETE_ALL_SELECTED_MOVIES);
@@ -30,7 +36,7 @@ export const SelectedMoviesPaper:FC<SelectedMoviePaperProps> = ({isEmptySelectLi
   };
   const handleCleanList = () => {
     deleteAll();
-    handleClearList();
+    onDeleteList();
   };
   return (
     <Grid container flexDirection="column">
@@ -67,7 +73,7 @@ export const SelectedMoviesPaper:FC<SelectedMoviePaperProps> = ({isEmptySelectLi
               )}
             </Grid>
           </SelectedMoviePaper>
-          <Box>
+          <Box className={classes.buttonWrapper}>
 
             <MovieButton
               sx={{ backgroundColor: "#fff" }}

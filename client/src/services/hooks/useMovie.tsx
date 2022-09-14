@@ -47,6 +47,7 @@ export const useMovie = () => {
         genres: getGenresName(movie.genreIds),
         movieId: movie.id,
         userDescription: "",
+        voteCount: movie.voteCount,
       },
     }).then(() => {
       toast.success("Movie added!", toastOptions as ToastOptions);

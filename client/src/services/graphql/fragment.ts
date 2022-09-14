@@ -10,6 +10,7 @@ export const CORE_SELECTED_MOVIE_FIELDS = gql`
     genres
     releaseDate
     overview
+    voteCount
     userDescription
   }
 `;

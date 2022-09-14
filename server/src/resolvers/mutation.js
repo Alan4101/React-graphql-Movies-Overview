@@ -11,6 +11,7 @@ const createMovie = async (_, args) => {
     movieId: args.movieId,
     overview: args.overview,
     userDescription: args.userDescription,
+    voteCount: args.voteCount,
   })
     const movie = await newMovie.save()
     if(!movie){

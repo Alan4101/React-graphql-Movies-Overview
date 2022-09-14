@@ -1,12 +1,6 @@
 import { FC, useContext, useEffect, useState } from "react";
 // mui
-import {
-  CircularProgress,
-  Grid,
-  Pagination,
-  Paper,
-  Box,
-} from "@mui/material";
+import { CircularProgress, Grid, Pagination, Box } from "@mui/material";
 // library
 import { ToastContainer, toast, ToastOptions } from "react-toastify";
 
@@ -18,9 +12,7 @@ import {
   // SEARCH_MOVIE,
 } from "../../services/graphql";
 // styles
-import {
-  LoaderContainer,
-} from "./Home.style";
+import { LoaderContainer } from "./Home.style";
 import "react-toastify/dist/ReactToastify.css";
 
 // components
@@ -39,6 +31,7 @@ import { toastOptions } from "../../services/helpers/helper";
 
 export const Home: FC = () => {
   const { t } = useTranslation();
+
   const [page, setPage] = useState(1);
   const [isOpenModal, toggleModal] = useControlModal();
   const [isEmptySelectList, setIsEmptySelectList] = useState(false);
@@ -48,17 +41,15 @@ export const Home: FC = () => {
 
   const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
     variables: { page, language: context?.state.locale || "en-US" },
-    fetchPolicy: "no-cache",
+    // fetchPolicy: "no-cache",
   });
-  
+
   const pagesCount =
     data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500;
 
-  const {
-    selectedMovies,
-    handleSelecMovie,
-  } = useMovie();
-
+  const { selectedMovies, handleSelecMovie, handleClearList } = useMovie();
+ 
+  // console.log(movies)
   useEffect(() => {
     selectedMovies.length > 0
       ? setIsEmptySelectList(true)
@@ -74,7 +65,7 @@ export const Home: FC = () => {
       ? toggleModal()
       : toast.warn("List is empty", toastOptions as ToastOptions);
   };
-
+  
   const renderMoviesCard = () => (
     <>
       {error ? (
@@ -85,7 +76,7 @@ export const Home: FC = () => {
         </LoaderContainer>
       ) : (
         data.movies.results.map((item: IMovie) => (
-          <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+          <Grid key={item.id} item xs={12} sm={6} md={4} lg={3} flexWrap="wrap">
             <MovieCard movie={item} onCardSelect={handleSelecMovie} />
           </Grid>
         ))
@@ -95,38 +86,37 @@ export const Home: FC = () => {
 
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
-      {/* <Grid item xs={12} md={12}>
-        <input value={search} onChange={(e) => handleSearch(e.target.value)} />
-      </Grid> */}
-      <Grid item xs={12} md={8}>
-        <Paper sx={{ padding: 2 }}>
-          <Grid
-            container
-            spacing={2}
-            sx={{ height: loading ? "calc(100vh - 250px)" : "100%" }}
-          >
-            {renderMoviesCard()}
-            {/* {search.length>0? <Search data={movie} handleSelecMovie={handleSelecMovie}/> : renderMoviesCard()  } */}
-          </Grid>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "10px",
-            }}
-          >{
-            search.length === 0? <Pagination
-            count={pagesCount}
-            page={page}
-            onChange={paginationHandler}
-          />: null
-          }
-            
-          </Box>
-        </Paper>
+      <Grid item xs={12} md={8} sx={{ paddingBottom: "20px" }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ height: loading ? "calc(100vh - 250px)" : "100%" }}
+        >
+          {renderMoviesCard()}
+        </Grid>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "10px",
+          }}
+        >
+          {search.length === 0 ? (
+            <Pagination
+              count={pagesCount}
+              page={page}
+              onChange={paginationHandler}
+            />
+          ) : null}
+        </Box>
       </Grid>
       <Grid item xs={12} md={4}>
-          <SelectedMoviesPaper isEmptySelectList={isEmptySelectList} hanleCreateList={hanleCreateList} />
+        <SelectedMoviesPaper
+          isEmptySelectList={isEmptySelectList}
+          hanleCreateList={hanleCreateList}
+          onDeleteList={handleClearList}
+          
+        />
       </Grid>
       <CreateRecomendedList
         moviesList={selectedMovies}

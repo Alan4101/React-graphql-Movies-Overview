@@ -59,7 +59,7 @@ export const Nav: FC = () => {
       sx={{
         border: "none !important",
         outline: "none !important",
-        color: "#fff",
+        color: "#381f75",
 
         fontSize: "14px",
       }}
