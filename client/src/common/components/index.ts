@@ -9,5 +9,4 @@ export * from "./Modals/CreateRecomendedList/CreateRecomendedList";
 export * from "./MovieCardReccomended/MovieCardRecomended";
 export * from "./Modals/ShereMoviesLists/ShereMoviesList";
 export * from "./UI";
-export * from './Search/Search';
 export * from './SelectedMoviesPaper/index';
