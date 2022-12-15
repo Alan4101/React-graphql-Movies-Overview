@@ -12,7 +12,7 @@ import {
   // SEARCH_MOVIE,
 } from "../../services/graphql";
 // styles
-import { LoaderContainer } from "./Home.style";
+import { cardWrapperSX, LoaderContainer } from "./Home.style";
 import "react-toastify/dist/ReactToastify.css";
 
 // components
@@ -48,7 +48,7 @@ export const Home: FC = () => {
     data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500;
 
   const { selectedMovies, handleSelecMovie, handleClearList } = useMovie();
- 
+
   // console.log(movies)
   useEffect(() => {
     selectedMovies.length > 0
@@ -65,7 +65,7 @@ export const Home: FC = () => {
       ? toggleModal()
       : toast.warn("List is empty", toastOptions as ToastOptions);
   };
-  
+
   const renderMoviesCard = () => (
     <>
       {error ? (
@@ -76,9 +76,11 @@ export const Home: FC = () => {
         </LoaderContainer>
       ) : (
         data.movies.results.map((item: IMovie) => (
-          <Grid key={item.id} item xs={12} sm={6} md={4} lg={3} flexWrap="wrap">
-            <MovieCard movie={item} onCardSelect={handleSelecMovie} />
-          </Grid>
+          <MovieCard
+            key={item.id}
+            movie={item}
+            onCardSelect={handleSelecMovie}
+          />
         ))
       )}
     </>
@@ -86,14 +88,8 @@ export const Home: FC = () => {
 
   return (
     <Grid container spacing={2} sx={{ mt: "10px" }}>
-      <Grid item xs={12} md={8} sx={{ paddingBottom: "20px" }}>
-        <Grid
-          container
-          spacing={2}
-          sx={{ height: loading ? "calc(100vh - 250px)" : "100%" }}
-        >
-          {renderMoviesCard()}
-        </Grid>
+      <Grid item xs={12} md={12} sx={{ paddingBottom: "20px" }}>
+        <Grid sx={cardWrapperSX}>{renderMoviesCard()}</Grid>
         <Box
           sx={{
             display: "flex",
@@ -115,7 +111,6 @@ export const Home: FC = () => {
           isEmptySelectList={isEmptySelectList}
           hanleCreateList={hanleCreateList}
           onDeleteList={handleClearList}
-          
         />
       </Grid>
       <CreateRecomendedList

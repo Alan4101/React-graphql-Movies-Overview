@@ -45,3 +45,10 @@ export const ButtonWrapper = styled(Grid)(({ theme }) => ({
   justifyContent: "space-between",
   background: theme.palette.secondary.main,
 }));
+export const cardWrapperSX = {
+  display: "grid",
+  width: "100%",
+  gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+  position: "relative",
+  gridGap: "2rem",
+};

@@ -30,32 +30,19 @@ export const MovieCardSelected: FC<MovieCardSelectedprops> = ({
       }}
     >
       <CardMenu menuItems={menu} handleClickMenu={() => onDeleteMovie(movie)} />
-      <CardMedia
-        component="img"
-        sx={{ width: 100 }}
-        image={movie.poster}
-        alt={movie.title}
-      />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto", paddingRight: "20px" }}>
           <Typography sx={{ fontSize: "1.1rem" }} component="div" variant="h6">
             {movie.title}
           </Typography>
-          <Typography
-            variant="subtitle1"
-            color="text.secondary"
-            component="div"
-          >
-            {movie.releaseDate}
-          </Typography>
           <Typography variant={"body1"}>
-            {t("content.genres")}
+            {t("content.genres")}:
             <span> {movie?.genres ? movie.genres.join(", ") : "unknown"}</span>
           </Typography>
 
-          <MovieButton variant="outlined" onClick={() => handleGetMovie(movie)}>
+          {/* <MovieButton variant="outlined" onClick={() => handleGetMovie(movie)}>
             {t("selectedMovies.buttonTitle")}
-          </MovieButton>
+          </MovieButton> */}
         </CardContent>
       </Box>
     </Card>
