@@ -1,13 +1,13 @@
 import { LOCALES, SHOURT_LOCALES } from '../i18n/locales'
 
-export const saveTolocalStorage = (key: string, value: any) => {
+export const saveTolocalStorage = (key: string, value: unknown) => {
   if (!window || !window.localStorage) {
     return
   }
   window.localStorage.setItem(key, JSON.stringify(value))
 }
 
-export const getFromLocalStorage = (key: any) => {
+export const getFromLocalStorage = (key: string) => {
   if (!window || !window.localStorage) {
     return null
   }

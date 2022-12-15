@@ -1,5 +1,5 @@
+import React, { FC } from 'react'
 import { Container, Grid, Typography } from '@mui/material'
-import { FC } from 'react'
 import { useParams } from 'react-router-dom'
 
 export const RecommendedList: FC = () => {

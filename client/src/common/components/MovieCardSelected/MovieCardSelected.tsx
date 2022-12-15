@@ -5,13 +5,14 @@ import { Box, Card, CardContent, Typography } from '@mui/material'
 
 import { ISelectedMovie } from '../../../services/models/models'
 import { CardMenu } from '../CardMenu/CardMenu'
+import { MovieButton } from '../UI'
 
 interface MovieCardSelectedProps {
   movie: ISelectedMovie
   onDeleteMovie: (movie: ISelectedMovie) => void
   handleGetMovie: (movie: ISelectedMovie) => void
 }
-export const MovieCardSelected: FC<MovieCardSelectedProps> = ({ movie, onDeleteMovie }) => {
+export const MovieCardSelected: FC<MovieCardSelectedProps> = ({ movie, onDeleteMovie, handleGetMovie }) => {
   const { t } = useTranslation()
   const menu = [t('content.button.remove')]
 
@@ -34,9 +35,9 @@ export const MovieCardSelected: FC<MovieCardSelectedProps> = ({ movie, onDeleteM
             {t('content.genres')}:<span> {movie?.genres ? movie.genres.join(', ') : 'unknown'}</span>
           </Typography>
 
-          {/* <MovieButton variant="outlined" onClick={() => handleGetMovie(movie)}>
-            {t("selectedMovies.buttonTitle")}
-          </MovieButton> */}
+          <MovieButton variant='outlined' onClick={() => handleGetMovie(movie)}>
+            {t('selectedMovies.buttonTitle')}
+          </MovieButton>
         </CardContent>
       </Box>
     </Card>

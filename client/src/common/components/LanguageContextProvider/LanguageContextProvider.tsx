@@ -1,8 +1,8 @@
 import { FC, ReactNode, useReducer } from 'react'
-import { defaultContext, LanguageContext, languageReduser } from '../../../services/context/LanguageContext'
+import { defaultContext, LanguageContext, languageReducer } from '../../../services/context/LanguageContext'
 
 export const LanguageContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(languageReduser, {
+  const [state, dispatch] = useReducer(languageReducer, {
     locale: defaultContext
   })
   const value = { state, dispatch }

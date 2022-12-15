@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 // mui
 import { Box, Button, CardMedia, CircularProgress, Container, Grid, Typography, IconButton } from '@mui/material'
 // othe library
@@ -21,7 +21,7 @@ import { CreateAndDeleteDescrModal } from '../../common/components'
 import { MovieButton } from '../../common/components/UI'
 
 export const Movie: FC = () => {
-  const { id } = useParams<{ id: any }>()
+  const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { t } = useTranslation()
 
@@ -136,7 +136,7 @@ export const Movie: FC = () => {
           isUpdate={isUpdate}
           isOpenModal={isOpenModal}
           toggleModal={toggleModal}
-          value={movie && movie.userDescription}
+          value={movie.userDescription ?? ''}
           updateDescription={updateDescription}
         />
       )}

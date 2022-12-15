@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react'
 import { toast, ToastOptions } from 'react-toastify'
 import { useQuery, useMutation } from '@apollo/client'

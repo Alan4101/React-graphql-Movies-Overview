@@ -1,3 +1,3 @@
-import backgroungEmptyFilmList from "./selectMovie.png";
+import backgroungEmptyFilmList from './selectMovie.png'
 
-export { backgroungEmptyFilmList };
+export { backgroungEmptyFilmList }

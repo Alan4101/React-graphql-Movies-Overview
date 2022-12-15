@@ -33,30 +33,30 @@ const typography = {
     fontSize: '20px',
     fontWeight: 600,
     lineHeight: '32px',
-    color: palette!.text!.primary
+    color: palette?.text?.primary
   },
   h3: {
     fontSize: '32px',
     fontWeight: 500,
     lineHeight: '52px',
-    color: palette!.text!.primary
+    color: palette?.text?.primary
   },
   body2: {
     fontSize: '14px',
     fontWeight: 400,
     lineHeight: '26px',
-    color: palette!.text!.primary
+    color: palette?.text?.primary
   },
   body1: {
     fontSize: '16px',
     fontWeight: 400,
-    color: palette!.text!.primary
+    color: palette?.text?.primary
   },
 
   subtitle1: {
     fontSize: '16px',
     fontWeight: 400,
-    color: palette!.text!.primary
+    color: palette?.text?.primary
   }
 }
 const components: Components = {}
