@@ -1,5 +1,5 @@
 export * from './Nav/Nav'
-export * from './MovideCard/MovieCard'
+export * from './MovieCard/MovieCard'
 export * from './MovieCardSelected/MovieCardSelected'
 export * from './LanguageContextProvider/LanguageContextProvider'
 export * from './Modals/MainModal/MovieModal'
