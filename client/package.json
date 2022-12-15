@@ -26,7 +26,7 @@
     "react-i18next": "^11.18.3",
     "react-intl": "^6.0.5",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^2.1.3",
     "react-toastify": "^9.0.7",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
@@ -38,22 +38,6 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
   },
   "browserslist": {
     "production": [
@@ -69,18 +53,19 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.5.9",
-    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/addon-essentials": "^6.4.22",
     "@storybook/addon-interactions": "^6.5.9",
     "@storybook/addon-links": "^6.5.9",
     "@storybook/builder-webpack5": "^6.5.9",
     "@storybook/manager-webpack5": "^6.5.9",
     "@storybook/node-logger": "^6.5.9",
-    "@storybook/preset-create-react-app": "^4.1.2",
-    "@storybook/react": "^6.5.9",
+    "@storybook/preset-create-react-app": "^1.2.0",
+    "@storybook/react": "^6.1.21",
     "@storybook/testing-library": "0.0.13",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/storybook__react": "^5.2.1",
     "babel-plugin-named-exports-order": "0.0.2",
+    "eslint": "^8.29.0",
     "eslint-config-react-app": "^6.0.0",
     "prop-types": "^15.8.1",
     "storybook-addon-material-ui": "^0.9.0-alpha.24",
