@@ -20,9 +20,6 @@
 .container{
   position: relative;
 }
-.item{
-  position: relative !important;
-}
 .card:hover:before{
   background: rgba(0, 0, 0, 0.8);
   transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -58,9 +55,4 @@
   z-index: -1;
   transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
   background-color: rgba(0, 0, 0, 1);
-}
-.button{
-  position: absolute;
-  top: 0;
-  left: 0;
 }

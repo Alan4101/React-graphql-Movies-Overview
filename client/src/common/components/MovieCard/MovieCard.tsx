@@ -8,9 +8,9 @@ import { useMovie } from '../../../services/hooks'
 interface MovieCardProps {
   status?: boolean
   movie: IMovie
-  onCardSelect: (movie: IMovie) => void
+  onSelectMovie: (movie: IMovie) => void
 }
-export const MovieCard: FC<MovieCardProps> = ({ status, movie, onCardSelect }) => {
+export const MovieCard: FC<MovieCardProps> = ({ status, movie, onSelectMovie }) => {
   const { handleDeleteMove } = useMovie()
   return (
     <Grid className={classes.card}>
@@ -19,7 +19,7 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onCardSelect }) =
           <IconButton
             aria-label='add-movie'
             className={classes.button}
-            onClick={() => onCardSelect(movie)}
+            onClick={() => onSelectMovie(movie)}
             sx={sx.iconButton}
           >
             <Add />
@@ -27,19 +27,18 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onCardSelect }) =
         ) : (
           <IconButton
             aria-label='add-movie'
-            className={classes.button}
             onClick={() => handleDeleteMove(movie)}
             sx={sx.iconButton}
           >
             <Check />
           </IconButton>
         )}
-        <Box className={classes.item}>
-          <Typography sx={sx.textTitle} className={classes.title}>
+        <Box sx={sx.item}>
+          <Typography sx={sx.title} className={classes.title}>
             {movie.title}
           </Typography>
         </Box>
-        <Box className={classes.item}>
+        <Box sx={sx.item}>
           <Typography sx={sx.description} className={classes.description}>
             {movie.releaseDate}
           </Typography>
@@ -56,7 +55,7 @@ const sx = {
     display: 'grid',
     gridTemplateRows: '1fr 1fr'
   },
-  textTitle: {
+  title: {
     width: '100%',
     textAlign: 'center',
     color: 'white',
@@ -65,8 +64,22 @@ const sx = {
     padding: '5px',
     height: 'min-content'
   },
+  description: {
+    width: '100%',
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 400,
+    fontSize: '14px',
+    letterSpacing: '0.5px',
+    padding: '5px'
+  },
+  item: {
+    position: 'relative'
+  },
   iconButton: {
     position: 'absolute',
+    top: 0,
+    left: 0,
     width: '40px',
     height: '40px',
     color: '#fff',
@@ -78,13 +91,5 @@ const sx = {
       transition: '0.2s cubic-bezier(0.2, 0.8, 0.2, 1)'
     }
   },
-  description: {
-    width: '100%',
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 400,
-    fontSize: '14px',
-    letterSpacing: '0.5px',
-    padding: '5px'
-  }
+  
 }

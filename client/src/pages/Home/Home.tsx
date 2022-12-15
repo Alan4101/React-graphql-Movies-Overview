@@ -70,7 +70,7 @@ export const Home: FC = () => {
         </LoaderContainer>
       ) : (
         data.movies.results.map((item: IMovie) => (
-          <MovieCard key={item.id} movie={item} onCardSelect={handleSelecMovie} />
+          <MovieCard key={item.id} movie={item} onSelectMovie={handleSelecMovie} />
         ))
       )}
     </>
