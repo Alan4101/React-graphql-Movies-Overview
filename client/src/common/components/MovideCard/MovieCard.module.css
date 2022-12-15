@@ -38,20 +38,3 @@
   transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
   background-color: rgba(0, 0, 0, 1);
 }
-/* "eslintConfig": {
-  "extends": [
-    "react-app",
-    "react-app/jest"
-  ],
-  "overrides": [
-    {
-      "files": [
-        "**.stories.*"
-      ],
-      "rules": {
-        "import/no-anonymous-default-export": "off"
-      }
-    }
-  ]
-}, 
-*/
