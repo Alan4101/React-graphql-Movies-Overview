@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 // material ui
 import { ThemeProvider } from '@mui/material/styles'
 import { mainTheme } from './theme'

@@ -1,34 +1,34 @@
-import { FC, useState } from "react";
-import { IconButton, Menu, MenuItem } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import React, { FC, useState } from 'react'
+import { IconButton, Menu, MenuItem } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 interface CardMenuProps {
-  handleClickMenu: () => void;
-  menuItems: any[];
+  handleClickMenu: () => void
+  menuItems: string[]
 }
 
 export const CardMenu: FC<CardMenuProps> = ({ handleClickMenu, menuItems }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
   const handleSelectMenu = () => {
-    handleClose();
-    handleClickMenu();
-  };
+    handleClose()
+    handleClickMenu()
+  }
   return (
     <>
-      <IconButton sx={{ position: "absolute", right: 0 }} onClick={handleClick}>
-        <MoreVertIcon sx={{ color: "#ccc" }} />
+      <IconButton sx={{ position: 'absolute', right: 0 }} onClick={handleClick}>
+        <MoreVertIcon sx={{ color: '#ccc' }} />
       </IconButton>
       <Menu
-        id="long-menu"
+        id='long-menu'
         MenuListProps={{
-          "aria-labelledby": "long-button",
+          'aria-labelledby': 'long-button'
         }}
         anchorEl={anchorEl}
         open={open}
@@ -36,8 +36,8 @@ export const CardMenu: FC<CardMenuProps> = ({ handleClickMenu, menuItems }) => {
         PaperProps={{
           style: {
             // maxHeight: ITEM_HEIGHT * 4.5,
-            width: "20ch",
-          },
+            width: '20ch'
+          }
         }}
       >
         {menuItems.map((item, index) => (
@@ -47,5 +47,5 @@ export const CardMenu: FC<CardMenuProps> = ({ handleClickMenu, menuItems }) => {
         ))}
       </Menu>
     </>
-  );
-};
+  )
+}

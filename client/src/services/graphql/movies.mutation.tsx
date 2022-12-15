@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const ADD_MOVIE_TO_SELECTED = gql`
   mutation AddMovie(
@@ -20,7 +20,7 @@ export const ADD_MOVIE_TO_SELECTED = gql`
       genres: $genres
       movieId: $movieId
       overview: $overview
-      voteCount:$voteCount
+      voteCount: $voteCount
       userDescription: $userDescription
     ) {
       success
@@ -30,44 +30,36 @@ export const ADD_MOVIE_TO_SELECTED = gql`
       }
     }
   }
-`;
+`
 export const REMOVE_MOVIE = gql`
   mutation RemoveMovie($id: ID) {
     deleteMovie(_id: $id) {
       title
     }
   }
-`;
+`
 export const ADD_USER_DESCRIPTION = gql`
   mutation AddUserDescription($id: ID, $userDescription: String) {
     addUserDescription(_id: $id, userDescription: $userDescription) {
       title
     }
   }
-`;
+`
 // export const REMOVE_USER_DESCRIPTION = gql`
 //   mutation RemoveUserDescription($id: ID, ){
 
 //   }
 // `;
 export const CREATE_RECOMENDED_MOVIES = gql`
-  mutation CreateRecomendedMovie(
-    $title: String
-    $createdData: String
-    $movies: [MovieSelectedInput]
-  ) {
-    createRecomendedMovies(
-      title: $title
-      createdData: $createdData
-      movies: $movies
-    ) {
+  mutation CreateRecomendedMovie($title: String, $createdData: String, $movies: [MovieSelectedInput]) {
+    createRecomendedMovies(title: $title, createdData: $createdData, movies: $movies) {
       title
       movies {
         title
       }
     }
   }
-`;
+`
 export const FELETE_ALL_SELECTED_MOVIES = gql`
   mutation DeleteAll {
     deleteAll {
@@ -75,4 +67,4 @@ export const FELETE_ALL_SELECTED_MOVIES = gql`
       message
     }
   }
-`;
+`

@@ -7,12 +7,10 @@ import { useMovie } from '../../../services/hooks'
 
 interface MovieCardProps {
   status?: boolean
-  onDelete?: () => void
   movie: IMovie
   onCardSelect: (movie: IMovie) => void
 }
-export const MovieCard: FC<MovieCardProps> = ({ status, movie, onCardSelect, onDelete }) => {
-  // const [status, setStatus] = useState
+export const MovieCard: FC<MovieCardProps> = ({ status, movie, onCardSelect }) => {
   const { handleDeleteMove } = useMovie()
   return (
     <Grid className={classes.card}>

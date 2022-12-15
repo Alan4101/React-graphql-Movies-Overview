@@ -1,3 +1,3 @@
-export * from "./useMovie";
-export * from "./useControlModal";
-export * from './useDebounce';
+export * from './useMovie'
+export * from './useControlModal'
+export * from './useDebounce'

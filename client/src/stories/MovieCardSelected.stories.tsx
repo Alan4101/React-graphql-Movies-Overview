@@ -1,25 +1,22 @@
-import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { MovieCardSelected } from "../common/components";
-import { ISelectedMovie } from "./../services/models/models";
-import { movies } from "./sub";
-import { decorators } from './preview';
+import React from 'react'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { MovieCardSelected } from '../common/components'
+import { ISelectedMovie } from './../services/models/models'
+import { movies } from './sub'
+import { decorators } from './preview'
 export default {
-  title: "Example/Movie cards selected",
+  title: 'Example/Movie cards selected',
   component: MovieCardSelected,
   argTypes: {},
-  decorators,
+  decorators
+} as ComponentMeta<typeof MovieCardSelected>
 
-} as ComponentMeta<typeof MovieCardSelected>;
+const Template: ComponentStory<typeof MovieCardSelected> = args => <MovieCardSelected {...args} />
 
-const Template: ComponentStory<typeof MovieCardSelected> = (args) => (
-  <MovieCardSelected {...args} />
-);
-
-export const MovieMain = Template.bind({});
+export const MovieMain = Template.bind({})
 MovieMain.args = {
-  movie: movies[0] as ISelectedMovie,
-};
+  movie: movies[0] as ISelectedMovie
+}
 // export const MoviePrimary = Template.bind({});
 
 // MoviePrimary.args = {

@@ -1,6 +1,6 @@
 export enum PublicRoutes {
-  Home = "/",
-  Movie = "/:id",
-  Settings = "settings",
-  Recommended = "recomended",
+  Home = '/',
+  Movie = '/:id',
+  Settings = 'settings',
+  Recommended = 'recomended'
 }

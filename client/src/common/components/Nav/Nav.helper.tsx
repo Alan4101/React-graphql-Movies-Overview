@@ -1,15 +1,15 @@
-import SettingsIcon from "@mui/icons-material/Settings";
+import { Settings } from '@mui/icons-material'
 
 interface IMenuItem {
-  icon: JSX.Element;
-  title: string;
-  route: string;
+  icon: JSX.Element
+  title: string
+  route: string
 }
 export const menuItem: IMenuItem[] = [
   {
-    icon: <SettingsIcon />,
-    title: "page.home",
-    route: "/",
+    icon: <Settings />,
+    title: 'page.home',
+    route: '/'
   },
   // {
   //   icon: <SettingsIcon />,
@@ -17,8 +17,8 @@ export const menuItem: IMenuItem[] = [
   //   route: "settings",
   // },
   {
-    icon: <SettingsIcon />,
-    title: "page.recommended",
-    route: "recomended",
-  },
-];
+    icon: <Settings />,
+    title: 'page.recommended',
+    route: 'recomended'
+  }
+]

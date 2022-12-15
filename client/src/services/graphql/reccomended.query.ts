@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import { CORE_SELECTED_MOVIE_FIELDS } from "./fragment";
+import { gql } from '@apollo/client'
+import { CORE_SELECTED_MOVIE_FIELDS } from './fragment'
 
 export const GET_RECOMMENDED = gql`
   ${CORE_SELECTED_MOVIE_FIELDS}
@@ -13,4 +13,4 @@ export const GET_RECOMMENDED = gql`
       createdData
     }
   }
-`;
+`

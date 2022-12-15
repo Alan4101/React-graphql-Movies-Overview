@@ -1,4 +1,4 @@
 export enum LanguageAction {
-  reset = "reset",
-  setLocale = "setLocale",
+  reset = 'reset',
+  setLocale = 'setLocale'
 }

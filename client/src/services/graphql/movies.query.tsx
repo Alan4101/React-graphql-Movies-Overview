@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import { CORE_SELECTED_MOVIE_FIELDS } from "./fragment";
+import { gql } from '@apollo/client'
+import { CORE_SELECTED_MOVIE_FIELDS } from './fragment'
 
 export const GET_ALL_MOVIES = gql`
   query Movies($page: Int, $language: String) {
@@ -21,7 +21,7 @@ export const GET_ALL_MOVIES = gql`
       }
     }
   }
-`;
+`
 
 export const GET_SELECTED_MOVIES = gql`
   ${CORE_SELECTED_MOVIE_FIELDS}
@@ -31,7 +31,7 @@ export const GET_SELECTED_MOVIES = gql`
       ...CoreSelectedMovieFields
     }
   }
-`;
+`
 export const GET_GENRES = gql`
   query {
     genres {
@@ -39,7 +39,7 @@ export const GET_GENRES = gql`
       name
     }
   }
-`;
+`
 
 export const GET_MOVIE_BY_ID = gql`
   ${CORE_SELECTED_MOVIE_FIELDS}
@@ -48,10 +48,10 @@ export const GET_MOVIE_BY_ID = gql`
       ...CoreSelectedMovieFields
     }
   }
-`;
+`
 export const SEARCH_MOVIE = gql`
-  query SearchMovie($query: String, $language: String){
-    searchMovie(query: $query, language: $language){
+  query SearchMovie($query: String, $language: String) {
+    searchMovie(query: $query, language: $language) {
       results {
         adult
         title

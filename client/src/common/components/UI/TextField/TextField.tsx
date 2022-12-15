@@ -1,22 +1,20 @@
-import { FC } from "react";
-import { SxProps, TextField, Theme } from "@mui/material";
+import { FC } from 'react'
+import { SxProps, TextField, Theme } from '@mui/material'
 
-import classes from "./TextField.module.css";
+import classes from './TextField.module.css'
 interface TextFieldProps {
-  value: string | number;
-  label?: string;
-  type?: string;
-  multiline?: boolean;
-  rows?: number;
-  className?: string;
-  disabled?: boolean;
-  placeholder: string;
-  name?: string;
-  errorText?: string;
-  sx?: SxProps<Theme>;
-  onChange: (
-    value: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => void;
+  value: string | number
+  label?: string
+  type?: string
+  multiline?: boolean
+  rows?: number
+  className?: string
+  disabled?: boolean
+  placeholder: string
+  name?: string
+  errorText?: string
+  sx?: SxProps<Theme>
+  onChange: (value: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
 }
 
 export const MovieTextField: FC<TextFieldProps> = ({
@@ -30,7 +28,7 @@ export const MovieTextField: FC<TextFieldProps> = ({
   errorText,
   disabled,
   className,
-  onChange,
+  onChange
 }) => {
   return (
     <TextField
@@ -42,11 +40,11 @@ export const MovieTextField: FC<TextFieldProps> = ({
       name={name}
       error={Boolean(errorText)}
       type={type}
-      variant="outlined"
+      variant='outlined'
       onChange={onChange}
       multiline={multiline}
       rows={rows}
       className={className}
     />
-  );
-};
+  )
+}

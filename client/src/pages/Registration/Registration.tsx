@@ -1,5 +1,5 @@
-import { FC } from "react";
+import { FC } from 'react'
 
-export const Registartion:FC= ()=>{
-  return(<></>)
+export const Registartion: FC = () => {
+  return <></>
 }

@@ -9,8 +9,33 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "react/jsx-uses-vars": "error",
+    "react/jsx-uses-react": "error",
     // override standard, allows using `my 'string'` instead of "my 'string'" or 'my \'string\''
-    "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }]
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    // suppress errors for missing 'import React' in files
+    "react/react-in-jsx-scope": "off",
+    // allow jsx syntax in js files (for next.js project)
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".tsx",
+          ".ts"
+        ]
+      }
+    ]
   },
   "env": {
     "browser": true,
@@ -20,6 +45,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:@typescript-eslint/recommended"
   ],
   "overrides": [
@@ -28,6 +54,7 @@
         "**/*.stories.*"
       ],
       "rules": {
+        //should add ".ts" if typescript project
         "import/no-anonymous-default-export": "off"
       }
     }

@@ -1,4 +1,4 @@
-export * from "./reccomended.query";
-export * from "./movies.mutation";
+export * from './reccomended.query'
+export * from './movies.mutation'
 //query
-export * from "./movies.query";
+export * from './movies.query'

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const CORE_SELECTED_MOVIE_FIELDS = gql`
   fragment CoreSelectedMovieFields on MovieSelected {
@@ -13,4 +13,4 @@ export const CORE_SELECTED_MOVIE_FIELDS = gql`
     voteCount
     userDescription
   }
-`;
+`
