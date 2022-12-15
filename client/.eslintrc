@@ -19,7 +19,6 @@
   },
   "extends": [
     "eslint:recommended",
-    "standard-jsx",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
