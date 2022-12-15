@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC, useContext, useEffect, useState } from 'react'
 // mui
 import { CircularProgress, Grid, Pagination, Box } from '@mui/material'
@@ -20,7 +21,7 @@ import {
   CreateRecomendedList,
   // Filters,
   MovieCard,
-  SelectedMoviesPaper
+  // SelectedMoviesPaper
 } from '../../common/components'
 
 // other
@@ -43,10 +44,9 @@ export const Home: FC = () => {
     variables: { page, language: context?.state.locale || 'en-US' }
     // fetchPolicy: "no-cache",
   })
-
   const pagesCount = data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500
 
-  const { selectedMovies, handleSelecMovie, handleClearList } = useMovie()
+  const { selectedMovies, handleSelecMovie, handleClearList, handleDeleteMove } = useMovie()
 
   useEffect(() => {
     selectedMovies.length > 0 ? setIsEmptySelectList(true) : setIsEmptySelectList(false)
@@ -59,7 +59,9 @@ export const Home: FC = () => {
   const hanleCreateList = () => {
     isEmptySelectList ? toggleModal() : toast.warn('List is empty', toastOptions as ToastOptions)
   }
-
+  const getSelectedStatus = (id: string) => {
+    return selectedMovies.some(item => item.movieId === id)
+  }
   const renderMoviesCard = () => (
     <>
       {error ? (
@@ -70,7 +72,13 @@ export const Home: FC = () => {
         </LoaderContainer>
       ) : (
         data.movies.results.map((item: IMovie) => (
-          <MovieCard key={item.id} movie={item} onSelectMovie={handleSelecMovie} />
+          <MovieCard
+            key={item.id}
+            movie={item}
+            status={getSelectedStatus(item.id)}
+            onRemoveMovie={handleDeleteMove}
+            onSelectMovie={handleSelecMovie}
+          />
         ))
       )}
     </>
@@ -90,13 +98,13 @@ export const Home: FC = () => {
           {search.length === 0 ? <Pagination count={pagesCount} page={page} onChange={paginationHandler} /> : null}
         </Box>
       </Grid>
-      <Grid item xs={12} md={4}>
+      {/* <Grid item xs={12} md={4}>
         <SelectedMoviesPaper
           isEmptySelectList={isEmptySelectList}
           hanleCreateList={hanleCreateList}
           onDeleteList={handleClearList}
         />
-      </Grid>
+      </Grid> */}
       <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
 
       <ToastContainer />

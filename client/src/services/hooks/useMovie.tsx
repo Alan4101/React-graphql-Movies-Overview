@@ -34,7 +34,6 @@ export const useMovie = () => {
 
     return genresIds.map(id => genres.genres.find((item: any) => +item.id === id).name)
   }
-
   const handleAddMovieToSelected = (movie: IMovie) => {
     createMovie({
       variables: {
@@ -59,10 +58,13 @@ export const useMovie = () => {
     }
   }
 
-  const handleDeleteMove = (movie: any) => {
-    const filteredMovies = selectedMovies.filter(item => item._id !== movie._id)
+  const handleDeleteMove = (id: string) => {
+    console.log(id)
+    const filteredMovies = selectedMovies.filter(item => item.movieId !== id)
+    const deletetId = selectedMovies.find(item => item.movieId === id)
+    console.log('here')
     setSelectedMovies([...filteredMovies])
-    deleteMovie({ variables: { id: movie._id } })
+    deleteMovie({ variables: { deletetId } })
   }
 
   const handleClearList = () => {

@@ -3,15 +3,14 @@ import { Box, CardMedia, Grid, IconButton, Typography } from '@mui/material'
 import { IMovie } from '../../../services/models/models'
 import { Add, Check } from '@mui/icons-material'
 import classes from './MovieCard.module.css'
-import { useMovie } from '../../../services/hooks'
 
 interface MovieCardProps {
   status?: boolean
   movie: IMovie
+  onRemoveMovie: (movieId: string) => void
   onSelectMovie: (movie: IMovie) => void
 }
-export const MovieCard: FC<MovieCardProps> = ({ status, movie, onSelectMovie }) => {
-  const { handleDeleteMove } = useMovie()
+export const MovieCard: FC<MovieCardProps> = ({ status, movie, onSelectMovie, onRemoveMovie }) => {
   return (
     <Grid className={classes.card}>
       <Box sx={sx.container} className={classes.container}>
@@ -27,7 +26,7 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onSelectMovie }) 
         ) : (
           <IconButton
             aria-label='add-movie'
-            onClick={() => handleDeleteMove(movie)}
+            onClick={() => onRemoveMovie(movie.id)}
             sx={sx.iconButton}
           >
             <Check />

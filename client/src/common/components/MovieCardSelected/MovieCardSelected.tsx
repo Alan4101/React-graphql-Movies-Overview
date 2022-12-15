@@ -9,7 +9,7 @@ import { MovieButton } from '../UI'
 
 interface MovieCardSelectedProps {
   movie: ISelectedMovie
-  onDeleteMovie: (movie: ISelectedMovie) => void
+  onDeleteMovie: (id: string) => void
   handleGetMovie: (movie: ISelectedMovie) => void
 }
 export const MovieCardSelected: FC<MovieCardSelectedProps> = ({ movie, onDeleteMovie, handleGetMovie }) => {
@@ -25,7 +25,7 @@ export const MovieCardSelected: FC<MovieCardSelectedProps> = ({ movie, onDeleteM
         margin: '15px'
       }}
     >
-      <CardMenu menuItems={menu} handleClickMenu={() => onDeleteMovie(movie)} />
+      <CardMenu menuItems={menu} handleClickMenu={() => onDeleteMovie(movie.movieId ?? movie._id)} />
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <CardContent sx={{ flex: '1 0 auto', paddingRight: '20px' }}>
           <Typography sx={{ fontSize: '1.1rem' }} component='div' variant='h6'>
