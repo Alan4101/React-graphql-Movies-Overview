@@ -19,12 +19,18 @@ const palette: PaletteOptions = {
     paper: '#fff'
   },
   common: {
-    // dark: "#1A1538",
-    // gray: "#8B89A0",
+    // : '#f57c00',
+    // dark: '#ef6c00',
+    // contrastText: 'rgba(0, 0, 0, 0.87)'
   },
   text: {
     primary: '#464c71',
     secondary: '#8F94B6'
+  },
+  success: {
+    main: '#2e7d32',
+    light: 'rgb(0, 128, 0)',
+    dark: '#1b5e20'
   }
 }
 const typography = {
