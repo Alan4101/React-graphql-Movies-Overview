@@ -1,12 +1,11 @@
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 // mui
-import { Grid, Typography, Box, Divider } from '@mui/material'
+import { Grid } from '@mui/material'
 // lib
 import { useTranslation } from 'react-i18next'
 import { useMutation } from '@apollo/client'
 // components
-import { EmptyMovieList, SelectedMoviePaper } from '../../../pages/Home/Home.style'
 import { MovieButton } from '../UI'
 import { MovieCardSelected } from '../MovieCardSelected/MovieCardSelected'
 // other
@@ -14,7 +13,7 @@ import { ISelectedMovie } from '../../../services/models/models'
 import { useMovie } from '../../../services/hooks'
 import { FELETE_ALL_SELECTED_MOVIES } from '../../../services/graphql'
 
-import classes from './index.module.css'
+import * as M from './styles'
 
 interface SelectedMoviePaperProps {
   isEmptySelectList: boolean
@@ -41,8 +40,9 @@ export const SelectedMoviesPaper: FC<SelectedMoviePaperProps> = ({
   }
   return (
     <Grid container flexDirection='column'>
-      <SelectedMoviePaper>
-        <Typography
+      <Grid></Grid>
+      <M.MSelectedMoviePaper>s
+        {/* <Typography
           sx={{
             textAlign: 'center',
             margin: '15px 0',
@@ -51,8 +51,8 @@ export const SelectedMoviesPaper: FC<SelectedMoviePaperProps> = ({
           variant='h5'
         >
           {t('selectedMovies.titlePanel')}
-        </Typography>
-        <Divider />
+        </Typography> */}
+        {/* <Divider /> */}
         <Grid
           container
           sx={{
@@ -70,18 +70,18 @@ export const SelectedMoviesPaper: FC<SelectedMoviePaperProps> = ({
               />
             ))
           ) : (
-            <EmptyMovieList />
+            <M.EmptyMovieList />
           )}
         </Grid>
-      </SelectedMoviePaper>
-      <Box className={classes.buttonWrapper}>
+      </M.MSelectedMoviePaper>
+      <M.ButtonBox>
         <MovieButton sx={{ backgroundColor: '#fff' }} onClick={hanleCreateList} variant='outlined'>
           {t('content.button.createNewList')}
         </MovieButton>
         <MovieButton sx={{ backgroundColor: '#fff' }} onClick={handleCleanList} variant='outlined'>
           {t('content.button.clearList')}
         </MovieButton>
-      </Box>
+      </M.ButtonBox>
     </Grid>
   )
 }

@@ -1,8 +1,8 @@
-import { Box, Grid, Paper } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { backgroungEmptyFilmList } from '../../common/assets'
+import { backgroungEmptyFilmList } from '../../assets'
 
-export const SelectedMoviePaper = styled(Paper)(({ theme }) => ({
+const MSelectedMoviePaper = styled(Paper)(({ theme }) => ({
   height: 'calc(100vh - 200px)',
   position: 'sticky',
   overflowY: 'auto',
@@ -26,29 +26,16 @@ export const SelectedMoviePaper = styled(Paper)(({ theme }) => ({
     background: theme.palette.primary.light
   }
 }))
-export const EmptyMovieList = styled(Box)(() => ({
+const EmptyMovieList = styled(Box)(() => ({
   width: '100%',
   height: '200px',
   background: `url(${backgroungEmptyFilmList}) no-repeat center`,
   backgroundSize: 'contain',
   opacity: '.5'
 }))
-
-export const LoaderContainer = styled(Box)(() => ({
-  height: '100%',
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
-}))
-export const ButtonWrapper = styled(Grid)(({ theme }) => ({
-  justifyContent: 'space-between',
-  background: theme.palette.secondary.main
-}))
-export const cardWrapperSX = {
+const ButtonBox = styled(Box)({
   display: 'grid',
-  width: '100%',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-  position: 'relative',
-  gridGap: '2rem'
-}
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  gap: '10px'
+})
+export { MSelectedMoviePaper, EmptyMovieList, ButtonBox }

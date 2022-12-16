@@ -13,14 +13,14 @@ import {
   // SEARCH_MOVIE,
 } from '../../services/graphql'
 // styles
-import { cardWrapperSX, LoaderContainer } from './Home.style'
+import * as M from './styles'
 import 'react-toastify/dist/ReactToastify.css'
-
 // components
 import {
   CreateRecomendedList,
   // Filters,
   MovieCard,
+  SelectedMoviesPaper
   // SelectedMoviesPaper
 } from '../../common/components'
 
@@ -62,51 +62,41 @@ export const Home: FC = () => {
   const getSelectedStatus = (id: string) => {
     return selectedMovies.some(item => item.movieId === id)
   }
-  const renderMoviesCard = () => (
-    <>
-      {error ? (
-        <LoaderContainer>{t('content.error')}</LoaderContainer>
-      ) : loading ? (
-        <LoaderContainer>
-          <CircularProgress />
-        </LoaderContainer>
-      ) : (
-        data.movies.results.map((item: IMovie) => (
-          <MovieCard
-            key={item.id}
-            movie={item}
-            status={getSelectedStatus(item.id)}
-            onRemoveMovie={handleDeleteMove}
-            onSelectMovie={handleSelecMovie}
-          />
-        ))
-      )}
-    </>
-  )
 
   return (
     <Grid container spacing={2} sx={{ mt: '10px' }}>
       <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
-        <Grid sx={cardWrapperSX}>{renderMoviesCard()}</Grid>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            margin: '10px'
-          }}
-        >
-          {search.length === 0 ? <Pagination count={pagesCount} page={page} onChange={paginationHandler} /> : null}
-        </Box>
-      </Grid>
-      {/* <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4}>
         <SelectedMoviesPaper
           isEmptySelectList={isEmptySelectList}
           hanleCreateList={hanleCreateList}
           onDeleteList={handleClearList}
         />
-      </Grid> */}
+      </Grid>
+        <Grid sx={M.cardWrapperSX}>
+          {error ? (
+            <M.MLoaderContainer>{t('content.error')}</M.MLoaderContainer>
+          ) : loading ? (
+            <M.MLoaderContainer>
+              <CircularProgress />
+            </M.MLoaderContainer>
+          ) : (
+            data.movies.results.map((item: IMovie) => (
+              <MovieCard
+                key={item.id}
+                movie={item}
+                status={getSelectedStatus(item.id)}
+                onRemoveMovie={handleDeleteMove}
+                onSelectMovie={handleSelecMovie}
+              />
+            ))
+          )}
+        </Grid>
+        <Grid container sx={{ m: '10px' }}>
+          {search.length === 0 ? <Pagination count={pagesCount} page={page} onChange={paginationHandler} /> : null}
+        </Grid>
+      </Grid>
       <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
-
       <ToastContainer />
     </Grid>
   )

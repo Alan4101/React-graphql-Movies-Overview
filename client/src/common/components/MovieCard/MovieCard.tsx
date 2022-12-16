@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { Box } from '@mui/material'
 import { Add, Check } from '@mui/icons-material'
+
 import { IMovie } from '../../../services/models/models'
 import * as M from './styles'
 
