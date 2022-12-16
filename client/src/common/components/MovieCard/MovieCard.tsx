@@ -19,7 +19,7 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onSelectMovie, on
             aria-label='add-movie'
             className={classes.button}
             onClick={() => onSelectMovie(movie)}
-            sx={sx.iconButton}
+            sx={{ ...sx.iconButton, ...sx.addButton }}
           >
             <Add />
           </IconButton>
@@ -27,7 +27,7 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onSelectMovie, on
           <IconButton
             aria-label='add-movie'
             onClick={() => onRemoveMovie(movie.id)}
-            sx={sx.iconButton}
+            sx={{ ...sx.iconButton, ...sx.selectedButton }}
           >
             <Check />
           </IconButton>
@@ -85,10 +85,20 @@ const sx = {
     m: '5px',
     zIndex: 9999,
     '&:hover': {
-      background: '#e1770b',
-      color: '#381f75',
       transition: '0.2s cubic-bezier(0.2, 0.8, 0.2, 1)'
     }
   },
-  
+  selectedButton: {
+    bgcolor: 'green',
+    '&:hover': {
+      background: 'green',
+      color: '#381f75'
+    }
+  },
+  addButton: {
+    '&:hover': {
+      background: '#e1770b',
+      color: '#381f75'
+    }
+  }
 }

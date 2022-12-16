@@ -61,10 +61,10 @@ export const useMovie = () => {
   const handleDeleteMove = (id: string) => {
     console.log(id)
     const filteredMovies = selectedMovies.filter(item => item.movieId !== id)
-    const deletetId = selectedMovies.find(item => item.movieId === id)
-    console.log('here')
+    const deletetId = selectedMovies.find(item => item.movieId === id)?._id
     setSelectedMovies([...filteredMovies])
-    deleteMovie({ variables: { deletetId } })
+    console.log('id', deletetId)
+    deleteMovie({ variables: { id: deletetId } })
   }
 
   const handleClearList = () => {
