@@ -19,7 +19,7 @@
 
 First Tab:
 
-1. Inslatt all dep in all folder (server and client)
+1. Install all dep in both folders (server and client)
 
 ```sh
 npm install
