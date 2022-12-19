@@ -60,7 +60,7 @@ export const CREATE_RECOMENDED_MOVIES = gql`
     }
   }
 `
-export const FELETE_ALL_SELECTED_MOVIES = gql`
+export const DELETE_ALL_SELECTED_MOVIES = gql`
   mutation DeleteAll {
     deleteAll {
       success
