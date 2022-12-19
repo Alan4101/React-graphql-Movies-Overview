@@ -7,11 +7,9 @@ import { IMovie, ISelectedMovie } from '../models/models'
 import { toastOptions } from '../helpers/helper'
 import { ADD_MOVIE_TO_SELECTED, GET_GENRES, GET_SELECTED_MOVIES, REMOVE_MOVIE } from '../graphql'
 
-const MAX_SELECTED = 5
-
 export const useMovie = () => {
   const [selectedMovies, setSelectedMovies] = useState<ISelectedMovie[]>([])
-  const { data, refetch } = useQuery(GET_SELECTED_MOVIES)
+  const { data, refetch, loading } = useQuery(GET_SELECTED_MOVIES)
   const [deleteMovie] = useMutation(REMOVE_MOVIE)
   const [createMovie] = useMutation(ADD_MOVIE_TO_SELECTED)
   const { data: genres } = useQuery(GET_GENRES)
@@ -51,19 +49,15 @@ export const useMovie = () => {
   const handleSelecMovie = (movie: IMovie) => {
     const isNew = selectedMovies.some(item => item.movieId === movie.id)
 
-    if (!isNew && selectedMovies.length < MAX_SELECTED) {
+    if (!isNew) {
       handleAddMovieToSelected(movie)
-    } else {
-      toast.warn(isNew ? 'Movie is exist!' : '🦄 Take it easy! Only 5 films', toastOptions as ToastOptions)
     }
   }
 
   const handleDeleteMove = (id: string) => {
-    console.log(id)
     const filteredMovies = selectedMovies.filter(item => item.movieId !== id)
     const deletetId = selectedMovies.find(item => item.movieId === id)?._id
     setSelectedMovies([...filteredMovies])
-    console.log('id', deletetId)
     deleteMovie({ variables: { id: deletetId } })
   }
 
@@ -71,6 +65,7 @@ export const useMovie = () => {
     setSelectedMovies([])
   }
   return {
+    loading,
     selectedMovies,
     handleDeleteMove,
     handleSelecMovie,
