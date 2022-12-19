@@ -1,28 +1,50 @@
-import { useState, ReactNode, FC, useEffect, Children } from 'react'
+import { useState, ReactNode, FC, Children, TouchEvent, useMemo } from 'react'
 import { Grid, Box, IconButton } from '@mui/material'
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
-import { styles } from './styles'
+import { styles, ContentWrapper } from './styles'
 
 interface CarouselProps {
   children: ReactNode
+  count: number
 }
-const Carousel: FC<CarouselProps> = ({ children }) => {
+export const Carousel: FC<CarouselProps> = ({ children, count }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [listLenght, setListLenght] = useState(0)
+  const [touchPosition, setTouchPosition] = useState<number | null>(null)
 
-  useEffect(() => {
-    setListLenght(Children.count(children))
-  }, [children])
-
+  const listLength = useMemo(() => Children.count(children), [children])
   const prevSlide = () => {
     if (currentIndex > 0) {
       setCurrentIndex(prevState => prevState - 1)
     }
   }
   const nextSlide = () => {
-    if (currentIndex < listLenght - 1) {
+    if (currentIndex < listLength - count) {
       setCurrentIndex(prevState => prevState + 1)
     }
+  }
+  const handleTochStart = (e: TouchEvent) => {
+    const tochDown = e.touches[0].clientX
+    setTouchPosition(tochDown)
+  }
+  const handleTouchMove = (e: TouchEvent) => {
+    const touchDown = touchPosition
+
+    if (touchDown === null) {
+      return
+    }
+
+    const currentTouch = e.touches[0].clientX
+    const diff = touchDown - currentTouch
+
+    if (diff > 5) {
+      nextSlide()
+    }
+
+    if (diff < -5) {
+      prevSlide()
+    }
+
+    setTouchPosition(null)
   }
   return (
     <Grid container sx={styles.container}>
@@ -35,16 +57,17 @@ const Carousel: FC<CarouselProps> = ({ children }) => {
             <ArrowForwardIos />
           </IconButton>
         </Box>
-        <Box
+        <ContentWrapper
           sx={{
-            ...styles.contentWrapper,
-            transform: `translateX(-${currentIndex * (100 / 3)}%)`
+            transform: `translateX(-${currentIndex * (100 / count)}%)`
           }}
+          count={count}
+          onTouchStart={handleTochStart}
+          onTouchMove={handleTouchMove}
         >
           {children}
-        </Box>
+        </ContentWrapper>
       </Box>
     </Grid>
   )
 }
-export default Carousel
