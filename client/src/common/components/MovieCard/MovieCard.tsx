@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Box } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
 import { Add, Check } from '@mui/icons-material'
 
 import { IMovie } from '../../../services/models/models'
@@ -16,13 +16,17 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onSelectMovie, on
     <M.MCard>
       <M.MCardWrapper>
         {!status ? (
-          <M.MAddButton aria-label='add-movie' onClick={() => onSelectMovie(movie)}>
-            <Add />
-          </M.MAddButton>
+          <Tooltip title='Add to selected'>
+            <M.MAddButton aria-label='add-movie' onClick={() => onSelectMovie(movie)}>
+              <Add />
+            </M.MAddButton>
+          </Tooltip>
         ) : (
-          <M.MSelectedButton aria-label='remove-movie' onClick={() => onRemoveMovie(movie.id)}>
-            <Check />
-          </M.MSelectedButton>
+          <Tooltip title='Remove from selected'>
+            <M.MSelectedButton aria-label='remove-movie' onClick={() => onRemoveMovie(movie.id)}>
+              <Check />
+            </M.MSelectedButton>
+          </Tooltip>
         )}
         <Box sx={{ position: 'relative' }}>
           <M.MTittle>{movie.title}</M.MTittle>
