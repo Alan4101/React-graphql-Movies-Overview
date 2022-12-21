@@ -2,14 +2,14 @@ type Movies {
   page: Int!
   totalResults: Int!
   totalPages: Int!
-  results: [Movie]!
+  results: [Movie!]!
 }
 type Movie {
-  id: ID
+  id: ID!
   title: String!
   releaseDate: String!
-  poster: String
-  genreIds: [Int]
+  poster: String!
+  genreIds: [Int!]!
   adult: Boolean
   overview: String
   originalLanguage: String
@@ -20,29 +20,29 @@ type Movie {
 }
 type Genre {
   id: ID!
-  name: String
+  name: String!
 }
 type MovieSelected {
-  _id: ID
+  _id: ID!
   title: String!
   releaseDate: String!
-  poster: String
-  genres: [String]
+  poster: String!
+  genres: [String!]!
   adult: Boolean
-  movieId: String
+  movieId: String!
   overview: String
   voteCount: Int
   voteAverage: Float
   userDescription: String
 }
 input MovieSelectedInput {
-  _id: ID!
+ _id: ID!
   title: String!
   releaseDate: String!
-  poster: String
-  genres: [String]
+  poster: String!
+  genres: [String]!
   adult: Boolean
-  movieId: String
+  movieId: String!
   overview: String
   voteCount: Int
   voteAverage: Float
@@ -52,28 +52,21 @@ type RecomendedMovies {
   _id: ID
   title: String
   createdData: String
-  movies: [MovieSelected]
-}
-type Status {
-  success: Boolean
-}
-type CreateResponse {
-  success: Boolean!
-  message: String
-  movies: MovieSelected
+  movies: [MovieSelected!]!
 }
 type DeleteResponse {
   success: Boolean!
   message: String
 }
 type Query {
-  movies(page: Int, language: String): Movies
-  movieById(_id: ID!): MovieSelected
-  genres: [Genre]
-  getSelectedMovies: [MovieSelected]
-  getRecommended: [RecomendedMovies]
-  searchMovie(query: String, language: String): Movies
+  movies(page: Int, language: String): Movies!
+  movieById(_id: ID!): MovieSelected!
+  genres: [Genre!]!
+  getSelectedMovies: [MovieSelected!]!
+  getRecommended: [RecomendedMovies!]!
+  # searchMovie(query: String, language: String): Movies!
 }
+
 type Mutation {
   createMovie(
     title: String
@@ -85,18 +78,17 @@ type Mutation {
     overview: String
     voteCount: Int
     userDescription: String
-  ): CreateResponse
-  # ): MovieSelected
+  ): MovieSelected!
 
-  deleteMovie(_id: ID): MovieSelected
+  deleteMovie(_id: ID): MovieSelected!
 
-  addUserDescription(_id: ID, userDescription: String): MovieSelected
+  addUserDescription(_id: ID, userDescription: String): MovieSelected!
 
   createRecomendedMovies(
     title: String
     createdData: String
     movies: [MovieSelectedInput]
-  ): RecomendedMovies
+  ): RecomendedMovies!
 
-  deleteAll: DeleteResponse
+  deleteAll: DeleteResponse!
 }

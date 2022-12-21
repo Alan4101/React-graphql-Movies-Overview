@@ -14,17 +14,7 @@ const createMovie = async (_, args) => {
     voteCount: args.voteCount,
   })
     const movie = await newMovie.save()
-    if(!movie){
-      return {
-        success: false,
-        message: "Error",
-      }
-    }
-    return {
-      success: true,
-      message: "Movie was created.",
-      movies: movie
-    }
+    return movie
   
 }
 const deleteMovie = async (parent, {_id})=>{
@@ -56,11 +46,6 @@ const deleteAll =  async (_, args) =>{
     }
  
   }
-
-
-  
-  
-
 
 module.exports = {  
   createMovie,

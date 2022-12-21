@@ -10,7 +10,7 @@ const movieById = async (parent, args) => await getMovieById(args._id)
 
 const getRecommended = async (parent, args) => await getReccomendedMovies()
 
-const searchMovie = async (_, args) => await searchMovieByName(args.query, args.language)
+// const searchMovie = async (_, args) => await searchMovieByName(args.query, args.language)
 
 module.exports = { 
   movies, 
@@ -18,5 +18,5 @@ module.exports = {
   genres,
   movieById, 
   getRecommended,
-  searchMovie
+  // searchMovie
 }
