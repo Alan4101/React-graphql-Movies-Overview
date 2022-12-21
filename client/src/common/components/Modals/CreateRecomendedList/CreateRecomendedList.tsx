@@ -12,13 +12,13 @@ import { useMutation } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 // mutation
-import { CREATE_RECOMENDED_MOVIES } from '../../../../services/graphql'
 // other
-import { ISelectedMovie } from '../../../../services/models/models'
 import { MovieTextField } from '../../UI'
+import { CREATE_RECOMENDED_MOVIES } from '../../../../graphql'
+import { MovieSelected } from '../../../../__generated__/graphql'
 
 interface CreateRecomendedProps {
-  moviesList: ISelectedMovie[]
+  moviesList: MovieSelected[] 
   isOpenModal: boolean
   toggleModal: () => void
 }

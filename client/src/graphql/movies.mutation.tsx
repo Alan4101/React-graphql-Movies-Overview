@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client'
+import { graphql as gql } from '../__generated__/gql'
 
-export const ADD_MOVIE_TO_SELECTED = gql`
+export const ADD_MOVIE_TO_SELECTED = gql(`
   mutation AddMovie(
     $title: String
     $releaseDate: String
@@ -23,34 +23,34 @@ export const ADD_MOVIE_TO_SELECTED = gql`
       voteCount: $voteCount
       userDescription: $userDescription
     ) {
-      success
-      message
-      movies {
+        _id
+        movieId      
         title
-      }
+      
     }
   }
-`
-export const REMOVE_MOVIE = gql`
+`)
+export const REMOVE_MOVIE = gql(`
   mutation RemoveMovie($id: ID) {
     deleteMovie(_id: $id) {
-      title
+    _id
+    movieId
     }
   }
-`
-export const ADD_USER_DESCRIPTION = gql`
+`)
+export const ADD_USER_DESCRIPTION = gql(`
   mutation AddUserDescription($id: ID, $userDescription: String) {
     addUserDescription(_id: $id, userDescription: $userDescription) {
       title
     }
   }
-`
+`)
 // export const REMOVE_USER_DESCRIPTION = gql`
 //   mutation RemoveUserDescription($id: ID, ){
 
 //   }
 // `;
-export const CREATE_RECOMENDED_MOVIES = gql`
+export const CREATE_RECOMENDED_MOVIES = gql(`
   mutation CreateRecomendedMovie($title: String, $createdData: String, $movies: [MovieSelectedInput]) {
     createRecomendedMovies(title: $title, createdData: $createdData, movies: $movies) {
       title
@@ -59,12 +59,12 @@ export const CREATE_RECOMENDED_MOVIES = gql`
       }
     }
   }
-`
-export const DELETE_ALL_SELECTED_MOVIES = gql`
+`)
+export const DELETE_ALL_SELECTED_MOVIES = gql(`
   mutation DeleteAll {
     deleteAll {
       success
       message
     }
   }
-`
+`)

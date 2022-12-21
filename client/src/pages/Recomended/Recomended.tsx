@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { Grid, Container, Typography } from '@mui/material'
-import { GET_RECOMMENDED } from '../../services/graphql/reccomended.query'
 import { MovieCardRecommended, ShereMovieList } from '../../common/components'
 import { useControlModal } from '../../services/hooks'
 import { IRecommendedMovies } from '../../services/models/models'
+import { GET_RECOMMENDED } from '../../graphql'
 
 export const Recomended: FC = () => {
   const { loading, data, error } = useQuery(GET_RECOMMENDED)

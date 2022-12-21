@@ -1,41 +1,51 @@
-import { Box, Paper } from '@mui/material'
+import { Box } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { backgroungEmptyFilmList } from '../../assets'
 
-const MSelectedMoviePaper = styled(Paper)(({ theme }) => ({
-  height: 'calc(100vh - 200px)',
-  position: 'sticky',
-  overflowY: 'auto',
-  boxShadow: 'none !important',
-  '&::-webkit-scrollbar': {
-    width: '6px',
-    height: '6px',
-    borderRadius: '10px'
-  },
-  '&::-webkit-scrollbar-track': {
-    marginTop: '75px',
-    marginBottom: '75px',
-    marginLeft: '4px',
-    borderRadius: '10px'
-  },
-  '&::-webkit-scrollbar-thumb': {
-    background: theme.palette.primary.main,
-    borderRadius: '10px'
-  },
-  '&::-webkit-scrollbar-thumb:hover': {
-    background: theme.palette.primary.light
-  }
-}))
-const EmptyMovieList = styled(Box)(() => ({
+const Loading = styled(Box)({
+  height: '300px',
   width: '100%',
-  height: '200px',
-  background: `url(${backgroungEmptyFilmList}) no-repeat center`,
-  backgroundSize: 'contain',
-  opacity: '.5'
-}))
-const ButtonBox = styled(Box)({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: '10px'
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
 })
-export { MSelectedMoviePaper, EmptyMovieList, ButtonBox }
+const styles = {
+  wrapper: {
+    margin: '0 auto',
+    maxWidth: '800px',
+    width: '100%',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  carouselWrapper: {
+    padding: 1,
+    justifyContent: 'center'
+  },
+  carouselItem: {
+    position: 'relative',
+    padding: '10px',
+    borderRadius: '10px',
+    cursor: 'pointer'
+  },
+  img: { objectFit: 'contain', width: '100%', borderRadius: '10px' },
+  buttonWrapper: {
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+    bgcolor: 'red',
+    borderRadius: '50%'
+  },
+  controlButtonBox: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, 150px)',
+    gap: '10px',
+    paddingBottom: '20px',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button: { backgroundColor: '#fff', margin: 0 },
+  cardWrapper: {
+    justifyContent:'center',
+    flexWrap: 'nowrap'
+  }
+}
+export { Loading, styles }

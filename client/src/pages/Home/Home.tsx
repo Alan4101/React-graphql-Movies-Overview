@@ -1,34 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC, useContext, useEffect, useState } from 'react'
 // mui
-import { CircularProgress, Grid, Pagination, Box } from '@mui/material'
+import { CircularProgress, Grid, Pagination } from '@mui/material'
 // library
 import { ToastContainer, toast, ToastOptions } from 'react-toastify'
 
-import { useQuery } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 // mutation & query
-import {
-  GET_ALL_MOVIES
-  // SEARCH_MOVIE,
-} from '../../services/graphql'
+
 // styles
 import * as M from './styles'
 import 'react-toastify/dist/ReactToastify.css'
 // components
-import {
-  CreateRecomendedList,
-  // Filters,
-  MovieCard,
-  SelectedMoviesPaper
-  // SelectedMoviesPaper
-} from '../../common/components'
+import { CreateRecomendedList, MovieCard, SelectedMoviesPaper } from '../../common/components'
 
 // other
 import { useControlModal, useMovie } from './../../services/hooks'
-import { IMovie } from '../../services/models/models'
 import { LanguageContext } from '../../services/context/LanguageContext'
 import { toastOptions } from '../../services/helpers/helper'
+import { useGetAllMovies, useSelectedMovies } from '../../graphql/hooks'
+import { Movie } from '../../__generated__/graphql'
 
 export const Home: FC = () => {
   const { t } = useTranslation()
@@ -40,16 +30,17 @@ export const Home: FC = () => {
 
   const context = useContext(LanguageContext)
 
-  const { loading, data, error } = useQuery(GET_ALL_MOVIES, {
-    variables: { page, language: context?.state.locale || 'en-US' }
-    // fetchPolicy: "no-cache",
-  })
-  const pagesCount = data?.movies?.totalPages <= 500 ? data?.movies?.totalPages : 500
+  const { selectedMovies } = useSelectedMovies()
+  const { loading, error, movies } = useGetAllMovies(page, context?.state.locale || 'en-US')
 
-  const { selectedMovies, handleSelecMovie, handleClearList, handleDeleteMove } = useMovie()
+  const pagesCount = movies && movies?.totalPages <= 500 ? movies?.totalPages : 500
+
+  const { handleSelecMovie, handleDeleteMove } = useMovie()
 
   useEffect(() => {
-    selectedMovies.length > 0 ? setIsEmptySelectList(true) : setIsEmptySelectList(false)
+    if (selectedMovies) {
+      selectedMovies.length > 0 ? setIsEmptySelectList(true) : setIsEmptySelectList(false)
+    }
   }, [selectedMovies])
 
   const paginationHandler = (event: React.ChangeEvent<unknown>, page: number) => {
@@ -60,43 +51,45 @@ export const Home: FC = () => {
     isEmptySelectList ? toggleModal() : toast.warn('List is empty', toastOptions as ToastOptions)
   }
   const getSelectedStatus = (id: string) => {
-    return selectedMovies.some(item => item.movieId === id)
+    if (selectedMovies) return selectedMovies.some(item => item.movieId === id)
   }
-
+  if (error) {
+    return <M.MLoaderContainer>{t('content.error')}</M.MLoaderContainer>
+  }
+  if (loading) {
+    return (
+      <M.MLoaderContainer>
+        <CircularProgress />
+      </M.MLoaderContainer>
+    )
+  }
   return (
     <Grid container spacing={2} sx={{ mt: '10px' }}>
       <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
-        <Grid item xs={12} md={4}>
-        <SelectedMoviesPaper
-          isEmptySelectList={isEmptySelectList}
-          hanleCreateList={hanleCreateList}
-          onDeleteList={handleClearList}
-        />
-      </Grid>
+        <SelectedMoviesPaper onCreateList={hanleCreateList} />
+
         <Grid sx={M.cardWrapperSX}>
-          {error ? (
-            <M.MLoaderContainer>{t('content.error')}</M.MLoaderContainer>
-          ) : loading ? (
-            <M.MLoaderContainer>
-              <CircularProgress />
-            </M.MLoaderContainer>
-          ) : (
-            data.movies.results.map((item: IMovie) => (
-              <MovieCard
-                key={item.id}
-                movie={item}
-                status={getSelectedStatus(item.id)}
-                onRemoveMovie={handleDeleteMove}
-                onSelectMovie={handleSelecMovie}
-              />
-            ))
-          )}
+          {movies &&
+            movies.results.map(
+              (item: Movie) =>
+                item && (
+                  <MovieCard
+                    key={item.id}
+                    movie={item}
+                    status={getSelectedStatus(item.id)}
+                    onRemoveMovie={handleDeleteMove}
+                    onSelectMovie={handleSelecMovie}
+                  />
+                )
+            )}
         </Grid>
         <Grid container sx={{ m: '10px' }}>
           {search.length === 0 ? <Pagination count={pagesCount} page={page} onChange={paginationHandler} /> : null}
         </Grid>
       </Grid>
-      <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
+      {selectedMovies && (
+        <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
+      )}
       <ToastContainer />
     </Grid>
   )

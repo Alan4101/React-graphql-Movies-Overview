@@ -2,16 +2,16 @@ import { FC } from 'react'
 import { Box, Tooltip } from '@mui/material'
 import { Add, Check } from '@mui/icons-material'
 
-import { IMovie } from '../../../services/models/models'
 import * as M from './styles'
+import { Movie } from '../../../__generated__/graphql'
 
 interface MovieCardProps {
   status?: boolean
-  movie: IMovie
+  movie: Movie
   onRemoveMovie: (movieId: string) => void
-  onSelectMovie: (movie: IMovie) => void
+  onSelectMovie: (movie: Movie) => void
 }
-export const MovieCard: FC<MovieCardProps> = ({ status, movie, onSelectMovie, onRemoveMovie }) => {
+export const MovieCard: FC<MovieCardProps> = ({ status, movie, onRemoveMovie, onSelectMovie }) => {
   return (
     <M.MCard>
       <M.MCardWrapper>

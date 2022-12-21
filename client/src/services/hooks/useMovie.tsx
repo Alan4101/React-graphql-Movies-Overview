@@ -1,71 +1,80 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from 'react'
 import { toast, ToastOptions } from 'react-toastify'
 import { useQuery, useMutation } from '@apollo/client'
 
-import { IMovie, ISelectedMovie } from '../models/models'
 import { toastOptions } from '../helpers/helper'
-import { ADD_MOVIE_TO_SELECTED, GET_GENRES, GET_SELECTED_MOVIES, REMOVE_MOVIE } from '../graphql'
+import { ADD_MOVIE_TO_SELECTED, GET_GENRES, GET_SELECTED_MOVIES, REMOVE_MOVIE } from '../../graphql'
+import { useSelectedMovies } from './../../graphql/hooks'
+import { GenresQuery, Movie } from '../../__generated__/graphql'
 
 export const useMovie = () => {
-  const [selectedMovies, setSelectedMovies] = useState<ISelectedMovie[]>([])
-  const { data, refetch, loading } = useQuery(GET_SELECTED_MOVIES)
-  const [deleteMovie] = useMutation(REMOVE_MOVIE)
-  const [createMovie] = useMutation(ADD_MOVIE_TO_SELECTED)
-  const { data: genres } = useQuery(GET_GENRES)
+  const { selectedMovies } = useSelectedMovies()
 
-  useEffect(() => {
-    if (data) {
-      const arr = data.getSelectedMovies.map((item: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { __typename, ...partial } = item
-        return partial
-      })
-      setSelectedMovies(arr)
+  const [deleteMovie] = useMutation(
+    REMOVE_MOVIE
+    //   {
+    //   update(cache, {data: { deleteMovie }}){
+    //     cache.modify({
+    //       fields: {
+    //         getSelectedMovies(currentMovies = []){
+    //           return currentMovies.filter(movie => movie.ref !== ``)
+    //         }
+    //       }
+    //     })
+    //   }
+    // }
+  )
+  const [createMovie] = useMutation(ADD_MOVIE_TO_SELECTED, {
+    refetchQueries: [
+      { query: GET_SELECTED_MOVIES }, // DocumentNode object parsed with gql
+      'GetMovies' // Query name
+    ]
+  })
+  const { data: genres, error: genresError } = useQuery<GenresQuery>(GET_GENRES)
+
+  const getGenresName = (genresIds: number[]) => {
+    if (!genresIds && !genres) {
+      return []
     }
-  }, [data])
-
-  const getGenresName = (genresIds: number[] | undefined) => {
-    if (!genresIds) {
-      return null
+    if (genresError) {
+      return []
     }
+    if (genres) {
+      return genresIds.map(id => genres.genres.find(item => +item.id === id)?.name)
+    }
+  }
 
-    return genresIds.map(id => genres.genres.find((item: any) => +item.id === id).name)
-  }
-  const handleAddMovieToSelected = (movie: IMovie) => {
-    createMovie({
-      variables: {
-        ...movie,
-        genres: getGenresName(movie.genreIds),
-        movieId: movie.id,
-        userDescription: '',
-        voteCount: movie.voteCount
-      }
-    }).then(() => {
-      toast.success('Movie added!', toastOptions as ToastOptions)
-      refetch()
-    })
-  }
-  const handleSelecMovie = (movie: IMovie) => {
-    const isNew = selectedMovies.some(item => item.movieId === movie.id)
+  const handleSelecMovie = (movie: Movie) => {
+    const isNew = selectedMovies && selectedMovies.some(item => item.movieId === movie.id)
 
     if (!isNew) {
-      handleAddMovieToSelected(movie)
+      createMovie({
+        variables: {
+          ...movie,
+          // genres: getGenresName(movie.genreIds) ? getGenresName(movie.genreIds) : '',
+          genres: '',
+          movieId: movie.id,
+          userDescription: '',
+          voteCount: movie.voteCount
+        }
+      }).then(() => {
+        toast.success('Movie added!', toastOptions as ToastOptions)
+        // refetch()
+      })
     }
   }
 
   const handleDeleteMove = (id: string) => {
-    const filteredMovies = selectedMovies.filter(item => item.movieId !== id)
+    if (!selectedMovies) return undefined
+    // const filteredMovies = selectedMovies.filter(item => item.movieId !== id)
     const deletetId = selectedMovies.find(item => item.movieId === id)?._id
-    setSelectedMovies([...filteredMovies])
+    // setSelectedMovies([...filteredMovies])
     deleteMovie({ variables: { id: deletetId } })
   }
 
   const handleClearList = () => {
-    setSelectedMovies([])
+    // setSelectedMovies([])
   }
   return {
-    loading,
     selectedMovies,
     handleDeleteMove,
     handleSelecMovie,
