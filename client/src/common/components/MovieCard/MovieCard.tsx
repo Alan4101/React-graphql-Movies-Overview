@@ -3,7 +3,7 @@ import { Box, Tooltip } from '@mui/material'
 import { Add, Check } from '@mui/icons-material'
 
 import * as M from './styles'
-import { Movie } from '../../../__generated__/graphql'
+import { Movie } from '../../../graphql/__generated__/graphql'
 
 interface MovieCardProps {
   status?: boolean

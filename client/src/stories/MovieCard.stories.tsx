@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { MovieCard } from '../common/components'
 import { movies } from './sub'
 import { decorators } from './preview'
-import { Movie } from '../__generated__/graphql'
+import { Movie } from '../graphql/__generated__/graphql'
 
 export default {
   title: 'Example/MovieCard',

@@ -20,20 +20,6 @@ const styles = {
     padding: 1,
     justifyContent: 'center'
   },
-  carouselItem: {
-    position: 'relative',
-    padding: '10px',
-    borderRadius: '10px',
-    cursor: 'pointer'
-  },
-  img: { objectFit: 'contain', width: '100%', borderRadius: '10px' },
-  buttonWrapper: {
-    position: 'absolute',
-    top: '20px',
-    right: '20px',
-    bgcolor: 'red',
-    borderRadius: '50%'
-  },
   controlButtonBox: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, 150px)',

@@ -1,4 +1,4 @@
-import { graphql as gql } from '../__generated__/gql'
+import { graphql as gql } from './__generated__/gql'
 
 export const GET_ALL_MOVIES = gql(`
   query Movies($page: Int, $language: String) {

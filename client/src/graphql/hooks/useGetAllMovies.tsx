@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { MoviesQuery } from '../../__generated__/graphql'
+import { MoviesQuery } from '../__generated__/graphql'
 import { GET_ALL_MOVIES } from '../movies.query'
 
 const useGetAllMovies = (page: number, language: string) => {

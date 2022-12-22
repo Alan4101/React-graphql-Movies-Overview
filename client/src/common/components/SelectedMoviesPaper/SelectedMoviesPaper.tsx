@@ -1,44 +1,26 @@
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
-// mui
-import { Grid, Box, IconButton, CircularProgress, Tooltip, useMediaQuery } from '@mui/material'
-// lib
-import { useMutation } from '@apollo/client'
-// components
-// other
-import { useMovie } from '../../../services/hooks'
+import { Grid, Box, CircularProgress, useMediaQuery } from '@mui/material'
+
+import { useTranslation } from 'react-i18next'
 
 import { Carousel, MovieButton } from '../UI'
+import SlideItem from '../SlideItem/SlideItem'
+
+import { useMovie } from '../../../services/hooks'
+
+import { useSelectedMovies } from '../../../graphql'
 import * as M from './styles'
-import { useTranslation } from 'react-i18next'
-import { DeleteOutline } from '@mui/icons-material'
-import { MovieSelected } from '../../../__generated__/graphql'
-import { DELETE_ALL_SELECTED_MOVIES } from '../../../graphql'
-import useSelectedMovies from './../../../graphql/hooks/useSelectedMovies';
 
 interface SelectedMoviePaperProps {
   onCreateList: () => void
 }
 export const SelectedMoviesPaper: FC<SelectedMoviePaperProps> = ({ onCreateList }) => {
-  const navigate = useNavigate()
   const { t } = useTranslation()
   const matches = useMediaQuery('(max-width:425px)')
-  const { handleDeleteMove, handleClearList } = useMovie()
-  const {selectedMovies, loading, error} = useSelectedMovies()
 
-  const [deleteAll] = useMutation(DELETE_ALL_SELECTED_MOVIES)
+  const { handleDeleteAllMovies } = useMovie()
+  const { selectedMovies, loading, error } = useSelectedMovies()
 
-  const handleOpenMoviePage = (movie: MovieSelected) => {
-    navigate(`${movie._id}`)
-  }
-  const handleCleanList = () => {
-    deleteAll()
-    handleClearList()
-  }
-  const onDeleteMovie = (e: React.MouseEvent<HTMLElement>, id: string) => {
-    e.stopPropagation()
-    handleDeleteMove(id)
-  }
   if (error) {
     return null
   }
@@ -50,47 +32,16 @@ export const SelectedMoviesPaper: FC<SelectedMoviePaperProps> = ({ onCreateList 
       </M.Loading>
     )
   }
-
+  const renderSelectedMovies = () =>
+    selectedMovies && selectedMovies.map(movie => <SlideItem key={movie._id} movie={movie} />)
   return (
     <Grid container sx={M.styles.wrapper}>
       <Grid container sx={M.styles.carouselWrapper}>
         {selectedMovies && selectedMovies.length > 3 ? (
-          <Carousel count={matches ? 1 : 3}>
-            {selectedMovies.map(movie => (
-              <Tooltip key={movie && movie._id} title='Open movie page'>
-                <Grid sx={M.styles.carouselItem} onClick={() => handleOpenMoviePage(movie)}>
-                  <Box component='img' src={movie.poster} sx={M.styles.img} />
-                  <Box sx={M.styles.buttonWrapper}>
-                    <Tooltip title='Remove movie' placement='bottom'>
-                      <IconButton
-                        onClick={(e: React.MouseEvent<HTMLElement>) => onDeleteMovie(e, movie.movieId ?? movie._id)}
-                      >
-                        <DeleteOutline />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </Grid>
-              </Tooltip>
-            ))}
-          </Carousel>
+          <Carousel count={matches ? 1 : 4}>{renderSelectedMovies()}</Carousel>
         ) : (
           <Grid container sx={M.styles.cardWrapper}>
-            {selectedMovies && selectedMovies.map(movie => (
-              <Tooltip key={movie._id} title='Open movie page'>
-                <Grid sx={M.styles.carouselItem} onClick={() => handleOpenMoviePage(movie)}>
-                  <Box component='img' src={movie.poster} sx={M.styles.img} />
-                  <Box sx={M.styles.buttonWrapper}>
-                    <Tooltip title='Remove movie' placement='bottom'>
-                      <IconButton
-                        onClick={(e: React.MouseEvent<HTMLElement>) => onDeleteMovie(e, movie.movieId ?? movie._id)}
-                      >
-                        <DeleteOutline />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </Grid>
-              </Tooltip>
-            ))}
+            {renderSelectedMovies()}
           </Grid>
         )}
       </Grid>
@@ -98,7 +49,7 @@ export const SelectedMoviesPaper: FC<SelectedMoviePaperProps> = ({ onCreateList 
         <MovieButton sx={M.styles.button} onClick={onCreateList} variant='outlined'>
           {t('content.button.createNewList')}
         </MovieButton>
-        <MovieButton sx={M.styles.button} onClick={handleCleanList} variant='outlined'>
+        <MovieButton sx={M.styles.button} onClick={handleDeleteAllMovies} variant='outlined'>
           {t('content.button.clearList')}
         </MovieButton>
       </Box>

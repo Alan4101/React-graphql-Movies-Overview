@@ -1,13 +1,19 @@
 import { useLazyQuery } from '@apollo/client'
 import { GET_MOVIE_BY_ID } from '../movies.query'
+import { useEffect } from 'react'
 
-const useGetSelectedMoviesById = () => {
-  const [getMovie, { data, loading, error }] = useLazyQuery(GET_MOVIE_BY_ID)
+const useGetSelectedMoviesById = (id: string | undefined) => {
+  const [getMovie, { data, loading, error, refetch }] = useLazyQuery(GET_MOVIE_BY_ID)
+  useEffect(() => {
+    if (id) {
+      getMovie({ variables: { id } })
+    }
+  }, [id])
   return {
-    getMovie,
     movie: data?.movieById,
     loading,
-    error
+    error,
+    refetchMovie: refetch
   }
 }
 export default useGetSelectedMoviesById

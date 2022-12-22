@@ -1,4 +1,4 @@
-import { graphql as gql } from '../__generated__/gql'
+import { graphql as gql } from './__generated__/gql'
 
 export const ADD_MOVIE_TO_SELECTED = gql(`
   mutation AddMovie(

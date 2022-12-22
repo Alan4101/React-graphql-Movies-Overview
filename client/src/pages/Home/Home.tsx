@@ -1,24 +1,17 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
-// mui
 import { CircularProgress, Grid, Pagination } from '@mui/material'
-// library
 import { ToastContainer, toast, ToastOptions } from 'react-toastify'
-
 import { useTranslation } from 'react-i18next'
-// mutation & query
 
-// styles
-import * as M from './styles'
-import 'react-toastify/dist/ReactToastify.css'
-// components
 import { CreateRecomendedList, MovieCard, SelectedMoviesPaper } from '../../common/components'
-
 // other
 import { useControlModal, useMovie } from './../../services/hooks'
 import { LanguageContext } from '../../services/context/LanguageContext'
 import { toastOptions } from '../../services/helpers/helper'
-import { useGetAllMovies, useSelectedMovies } from '../../graphql/hooks'
-import { Movie } from '../../__generated__/graphql'
+import { Movie, useGetAllMovies, useSelectedMovies } from '../../graphql'
+// styles
+import * as M from './styles'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const Home: FC = () => {
   const { t } = useTranslation()
@@ -36,7 +29,7 @@ export const Home: FC = () => {
   const pagesCount = movies && movies?.totalPages <= 500 ? movies?.totalPages : 500
 
   const { handleSelecMovie, handleDeleteMove } = useMovie()
-
+  
   useEffect(() => {
     if (selectedMovies) {
       selectedMovies.length > 0 ? setIsEmptySelectList(true) : setIsEmptySelectList(false)
@@ -66,7 +59,7 @@ export const Home: FC = () => {
   return (
     <Grid container spacing={2} sx={{ mt: '10px' }}>
       <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
-        <SelectedMoviesPaper onCreateList={hanleCreateList} />
+        {isEmptySelectList && <SelectedMoviesPaper onCreateList={hanleCreateList} />}
 
         <Grid sx={M.cardWrapperSX}>
           {movies &&

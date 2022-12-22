@@ -1,61 +1,47 @@
 import React, { FC, useEffect, useState } from 'react'
-// mui
 import { Box, Button, CardMedia, CircularProgress, Container, Grid, Typography, IconButton } from '@mui/material'
-// othe library
+import { Delete, Edit, KeyboardReturn } from '@mui/icons-material'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useMutation } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
+import { useMutation } from '@apollo/client'
 
-// query, mutation
+import { CreateAndDeleteDescrModal, MovieButton } from '../../common/components'
 
-//other
-//style
-import classes from './Movie.module.css'
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn'
-//components
-import { CreateAndDeleteDescrModal } from '../../common/components'
-import { MovieButton } from '../../common/components/UI'
-import { useGetSelectedMoviesById } from '../../graphql/hooks'
-import { ADD_USER_DESCRIPTION } from '../../graphql'
+import { useControlModal } from '../../services/hooks'
+import { ADD_USER_DESCRIPTION, useGetSelectedMoviesById } from '../../graphql'
+
+import { styles } from './styles'
 
 export const Movie: FC = () => {
   const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
   const { t } = useTranslation()
-
-  // const [movie, setMovie] = useState<ISelectedMovie>()
-  const [isOpenModal, setIsOpenModal] = useState(false)
-  // const { loading, data, error, refetch } = useQuery(GET_MOVIE_BY_ID, {
-  //   variables: { id }
-  // })
-  const { getMovie, movie, loading, error } = useGetSelectedMoviesById()
-  const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION)
-
+  const navigate = useNavigate()
   const [isUpdate, setIsUpdate] = useState(false)
 
-  useEffect(() => {
-    id && getMovie({ variables: { id } })
-  }, [id])
+  const [isOpenModal, toggleModal] = useControlModal()
 
-  const toggleModal = () => {
-    setIsOpenModal(!isOpenModal)
-  }
+  const { movie, loading, error, refetchMovie } = useGetSelectedMoviesById(id)
+
+  const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION)
+
+  useEffect(() => {
+    if (movie && movie.userDescription) {
+      setIsUpdate(true)
+    }
+  }, [movie])
 
   const handleEditDescription = () => {
     toggleModal()
   }
   const handleRemoveDescription = () => {
-    // addUserDescription({ variables: { id, userDescription: '' } }).then(() => refetch())
-    addUserDescription({ variables: { id, userDescription: '' } })
+    addUserDescription({ variables: { id, userDescription: '' } }).then(() => refetchMovie())
   }
 
   const updateDescription = (value: string) => {
     addUserDescription({ variables: { id, userDescription: value } })
       .then(() => {
         toggleModal()
-        // refetch()
+        refetchMovie()
       })
       .catch(error => console.log(error))
   }
@@ -66,13 +52,13 @@ export const Movie: FC = () => {
   if (error) {
     return (
       <Grid>
-        <Typography>Error: {error.message}</Typography>
+        <Typography>Error: {error.name}</Typography>
       </Grid>
     )
   }
   if (loading && !movie) {
     return (
-      <Grid sx={{ width: '100%', height: '90vh' }}>
+      <Grid container sx={{ width: '100%', height: '90vh', justifyContent: 'center', alignItems: 'center' }}>
         <CircularProgress />
       </Grid>
     )
@@ -85,7 +71,7 @@ export const Movie: FC = () => {
         </Grid>
         <Grid container item lg={12} md={12} xs={12} mt={4}>
           <Grid item lg={3} md={3} xs={12}>
-            <Box className={classes.pictureWrapper}>
+            <Box sx={styles.pictureWrapper}>
               <CardMedia
                 sx={{
                   width: '150px',
@@ -115,10 +101,10 @@ export const Movie: FC = () => {
                 </Grid>
                 <Grid item md={2}>
                   <IconButton onClick={handleEditDescription}>
-                    <EditIcon />
+                    <Edit />
                   </IconButton>
                   <IconButton onClick={handleRemoveDescription}>
-                    <DeleteIcon />
+                    <Delete />
                   </IconButton>
                 </Grid>
                 <Grid item md={12} xs={12}>
@@ -131,7 +117,7 @@ export const Movie: FC = () => {
           </Grid>
           <Grid item md={12} justifyContent='center'>
             <MovieButton variant='outlined' onClick={handleReturnToHomePage}>
-              <KeyboardReturnIcon sx={{ paddingRight: '5px' }} />
+              <KeyboardReturn sx={{ paddingRight: '5px' }} />
               {t('content.button.goback')}
             </MovieButton>
           </Grid>

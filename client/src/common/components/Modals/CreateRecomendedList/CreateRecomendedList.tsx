@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next'
 // other
 import { MovieTextField } from '../../UI'
 import { CREATE_RECOMENDED_MOVIES } from '../../../../graphql'
-import { MovieSelected } from '../../../../__generated__/graphql'
+import { MovieSelected } from '../../../../graphql/__generated__/graphql'
 
 interface CreateRecomendedProps {
   moviesList: MovieSelected[] 
