@@ -32,3 +32,7 @@ export const changeLanguage = (language: string) => {
       return SHOURT_LOCALES.EN
   }
 }
+export const getOriginPosterPath = async (path: string) => {
+  const res = await fetch(`https://image.tmdb.org/t/p/original/${path}`)
+  return res.url
+}

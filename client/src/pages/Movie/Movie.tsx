@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from 'react'
-import { Box, Button, CardMedia, CircularProgress, Container, Grid, Typography, IconButton } from '@mui/material'
+import { FC, useEffect, useState } from 'react'
+import { Box, Button, CircularProgress, Grid, Typography, IconButton, Container } from '@mui/material'
 import { Delete, Edit, KeyboardReturn } from '@mui/icons-material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +9,7 @@ import { CreateAndDeleteDescrModal, MovieButton } from '../../common/components'
 
 import { useControlModal } from '../../services/hooks'
 import { ADD_USER_DESCRIPTION, useGetSelectedMoviesById } from '../../graphql'
+import { getOriginPosterPath } from '../../utils'
 
 import { styles } from './styles'
 
@@ -17,12 +18,25 @@ export const Movie: FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [isUpdate, setIsUpdate] = useState(false)
+  const [background, setBackground] = useState<string>('')
 
   const [isOpenModal, toggleModal] = useControlModal()
 
   const { movie, loading, error, refetchMovie } = useGetSelectedMoviesById(id)
 
   const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION)
+  useEffect(() => {
+    if (movie && movie.backdropPath) {
+      const imgPath = movie.backdropPath.split('/').at(-1)
+      if (imgPath) {
+        const pathPoster = async () => {
+          const bg = await getOriginPosterPath(imgPath)
+          setBackground(bg)
+        }
+        pathPoster()
+      }
+    }
+  }, [movie])
 
   useEffect(() => {
     if (movie && movie.userDescription) {
@@ -30,9 +44,6 @@ export const Movie: FC = () => {
     }
   }, [movie])
 
-  const handleEditDescription = () => {
-    toggleModal()
-  }
   const handleRemoveDescription = () => {
     addUserDescription({ variables: { id, userDescription: '' } }).then(() => refetchMovie())
   }
@@ -58,49 +69,42 @@ export const Movie: FC = () => {
   }
   if (loading && !movie) {
     return (
-      <Grid container sx={{ width: '100%', height: '90vh', justifyContent: 'center', alignItems: 'center' }}>
+      <Grid container sx={styles.loaderContainer}>
         <CircularProgress />
       </Grid>
     )
   }
   return (
-    <Grid container>
-      <Container>
-        <Grid item lg={12} md={12} xs={12}>
-          <Typography variant='h2'>{movie?.title}</Typography>
-        </Grid>
-        <Grid container item lg={12} md={12} xs={12} mt={4}>
-          <Grid item lg={3} md={3} xs={12}>
-            <Box sx={styles.pictureWrapper}>
-              <CardMedia
-                sx={{
-                  width: '150px',
-                  height: '200px'
-                }}
-                image={movie?.poster}
-                component='img'
-                alt={movie?.title}
-              />
-            </Box>
+    <Grid container sx={styles.mainContainer}>
+      <Box component='img' src={background} sx={styles.backgroundPicture} />
+      <Container maxWidth='lg' sx={styles.wrapper}>
+        <Grid sx={styles.content}>
+          <Grid item sx={styles.pictureWrapper}>
+            <Box sx={styles.poster} src={movie?.poster} component='img' alt={movie?.title} />
           </Grid>
-          <Grid item lg={9} md={9} xs={12}>
-            <Typography variant='h5'> {t('content.genres')}:</Typography>
-            <Typography>{movie?.genres ? movie.genres.join(', ') : 'unknown'}</Typography>
-            <Typography variant='h5'>{t('content.realeaseData')}: </Typography>
-            <Typography variant='body1'>{movie?.releaseDate}</Typography>
-            <Typography variant='h5'>Vote count</Typography>
-            <Typography variant='body1'>{movie?.voteCount}</Typography>
-            <Grid>
-              <Typography variant='h5'>{t('content.overview')} </Typography>
-              <Typography variant='body1'>{movie?.overview}</Typography>
-            </Grid>
+
+          <Grid container item>
+            <Box sx={{ width: '100%' }}>
+              <Typography component='div' sx={styles.title}>
+                {movie?.title}
+              </Typography>
+              <Typography sx={styles.text}>
+                {movie?.releaseDate} | {movie?.genres ? movie.genres.join(', ') : ''} |
+              </Typography>
+            </Box>
+
+            <Box sx={styles.overviewText}>
+              <Typography variant='body1' sx={styles.contrastText}>
+                {movie?.overview}
+              </Typography>
+            </Box>
             {movie?.userDescription && movie?.userDescription?.length > 0 ? (
               <Grid container>
                 <Grid item md={10}>
                   <Typography variant='h5'>{t('content.userOverview')}</Typography>
                 </Grid>
                 <Grid item md={2}>
-                  <IconButton onClick={handleEditDescription}>
+                  <IconButton onClick={toggleModal}>
                     <Edit />
                   </IconButton>
                   <IconButton onClick={handleRemoveDescription}>
@@ -112,26 +116,29 @@ export const Movie: FC = () => {
                 </Grid>
               </Grid>
             ) : (
-              <Button onClick={toggleModal}>{t('content.button.addreview')}</Button>
+              <Button variant='text' sx={{ color: '#fff', textDecoration: 'underline' }} onClick={toggleModal}>
+                {t('content.button.addreview')}
+              </Button>
             )}
           </Grid>
           <Grid item md={12} justifyContent='center'>
-            <MovieButton variant='outlined' onClick={handleReturnToHomePage}>
+            <MovieButton variant='text' onClick={handleReturnToHomePage}>
               <KeyboardReturn sx={{ paddingRight: '5px' }} />
               {t('content.button.goback')}
             </MovieButton>
           </Grid>
         </Grid>
-        {movie && (
-          <CreateAndDeleteDescrModal
-            isUpdate={isUpdate}
-            isOpenModal={isOpenModal}
-            toggleModal={toggleModal}
-            value={movie.userDescription ?? ''}
-            updateDescription={updateDescription}
-          />
-        )}
       </Container>
+
+      {movie && (
+        <CreateAndDeleteDescrModal
+          isUpdate={isUpdate}
+          isOpenModal={isOpenModal}
+          toggleModal={toggleModal}
+          value={movie.userDescription ?? ''}
+          updateDescription={updateDescription}
+        />
+      )}
     </Grid>
   )
 }
