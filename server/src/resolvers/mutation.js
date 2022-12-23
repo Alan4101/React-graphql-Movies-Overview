@@ -12,6 +12,7 @@ const createMovie = async (_, args) => {
     overview: args.overview,
     userDescription: args.userDescription,
     voteCount: args.voteCount,
+    backdropPath: args.backdropPath,
   })
     const movie = await newMovie.save()
     return movie

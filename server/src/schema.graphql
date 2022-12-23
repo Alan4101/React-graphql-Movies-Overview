@@ -34,6 +34,7 @@ type MovieSelected {
   voteCount: Int
   voteAverage: Float
   userDescription: String
+  backdropPath: String
 }
 input MovieSelectedInput {
  _id: ID!
@@ -47,6 +48,7 @@ input MovieSelectedInput {
   voteCount: Int
   voteAverage: Float
   userDescription: String
+  backdropPath: String
 }
 type RecomendedMovies {
   _id: ID
@@ -64,7 +66,6 @@ type Query {
   genres: [Genre!]!
   getSelectedMovies: [MovieSelected!]!
   getRecommended: [RecomendedMovies!]!
-  # searchMovie(query: String, language: String): Movies!
 }
 
 type Mutation {
@@ -78,6 +79,7 @@ type Mutation {
     overview: String
     voteCount: Int
     userDescription: String
+    backdropPath: String
   ): MovieSelected!
 
   deleteMovie(_id: ID): MovieSelected!

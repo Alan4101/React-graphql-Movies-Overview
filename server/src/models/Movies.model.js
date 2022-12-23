@@ -10,5 +10,6 @@ const Movies = new Schema({
   overview: String,
   voteCount: Number,
   userDescription: String,
+  backdropPath: String,
 })
 module.exports = model("Movie", Movies)
