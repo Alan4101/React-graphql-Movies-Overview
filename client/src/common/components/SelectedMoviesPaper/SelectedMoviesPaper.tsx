@@ -38,7 +38,7 @@ export const SelectedMoviesPaper: FC<SelectedMoviePaperProps> = ({ onCreateList 
     <Grid container sx={M.styles.wrapper}>
       <Grid container sx={M.styles.carouselWrapper}>
         {selectedMovies && selectedMovies.length > 3 ? (
-          <Carousel count={matches ? 1 : 4}>{renderSelectedMovies()}</Carousel>
+          <Carousel count={matches ? 1 : 3}>{renderSelectedMovies()}</Carousel>
         ) : (
           <Grid container sx={M.styles.cardWrapper}>
             {renderSelectedMovies()}
