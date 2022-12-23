@@ -22,8 +22,8 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 // other
 import { LanguageContext } from '../../../services/context/LanguageContext'
-import { changeLanguage } from '../../../utils/utils'
 import { MenuSidebar } from '../MenuSideBar/MenuSideBar'
+import { changeLanguage } from '../../../utils'
 
 type Languages = 'en-US' | 'uk-UA'
 
@@ -70,13 +70,14 @@ export const Nav: FC = () => {
   )
 
   return (
-    <Box sx={{ width: '250' }}>
+    <Box>
       <AppBar position='static'>
         <Toolbar
           sx={{
             width: '100%',
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            height: '68px'
           }}
         >
           <Hidden only={['lg', 'xl']}>

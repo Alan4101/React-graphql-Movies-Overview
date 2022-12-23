@@ -20,7 +20,7 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ isSideBar, toggleDrawer, chi
   return (
     <>
       {isSideBar ? (
-        <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer}>
+        <Box role='presentation' onClick={toggleDrawer}>
           <List>
             {menuItem.map(item => (
               <Link component={RouterLink} to={item.route} key={item.route}>
