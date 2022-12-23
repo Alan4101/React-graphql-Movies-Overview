@@ -1,4 +1,4 @@
-import { graphql as gql } from './__generated__/gql'
+import { graphql as gql } from './__generated__/'
 
 export const ADD_MOVIE_TO_SELECTED = gql(`
   mutation AddMovie(
@@ -11,6 +11,7 @@ export const ADD_MOVIE_TO_SELECTED = gql(`
     $overview: String
     $userDescription: String
     $voteCount: Int
+    $backdropPath: String
   ) {
     createMovie(
       title: $title
@@ -22,6 +23,7 @@ export const ADD_MOVIE_TO_SELECTED = gql(`
       overview: $overview
       voteCount: $voteCount
       userDescription: $userDescription
+      backdropPath: $backdropPath
     ) {
         _id
         movieId      

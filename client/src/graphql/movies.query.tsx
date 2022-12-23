@@ -1,4 +1,4 @@
-import { graphql as gql } from './__generated__/gql'
+import { graphql as gql } from './__generated__/'
 
 export const GET_ALL_MOVIES = gql(`
   query Movies($page: Int, $language: String) {
@@ -35,6 +35,7 @@ export const GET_SELECTED_MOVIES = gql(`
     overview
     voteCount
     userDescription
+    backdropPath
     }
   }
 `)
@@ -60,6 +61,7 @@ export const GET_MOVIE_BY_ID = gql(`
     overview
     voteCount
     userDescription
+    backdropPath
     }
   }
 `)
