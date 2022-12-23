@@ -7,7 +7,7 @@ import { DeleteOutline } from '@mui/icons-material'
 
 import {styles} from './styles'
 import { useMovie } from '../../../services/hooks'
-import { MovieSelected } from '../../../graphql/__generated__/graphql'
+import { MovieSelected } from '../../../graphql/__generated__/'
 
 interface OwnProps {
   movie: MovieSelected
