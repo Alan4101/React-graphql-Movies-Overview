@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { GetMoviesQuery } from '../__generated__/graphql'
+import { GetMoviesQuery } from '../__generated__/'
 import { GET_SELECTED_MOVIES } from '../movies.query'
 
 const useSelectedMovies = () => {

@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
-import { CircularProgress, Grid, Pagination } from '@mui/material'
+import { CircularProgress, Container, Grid, Pagination } from '@mui/material'
 import { ToastContainer, toast, ToastOptions } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 
@@ -29,7 +29,7 @@ export const Home: FC = () => {
   const pagesCount = movies && movies?.totalPages <= 500 ? movies?.totalPages : 500
 
   const { handleSelecMovie, handleDeleteMove } = useMovie()
-  
+
   useEffect(() => {
     if (selectedMovies) {
       selectedMovies.length > 0 ? setIsEmptySelectList(true) : setIsEmptySelectList(false)
@@ -57,33 +57,35 @@ export const Home: FC = () => {
     )
   }
   return (
-    <Grid container spacing={2} sx={{ mt: '10px' }}>
-      <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
-        {isEmptySelectList && <SelectedMoviesPaper onCreateList={hanleCreateList} />}
+    <Container maxWidth='xl'>
+      <Grid container spacing={2} sx={{ mt: '10px' }}>
+        <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
+          {isEmptySelectList && <SelectedMoviesPaper onCreateList={hanleCreateList} />}
 
-        <Grid sx={M.cardWrapperSX}>
-          {movies &&
-            movies.results.map(
-              (item: Movie) =>
-                item && (
-                  <MovieCard
-                    key={item.id}
-                    movie={item}
-                    status={getSelectedStatus(item.id)}
-                    onRemoveMovie={handleDeleteMove}
-                    onSelectMovie={handleSelecMovie}
-                  />
-                )
-            )}
+          <Grid sx={M.cardWrapperSX}>
+            {movies &&
+              movies.results.map(
+                (item: Movie) =>
+                  item && (
+                    <MovieCard
+                      key={item.id}
+                      movie={item}
+                      status={getSelectedStatus(item.id)}
+                      onRemoveMovie={handleDeleteMove}
+                      onSelectMovie={handleSelecMovie}
+                    />
+                  )
+              )}
+          </Grid>
+          <Grid container sx={{ m: '10px' }}>
+            {search.length === 0 ? <Pagination count={pagesCount} page={page} onChange={paginationHandler} /> : null}
+          </Grid>
         </Grid>
-        <Grid container sx={{ m: '10px' }}>
-          {search.length === 0 ? <Pagination count={pagesCount} page={page} onChange={paginationHandler} /> : null}
-        </Grid>
+        {selectedMovies && (
+          <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
+        )}
+        <ToastContainer />
       </Grid>
-      {selectedMovies && (
-        <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
-      )}
-      <ToastContainer />
-    </Grid>
+    </Container>
   )
 }
