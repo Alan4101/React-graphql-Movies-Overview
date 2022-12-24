@@ -74,6 +74,7 @@ export const Movie: FC = () => {
       </Grid>
     )
   }
+  console.log(movie)
   return (
     <Grid container sx={styles.mainContainer}>
       <Box component='img' src={background} sx={styles.backgroundPicture} />
@@ -89,7 +90,7 @@ export const Movie: FC = () => {
                 {movie?.title}
               </Typography>
               <Typography sx={styles.text}>
-                {movie?.releaseDate} | {movie?.genres ? movie.genres.join(', ') : ''} |
+                {movie?.releaseDate} | {movie?.genres ? movie.genres.join(', ') : ''} | {movie?.voteAverage}
               </Typography>
             </Box>
 

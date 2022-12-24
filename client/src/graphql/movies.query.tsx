@@ -36,6 +36,7 @@ export const GET_SELECTED_MOVIES = gql(`
     voteCount
     userDescription
     backdropPath
+    voteAverage
     }
   }
 `)
@@ -62,6 +63,7 @@ export const GET_MOVIE_BY_ID = gql(`
     voteCount
     userDescription
     backdropPath
+    voteAverage
     }
   }
 `)

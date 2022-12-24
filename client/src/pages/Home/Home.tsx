@@ -49,6 +49,8 @@ export const Home: FC = () => {
   if (error) {
     return <M.MLoaderContainer>{t('content.error')}</M.MLoaderContainer>
   }
+  console.log(movies);
+  
   if (loading) {
     return (
       <M.MLoaderContainer>

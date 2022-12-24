@@ -37,7 +37,7 @@ type MovieSelected {
   backdropPath: String
 }
 input MovieSelectedInput {
- _id: ID!
+  _id: ID!
   title: String!
   releaseDate: String!
   poster: String!
@@ -80,6 +80,7 @@ type Mutation {
     voteCount: Int
     userDescription: String
     backdropPath: String
+    voteAverage: Float
   ): MovieSelected!
 
   deleteMovie(_id: ID): MovieSelected!

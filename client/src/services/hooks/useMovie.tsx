@@ -82,7 +82,8 @@ export const useMovie = () => {
           movieId: movie.id,
           userDescription: '',
           voteCount: movie.voteCount,
-          backdropPath: movie.backdropPath
+          backdropPath: movie.backdropPath,
+          voteAverage: movie.voteAverage
         }
       }).then(() => {
         toast.success('Movie added!', toastOptions as ToastOptions)

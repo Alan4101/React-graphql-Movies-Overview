@@ -12,6 +12,7 @@ export const ADD_MOVIE_TO_SELECTED = gql(`
     $userDescription: String
     $voteCount: Int
     $backdropPath: String
+    $voteAverage: Float
   ) {
     createMovie(
       title: $title
@@ -24,6 +25,7 @@ export const ADD_MOVIE_TO_SELECTED = gql(`
       voteCount: $voteCount
       userDescription: $userDescription
       backdropPath: $backdropPath
+      voteAverage: $voteAverage
     ) {
         _id
         movieId      
