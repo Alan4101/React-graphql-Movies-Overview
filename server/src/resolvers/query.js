@@ -1,8 +1,16 @@
-const {getPopular, getMovies, getGenres, getMovieById, getReccomendedMovies, searchMovieByName } = require('../modules/movies/index');
+const {
+  getPopular,
+  getMovies,
+  getGenres,
+  getMovieById,
+  getReccomendedMovies,
+  getCredits,
+} = require("../modules/movies/index")
 
-const movies = async (parent, args) => await getPopular(args.page, args.language);
+const movies = async (parent, args) =>
+  await getPopular(args.page, args.language)
 
-const getSelectedMovies = async (parent, args) => await getMovies();
+const getSelectedMovies = async (parent, args) => await getMovies()
 
 const genres = async (parent, args) => await getGenres()
 
@@ -10,13 +18,14 @@ const movieById = async (parent, args) => await getMovieById(args._id)
 
 const getRecommended = async (parent, args) => await getReccomendedMovies()
 
-// const searchMovie = async (_, args) => await searchMovieByName(args.query, args.language)
+const credits = async (parent, args) =>
+  await getCredits(args.movieId, args.language)
 
-module.exports = { 
-  movies, 
+module.exports = {
+  movies,
   getSelectedMovies,
   genres,
-  movieById, 
+  movieById,
   getRecommended,
-  // searchMovie
+  credits,
 }
