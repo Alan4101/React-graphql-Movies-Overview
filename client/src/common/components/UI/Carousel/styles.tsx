@@ -11,7 +11,13 @@ export const ContentWrapper = styled(Box)<OwnProps>(({ theme, count }) => ({
   '&>*': {
     width: `calc(100% / ${count})`,
     flexShrink: 0,
-    flexGrow: 1
+    flexGrow: 1,
+    [theme.breakpoints.down(1023)]:{
+      width: 'calc(100% / 3)'
+    },
+    [theme.breakpoints.down(769)]:{
+      width: 'calc(100% / 2)'
+    },
   }
 }))
 export const styles = {
@@ -30,6 +36,7 @@ export const styles = {
   },
   buttonWrapper: {
     position: 'absolute',
+    left: 0,
     width: '100%',
     height: '100%'
   },
@@ -40,12 +47,13 @@ export const styles = {
     top: '50%',
     transform: 'translateY(-50%)',
     zIndex: 9,
-    color: 'red'
+    color: 'red',
+    padding: 0
   },
   leftButton: {
     left: 0
   },
   rightButton: {
-    right: 0
+    right: '-6px'
   }
 }

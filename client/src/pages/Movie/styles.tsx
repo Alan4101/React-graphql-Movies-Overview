@@ -37,17 +37,17 @@ export const styles = {
   content: (theme: Theme) => ({
     display: 'grid',
 
-    gridTemplate: '1fr / 1fr 2fr',
-
+    gridTemplate: '1fr 1fr/ minmax(min-content, 200px) minmax(min-content, auto)',
     position: 'relative',
+    gap: '15px',
     zIndex: 2,
     backgroundColor: 'rgba(0,0,0, .6)',
     boxShadow: '0 15px 30px rgba(0, 0, 0, 0.5)',
     padding: '15px',
-    [theme.breakpoints.down(780)]: {
-      gridTemplate: '1fr 2fr/ 1fr',
-      height: '100%'
-    }
+    // [theme.breakpoints.down(780)]: {
+    //   gridTemplate: '1fr 2fr/ 1fr',
+    //   height: '100%'
+    // }
   }),
   pictureWrapper: {
     position: 'relative',
@@ -63,6 +63,9 @@ export const styles = {
     transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
     backgroundColor: 'rgba(0, 0, 0, 1)',
     objectFit: 'cover'
+  },
+  detailsContainer:{
+    height: 'fit-content'
   },
   text: {
     color: '#fff'
@@ -85,10 +88,24 @@ export const styles = {
       margin: '0.5em 0'
     }
   }),
+  buttonBackContainer: {
+    display: 'grid',
+    alignSelf: 'end'
+  },
+  buttonBack:(theme: Theme)=>({
+    color: theme.palette.secondary.light,
+    border:`1px solid ${theme.palette.secondary.main}` 
+  }),
   loaderContainer: {
     width: '100%',
     height: '90vh',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  castContainer: {
+    display: 'grid',
+    // maxWidth: '800px',
+    height: 'fit-content',
+    alignSelf: 'end'
   }
 }

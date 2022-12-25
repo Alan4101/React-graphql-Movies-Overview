@@ -1,14 +1,15 @@
 import { FC, useEffect, useState } from 'react'
-import { Box, Button, CircularProgress, Grid, Typography, IconButton, Container } from '@mui/material'
-import { Delete, Edit, KeyboardReturn } from '@mui/icons-material'
+import { Box, CircularProgress, Grid, Typography, Container } from '@mui/material'
+// import { Delete, Edit, KeyboardReturn } from '@mui/icons-material'
+import { KeyboardReturn } from '@mui/icons-material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from '@apollo/client'
 
-import { CreateAndDeleteDescrModal, MovieButton } from '../../common/components'
+import { ActorItem, Carousel, CreateAndDeleteDescrModal, MovieButton } from '../../common/components'
 
 import { useControlModal } from '../../services/hooks'
-import { ADD_USER_DESCRIPTION, useGetSelectedMoviesById } from '../../graphql'
+import { ADD_USER_DESCRIPTION, Cast, useCredits, useGetSelectedMoviesById } from '../../graphql'
 import { getOriginPosterPath } from '../../utils'
 
 import { styles } from './styles'
@@ -25,6 +26,8 @@ export const Movie: FC = () => {
   const { movie, loading, error, refetchMovie } = useGetSelectedMoviesById(id)
 
   const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION)
+  const { castList, getCredits } = useCredits()
+
   useEffect(() => {
     if (movie && movie.backdropPath) {
       const imgPath = movie.backdropPath.split('/').at(-1)
@@ -36,6 +39,9 @@ export const Movie: FC = () => {
         pathPoster()
       }
     }
+    if (movie) {
+      getCredits({ variables: { movieId: movie.movieId, language: 'en-US' } })
+    }
   }, [movie])
 
   useEffect(() => {
@@ -44,9 +50,9 @@ export const Movie: FC = () => {
     }
   }, [movie])
 
-  const handleRemoveDescription = () => {
-    addUserDescription({ variables: { id, userDescription: '' } }).then(() => refetchMovie())
-  }
+  // const handleRemoveDescription = () => {
+  //   addUserDescription({ variables: { id, userDescription: '' } }).then(() => refetchMovie())
+  // }
 
   const updateDescription = (value: string) => {
     addUserDescription({ variables: { id, userDescription: value } })
@@ -74,17 +80,17 @@ export const Movie: FC = () => {
       </Grid>
     )
   }
-  console.log(movie)
+
   return (
     <Grid container sx={styles.mainContainer}>
       <Box component='img' src={background} sx={styles.backgroundPicture} />
       <Container maxWidth='lg' sx={styles.wrapper}>
         <Grid sx={styles.content}>
-          <Grid item sx={styles.pictureWrapper}>
+          <Grid sx={styles.pictureWrapper}>
             <Box sx={styles.poster} src={movie?.poster} component='img' alt={movie?.title} />
           </Grid>
 
-          <Grid container item>
+          <Grid sx={styles.detailsContainer} container>
             <Box sx={{ width: '100%' }}>
               <Typography component='div' sx={styles.title}>
                 {movie?.title}
@@ -99,7 +105,7 @@ export const Movie: FC = () => {
                 {movie?.overview}
               </Typography>
             </Box>
-            {movie?.userDescription && movie?.userDescription?.length > 0 ? (
+            {/* {movie?.userDescription && movie?.userDescription?.length > 0 ? (
               <Grid container>
                 <Grid item md={10}>
                   <Typography variant='h5'>{t('content.userOverview')}</Typography>
@@ -120,13 +126,18 @@ export const Movie: FC = () => {
               <Button variant='text' sx={{ color: '#fff', textDecoration: 'underline' }} onClick={toggleModal}>
                 {t('content.button.addreview')}
               </Button>
-            )}
+            )} */}
           </Grid>
-          <Grid item md={12} justifyContent='center'>
-            <MovieButton variant='text' onClick={handleReturnToHomePage}>
+          <Grid sx={styles.buttonBackContainer}>
+            <MovieButton sx={styles.buttonBack} variant='outlined' onClick={handleReturnToHomePage}>
               <KeyboardReturn sx={{ paddingRight: '5px' }} />
               {t('content.button.goback')}
             </MovieButton>
+          </Grid>
+          <Grid sx={styles.castContainer}>
+            <Carousel config={{ countSlide: 4, arrowGap: 15 }}>
+              {castList && castList.map(actor => <ActorItem key={actor.creditId} actor={actor as Cast} />)}
+            </Carousel>
           </Grid>
         </Grid>
       </Container>

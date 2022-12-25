@@ -14,6 +14,56 @@ export type Scalars = {
   Float: number;
 };
 
+export type Cast = CastAndCrew & {
+  __typename?: 'Cast';
+  adult: Scalars['Boolean'];
+  castId: Scalars['ID'];
+  character?: Maybe<Scalars['String']>;
+  creditId: Scalars['ID'];
+  gender?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
+  knownForDepartment?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  order?: Maybe<Scalars['Int']>;
+  originalName: Scalars['String'];
+  popularit?: Maybe<Scalars['Float']>;
+  profilePath: Scalars['String'];
+};
+
+export type CastAndCrew = {
+  adult: Scalars['Boolean'];
+  creditId: Scalars['ID'];
+  gender?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
+  knownForDepartment?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  originalName: Scalars['String'];
+  popularit?: Maybe<Scalars['Float']>;
+  profilePath: Scalars['String'];
+};
+
+export type Credits = {
+  __typename?: 'Credits';
+  cast: Array<Cast>;
+  crew: Array<Crew>;
+  id: Scalars['ID'];
+};
+
+export type Crew = CastAndCrew & {
+  __typename?: 'Crew';
+  adult: Scalars['Boolean'];
+  creditId: Scalars['ID'];
+  department: Scalars['String'];
+  gender?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
+  job: Scalars['String'];
+  knownForDepartment?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  originalName: Scalars['String'];
+  popularit?: Maybe<Scalars['Float']>;
+  profilePath: Scalars['String'];
+};
+
 export type DeleteResponse = {
   __typename?: 'DeleteResponse';
   message?: Maybe<Scalars['String']>;
@@ -125,11 +175,18 @@ export type MutationDeleteMovieArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  credits: Credits;
   genres: Array<Genre>;
   getRecommended: Array<RecomendedMovies>;
   getSelectedMovies: Array<MovieSelected>;
   movieById: MovieSelected;
   movies: Movies;
+};
+
+
+export type QueryCreditsArgs = {
+  language?: InputMaybe<Scalars['String']>;
+  movieId?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -222,6 +279,14 @@ export type GetMovieByIdQueryVariables = Exact<{
 
 export type GetMovieByIdQuery = { __typename?: 'Query', movieById: { __typename?: 'MovieSelected', _id: string, title: string, poster: string, adult?: boolean | null, movieId: string, genres: Array<string>, releaseDate: string, overview?: string | null, voteCount?: number | null, userDescription?: string | null, backdropPath?: string | null, voteAverage?: number | null } };
 
+export type CreditsQueryVariables = Exact<{
+  movieId?: InputMaybe<Scalars['ID']>;
+  language?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CreditsQuery = { __typename?: 'Query', credits: { __typename?: 'Credits', id: string, cast: Array<{ __typename?: 'Cast', name: string, profilePath: string, id: string, creditId: string, adult: boolean, gender?: number | null, originalName: string }> } };
+
 
 export const AddMovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddMovie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"releaseDate"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"adult"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"poster"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"genres"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"movieId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"overview"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userDescription"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"voteCount"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"backdropPath"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"voteAverage"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMovie"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"Argument","name":{"kind":"Name","value":"releaseDate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"releaseDate"}}},{"kind":"Argument","name":{"kind":"Name","value":"adult"},"value":{"kind":"Variable","name":{"kind":"Name","value":"adult"}}},{"kind":"Argument","name":{"kind":"Name","value":"poster"},"value":{"kind":"Variable","name":{"kind":"Name","value":"poster"}}},{"kind":"Argument","name":{"kind":"Name","value":"genres"},"value":{"kind":"Variable","name":{"kind":"Name","value":"genres"}}},{"kind":"Argument","name":{"kind":"Name","value":"movieId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"movieId"}}},{"kind":"Argument","name":{"kind":"Name","value":"overview"},"value":{"kind":"Variable","name":{"kind":"Name","value":"overview"}}},{"kind":"Argument","name":{"kind":"Name","value":"voteCount"},"value":{"kind":"Variable","name":{"kind":"Name","value":"voteCount"}}},{"kind":"Argument","name":{"kind":"Name","value":"userDescription"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userDescription"}}},{"kind":"Argument","name":{"kind":"Name","value":"backdropPath"},"value":{"kind":"Variable","name":{"kind":"Name","value":"backdropPath"}}},{"kind":"Argument","name":{"kind":"Name","value":"voteAverage"},"value":{"kind":"Variable","name":{"kind":"Name","value":"voteAverage"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<AddMovieMutation, AddMovieMutationVariables>;
 export const RemoveMovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveMovie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMovie"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}}]}}]}}]} as unknown as DocumentNode<RemoveMovieMutation, RemoveMovieMutationVariables>;
@@ -232,3 +297,4 @@ export const MoviesDocument = {"kind":"Document","definitions":[{"kind":"Operati
 export const GetMoviesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMovies"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"selectedMovies"},"name":{"kind":"Name","value":"getSelectedMovies"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"poster"}},{"kind":"Field","name":{"kind":"Name","value":"adult"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}},{"kind":"Field","name":{"kind":"Name","value":"genres"}},{"kind":"Field","name":{"kind":"Name","value":"releaseDate"}},{"kind":"Field","name":{"kind":"Name","value":"overview"}},{"kind":"Field","name":{"kind":"Name","value":"voteCount"}},{"kind":"Field","name":{"kind":"Name","value":"userDescription"}},{"kind":"Field","name":{"kind":"Name","value":"backdropPath"}},{"kind":"Field","name":{"kind":"Name","value":"voteAverage"}}]}}]}}]} as unknown as DocumentNode<GetMoviesQuery, GetMoviesQueryVariables>;
 export const GenresDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"genres"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"genres"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GenresQuery, GenresQueryVariables>;
 export const GetMovieByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMovieBYId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"movieById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"poster"}},{"kind":"Field","name":{"kind":"Name","value":"adult"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}},{"kind":"Field","name":{"kind":"Name","value":"genres"}},{"kind":"Field","name":{"kind":"Name","value":"releaseDate"}},{"kind":"Field","name":{"kind":"Name","value":"overview"}},{"kind":"Field","name":{"kind":"Name","value":"voteCount"}},{"kind":"Field","name":{"kind":"Name","value":"userDescription"}},{"kind":"Field","name":{"kind":"Name","value":"backdropPath"}},{"kind":"Field","name":{"kind":"Name","value":"voteAverage"}}]}}]}}]} as unknown as DocumentNode<GetMovieByIdQuery, GetMovieByIdQueryVariables>;
+export const CreditsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Credits"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"movieId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"language"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"credits"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"movieId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"movieId"}}},{"kind":"Argument","name":{"kind":"Name","value":"language"},"value":{"kind":"Variable","name":{"kind":"Name","value":"language"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"cast"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"profilePath"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"creditId"}},{"kind":"Field","name":{"kind":"Name","value":"adult"}},{"kind":"Field","name":{"kind":"Name","value":"gender"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]}}]} as unknown as DocumentNode<CreditsQuery, CreditsQueryVariables>;

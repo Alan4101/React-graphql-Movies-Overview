@@ -1,15 +1,42 @@
-import { useState, ReactNode, FC, Children, TouchEvent, useMemo } from 'react'
-import { Grid, Box, IconButton } from '@mui/material'
+import { useState, ReactNode, FC, Children, TouchEvent, useMemo, useEffect } from 'react'
+import { Grid, Box, IconButton, useMediaQuery } from '@mui/material'
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 import { styles, ContentWrapper } from './styles'
 
-interface CarouselProps {
-  children: ReactNode
-  count: number
+type CarouselConfig = {
+  countSlide: number
+  // px
+  arrowGap?: number
 }
-export const Carousel: FC<CarouselProps> = ({ children, count }) => {
+
+interface OwnProps {
+  children: ReactNode
+  config: CarouselConfig
+}
+export const Carousel: FC<OwnProps> = ({ children, config }) => {
+  const query1023 = useMediaQuery('(max-width:1023px) and (min-width:769px)')
+  const query768 = useMediaQuery('(max-width:769px)')
+  const query425 = useMediaQuery('(max-width:425px)')
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [touchPosition, setTouchPosition] = useState<number | null>(null)
+  const [countSlides, setCountSlides] = useState(config.countSlide)
+console.log(query1023)
+  useEffect(() => {
+    if (query1023) {
+      console.log('3')
+      setCountSlides(3)
+    } else if (query768) {
+      console.log('2')
+
+      setCountSlides(2)
+    } else if (query425) {
+      setCountSlides(1)
+      console.log('1')
+
+    }
+  }, [query1023, query768, query425])
+  // console.log(countSlides)
 
   const listLength = useMemo(() => Children.count(children), [children])
   const prevSlide = () => {
@@ -18,7 +45,7 @@ export const Carousel: FC<CarouselProps> = ({ children, count }) => {
     }
   }
   const nextSlide = () => {
-    if (currentIndex < listLength - count) {
+    if (currentIndex < listLength - config.countSlide) {
       setCurrentIndex(prevState => prevState + 1)
     }
   }
@@ -50,18 +77,18 @@ export const Carousel: FC<CarouselProps> = ({ children, count }) => {
     <Grid container sx={styles.container}>
       <Box sx={styles.wrapper}>
         <Box sx={styles.buttonWrapper}>
-          <IconButton onClick={prevSlide} sx={{ ...styles.controlButton, ...styles.leftButton }}>
+          <IconButton onClick={prevSlide} sx={{ ...styles.controlButton, ...{ left: config.arrowGap ?? '0' } }}>
             <ArrowBackIos />
           </IconButton>
-          <IconButton onClick={nextSlide} sx={{ ...styles.controlButton, ...styles.rightButton }}>
+          <IconButton onClick={nextSlide} sx={{ ...styles.controlButton, ...{ right: '-6px' } }}>
             <ArrowForwardIos />
           </IconButton>
         </Box>
         <ContentWrapper
           sx={{
-            transform: `translateX(-${currentIndex * (100 / count)}%)`
+            transform: `translateX(-${currentIndex * (100 / countSlides)}%)`
           }}
-          count={count}
+          count={countSlides}
           onTouchStart={handleTochStart}
           onTouchMove={handleTouchMove}
         >

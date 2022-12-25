@@ -22,6 +22,7 @@ const documents = {
     "\n  query GetMovies {\n    selectedMovies: getSelectedMovies {\n      _id\n    title\n    poster\n    adult\n    movieId\n    genres\n    releaseDate\n    overview\n    voteCount\n    userDescription\n    backdropPath\n    voteAverage\n    }\n  }\n": types.GetMoviesDocument,
     "\n  query genres{\n    genres {\n      id\n      name\n    }\n  }\n": types.GenresDocument,
     "\n  query GetMovieBYId($id: ID!) {\n    movieById(_id: $id) {\n      _id\n    title\n    poster\n    adult\n    movieId\n    genres\n    releaseDate\n    overview\n    voteCount\n    userDescription\n    backdropPath\n    voteAverage\n    }\n  }\n": types.GetMovieByIdDocument,
+    "\nquery Credits($movieId: ID, $language: String) {\n  credits(movieId: $movieId, language: $language) {\n    id\n    cast {\n      name\n      profilePath\n      id\n      creditId\n      adult\n      gender\n      originalName\n    }\n  }\n}\n": types.CreditsDocument,
 };
 
 /**
@@ -60,6 +61,10 @@ export function graphql(source: "\n  query genres{\n    genres {\n      id\n    
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetMovieBYId($id: ID!) {\n    movieById(_id: $id) {\n      _id\n    title\n    poster\n    adult\n    movieId\n    genres\n    releaseDate\n    overview\n    voteCount\n    userDescription\n    backdropPath\n    voteAverage\n    }\n  }\n"): (typeof documents)["\n  query GetMovieBYId($id: ID!) {\n    movieById(_id: $id) {\n      _id\n    title\n    poster\n    adult\n    movieId\n    genres\n    releaseDate\n    overview\n    voteCount\n    userDescription\n    backdropPath\n    voteAverage\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\nquery Credits($movieId: ID, $language: String) {\n  credits(movieId: $movieId, language: $language) {\n    id\n    cast {\n      name\n      profilePath\n      id\n      creditId\n      adult\n      gender\n      originalName\n    }\n  }\n}\n"): (typeof documents)["\nquery Credits($movieId: ID, $language: String) {\n  credits(movieId: $movieId, language: $language) {\n    id\n    cast {\n      name\n      profilePath\n      id\n      creditId\n      adult\n      gender\n      originalName\n    }\n  }\n}\n"];
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.

@@ -67,6 +67,22 @@ export const GET_MOVIE_BY_ID = gql(`
     }
   }
 `)
+export const GET_CREDITS_BY_ID = gql(`
+query Credits($movieId: ID, $language: String) {
+  credits(movieId: $movieId, language: $language) {
+    id
+    cast {
+      name
+      profilePath
+      id
+      creditId
+      adult
+      gender
+      originalName
+    }
+  }
+}
+`)
 // export const SEARCH_MOVIE = gql(`
 //   query SearchMovie($query: String, $language: String) {
 //     searchMovie(query: $query, language: $language) {
