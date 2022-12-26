@@ -1,9 +1,11 @@
 import { Theme } from '@mui/material'
 export const styles = {
-  mainContainer: {
+  mainContainer: (theme: Theme)=>({ 
     height: 'calc(100vh - 68px)',
     position: 'relative',
-
+    [theme.breakpoints.down(600)]: {
+      height: '100%'
+    },
     '&::after': {
       content: '""',
       position: 'absolute',
@@ -13,12 +15,7 @@ export const styles = {
       height: 'inherit',
       backgroundColor: 'rgba(0,0,0,.4)'
     }
-  },
-  // mainContainerMobile: (theme: Theme) => ({
-  //   // [theme.breakpoints.down(425)]: {
-  //   //   height: 'auto'
-  //   // }
-  // }),
+  }),
   wrapper: (theme: Theme) => ({
     marginTop: '5%',
     [theme.breakpoints.down(425)]: {
@@ -34,20 +31,20 @@ export const styles = {
     height: 'inherit',
     width: '100%'
   },
-  content: (theme: Theme) => ({
+  content:(theme: Theme)=>({ 
     display: 'grid',
 
-    gridTemplate: '1fr 1fr/ minmax(min-content, 200px) minmax(min-content, auto)',
+    gridTemplate: '1fr auto / minmax(min-content, 200px) minmax(min-content, auto)',
     position: 'relative',
     gap: '15px',
     zIndex: 2,
     backgroundColor: 'rgba(0,0,0, .6)',
     boxShadow: '0 15px 30px rgba(0, 0, 0, 0.5)',
     padding: '15px',
-    // [theme.breakpoints.down(780)]: {
-    //   gridTemplate: '1fr 2fr/ 1fr',
-    //   height: '100%'
-    // }
+    [theme.breakpoints.down(600)]:{
+      gridTemplate: '1fr minmax(min-content, 1fr) / 1fr',
+      height: '100%'
+    }
   }),
   pictureWrapper: {
     position: 'relative',
@@ -73,9 +70,9 @@ export const styles = {
   title: (theme: Theme) => ({
     fontWeight: '500',
     color: '#fff',
-    fontSize: '3.75em',
+    fontSize: '2em',
     [theme.breakpoints.down(426)]: {
-      fontSize: '2rem'
+      fontSize: '1.5rem'
     }
   }),
   contrastText: {
@@ -104,7 +101,6 @@ export const styles = {
   },
   castContainer: {
     display: 'grid',
-    // maxWidth: '800px',
     height: 'fit-content',
     alignSelf: 'end'
   }
