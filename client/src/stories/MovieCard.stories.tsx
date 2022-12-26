@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { MovieCard } from '../common/components'
 import { movies } from './sub'
 import { decorators } from './preview'
-import { Movie } from '../graphql/__generated__/graphql'
+import { Movie } from '../graphql'
 
 export default {
   title: 'Example/MovieCard',
@@ -14,7 +14,14 @@ export default {
 
 const Template: ComponentStory<typeof MovieCard> = args => <MovieCard {...args} />
 
-export const Primary = Template.bind({})
-Primary.args = {
-  movie: movies[1] as Movie
+export const OneMovieCardSelected = Template.bind({})
+OneMovieCardSelected.args = {
+  movie: movies[1] as Movie,
+  styleRoot: { width: '200px' },
+  status: true
+}
+export const OneMovieCardNotSelected = Template.bind({})
+OneMovieCardNotSelected.args = {
+  movie: movies[2] as Movie,
+  styleRoot: { width: '200px' }
 }

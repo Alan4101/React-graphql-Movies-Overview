@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Box, Tooltip } from '@mui/material'
+import { Box, SxProps, Tooltip } from '@mui/material'
 import { Add, Check } from '@mui/icons-material'
 
 import * as M from './styles'
@@ -8,12 +8,13 @@ import { Movie } from '../../../graphql/__generated__/graphql'
 interface MovieCardProps {
   status?: boolean
   movie: Movie
+  styleRoot?: SxProps
   onRemoveMovie: (movieId: string) => void
   onSelectMovie: (movie: Movie) => void
 }
-export const MovieCard: FC<MovieCardProps> = ({ status, movie, onRemoveMovie, onSelectMovie }) => {
+export const MovieCard: FC<MovieCardProps> = ({ status, movie, onRemoveMovie, onSelectMovie, styleRoot }) => {
   return (
-    <M.MCard>
+    <M.MCard sx={styleRoot}>
       <M.MCardWrapper>
         {!status ? (
           <Tooltip title='Add to selected'>

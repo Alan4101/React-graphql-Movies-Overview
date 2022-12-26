@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles'
 import { default as em } from '@emotion/styled/macro'
 
 const MCard = em(Grid)({
+  width: '250px',
   height: '300px',
   position: 'relative',
   overflow: 'hidden',
