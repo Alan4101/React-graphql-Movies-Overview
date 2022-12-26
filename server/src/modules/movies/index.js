@@ -1,8 +1,9 @@
 import axios from "axios";
 import { createUrl } from "./../../utils";
 import { Credits, Genres, Movies } from "./entities";
-import { MovieModel, RecomenedModel } from '../../models'
+
 import { GetGenres, GetPopularMovies } from "../../config/endpoints";
+import { MovieModel, RecomendedModel } from "../../models";
 /**
  *
  * @param {number of page for pagination} page
@@ -40,7 +41,7 @@ const getGenres = async () => {
   return newData;
 };
 const getRecomendedMovies = async () => {
-  return await RecomenedModel.find({});
+  return await RecomendedModel.find({});
 };
 const searchMovieByName = async (query, language) => {
   const { data } = await axios.get(

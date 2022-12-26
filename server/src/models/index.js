@@ -1,2 +1,2 @@
-export { default as MovieModel } from './Movies.model'
-export { default as RecomenedModel } from './RecomendedList.model'
+export * from './Movies.model'
+export * from './RecomendedList.model'

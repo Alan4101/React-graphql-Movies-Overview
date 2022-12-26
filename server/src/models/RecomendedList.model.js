@@ -21,5 +21,5 @@ const RecomendedList = new mongoose.Schema(
   },
   { versionKey: false }
 );
-const RecomenedModel = mongoose.model("RecomendedList", RecomendedList);
-export default RecomenedModel;
+const RecomendedModel = mongoose.model("RecomendedList", RecomendedList);
+export { RecomendedModel };

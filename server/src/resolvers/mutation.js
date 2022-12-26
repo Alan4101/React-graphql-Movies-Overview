@@ -1,4 +1,4 @@
-import { MovieModel, RecomenedModel } from '../../models'
+import { MovieModel, RecomendedModel } from "../models";
 
 const createMovie = async (_, args) => {
   const newMovie = new MovieModel({
@@ -27,7 +27,7 @@ const addUserDescription = async (parent, args) => {
 };
 
 const createRecomendedMovies = async (parent, args) => {
-  const data = new RecomenedModel({
+  const data = new RecomendedModel({
     title: args.title,
     createdData: args.createdData,
     movies: args.movies,
