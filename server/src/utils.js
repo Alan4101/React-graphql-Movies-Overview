@@ -1,6 +1,6 @@
-const { BASE_URL, API_KEY } = require("../src/config/index");
+import { BASE_URL, API_KEY } from "../src/config/index";
 
-const createUrl = (endpoint, language = "en-US", page) => {
+export const createUrl = (endpoint, language = "en-US", page) => {
   if (page) {
     return `${BASE_URL}${endpoint}api_key=${API_KEY}&language=${language}&page=${page}`;
   } else {
@@ -8,5 +8,4 @@ const createUrl = (endpoint, language = "en-US", page) => {
   }
 };
 
-module.exports = {createUrl};
 

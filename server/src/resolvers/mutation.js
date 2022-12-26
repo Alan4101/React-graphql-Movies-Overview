@@ -1,8 +1,7 @@
-const Movie = require('../models/Movies.model');
-const RecomendedMovies = require('../models/RecomendedMovies.model');
+import { MovieModel, RecomenedModel } from '../../models'
 
 const createMovie = async (_, args) => {
-  const newMovie = new Movie({
+  const newMovie = new MovieModel({
     title: args.title,
     poster: args.poster,
     releaseDate: args.releaseDate,
@@ -13,46 +12,46 @@ const createMovie = async (_, args) => {
     userDescription: args.userDescription,
     voteCount: args.voteCount,
     backdropPath: args.backdropPath,
-    voteAverage: args. voteAverage,
-  })
-    const movie = await newMovie.save()
-    return movie
-  
-}
-const deleteMovie = async (parent, {_id})=>{
-  return await Movie.findByIdAndRemove(_id)
-}
+    voteAverage: args.voteAverage,
+  });
+  const movie = await newMovie.save();
+  return movie;
+};
+const deleteMovie = async (parent, { _id }) => {
+  return await MovieModel.findByIdAndRemove(_id);
+};
 const addUserDescription = async (parent, args) => {
-  return await Movie.findByIdAndUpdate(args._id, {userDescription: args.userDescription})
-}
+  return await MovieModel.findByIdAndUpdate(args._id, {
+    userDescription: args.userDescription,
+  });
+};
 
 const createRecomendedMovies = async (parent, args) => {
-  const data = new RecomendedMovies({
+  const data = new RecomenedModel({
     title: args.title,
     createdData: args.createdData,
-    movies: args.movies
-  }) 
-return await data.save()
-}
-const deleteAll =  async (_, args) =>{
-    const data = await Movie.deleteMany({});
-    if(!data){
-      return {
-        success: false,
-        message: 'Error'
-      }
-    }
+    movies: args.movies,
+  });
+  return await data.save();
+};
+const deleteAll = async (_, args) => {
+  const data = await MovieModel.deleteMany({});
+  if (!data) {
     return {
-      success: true,
-      message: 'Success'
-    }
- 
+      success: false,
+      message: "Error",
+    };
   }
+  return {
+    success: true,
+    message: "Success",
+  };
+};
 
-module.exports = {  
+export {
   createMovie,
-   deleteMovie,
-   addUserDescription,
-   createRecomendedMovies,
-   deleteAll,
-  }
+  deleteMovie,
+  addUserDescription,
+  createRecomendedMovies,
+  deleteAll,
+};

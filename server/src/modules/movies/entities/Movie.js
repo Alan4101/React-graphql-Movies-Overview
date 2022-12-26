@@ -1,6 +1,6 @@
-const { IMAGE_BASE_PATH } = require("../../../config");
+import { IMAGE_BASE_PATH } from "../../../config";
 
-class Movie {
+export class Movie {
   constructor(movie) {
       this.movie = movie;
       this.id = movie.id;
@@ -18,6 +18,3 @@ class Movie {
   }
 }
 
-module.exports = {
-  Movie
-} 

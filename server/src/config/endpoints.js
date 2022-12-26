@@ -1,8 +1,3 @@
-const GetPopularMovies = 'movie/popular?'
-const GetGenres = 'genre/movie/list?'
-const SearchMovie = 'search/movie?'
-module.exports = {
-  GetGenres, 
-  GetPopularMovies,
-  SearchMovie
-}
+export const GetPopularMovies = 'movie/popular?'
+export const GetGenres = 'genre/movie/list?'
+export const SearchMovie = 'search/movie?'

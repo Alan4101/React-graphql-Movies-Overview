@@ -1,5 +1,6 @@
-const { IMAGE_BASE_PATH } = require("../../../config");
-class Cast {
+import { IMAGE_BASE_PATH } from "../../../config";
+
+export class Cast {
   constructor(cast) {
     this.cast = cast;
 
@@ -28,6 +29,5 @@ class Cast {
     this.order = cast.order;
   }
 }
-module.exports = {
-  Cast
-}
+
+

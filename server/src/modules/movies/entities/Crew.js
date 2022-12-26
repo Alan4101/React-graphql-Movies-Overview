@@ -1,6 +1,6 @@
-const { IMAGE_BASE_PATH } = require("../../../config");
+import { IMAGE_BASE_PATH } from "../../../config";
 
-class Crew {
+export class Crew {
   constructor(crew) {
     this.crew = crew;
 
@@ -28,6 +28,4 @@ class Crew {
     this.job = crew.job;
   }
 }
-module.exports = {
-  Crew
-}
+

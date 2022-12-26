@@ -1,6 +1,6 @@
-const {model, Schema} = require("mongoose")
+import mongoose from "mongoose";
 
-const Movies = new Schema({
+const Movie = new mongoose.Schema({
   title: String,
   poster: String,
   releaseDate: String,
@@ -11,6 +11,8 @@ const Movies = new Schema({
   voteCount: Number,
   userDescription: String,
   backdropPath: String,
-  voteAverage: Number
-})
-module.exports = model("Movie", Movies)
+  voteAverage: Number,
+});
+const MovieModel = mongoose.model("Movie", Movie);
+
+export default MovieModel;

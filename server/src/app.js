@@ -1,17 +1,22 @@
-const {ApolloServer} = require("apollo-server");
-const fs = require('fs')
-const path = require('path')
+import { ApolloServer } from "apollo-server";
+import * as fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-const connectDB = require("./db")
-const Query = require("./resolvers/query");
-const Mutation = require("./resolvers/mutation")
+import * as Query from "./resolvers/query";
+import * as Mutation from "./resolvers/mutation";
+import connectDB from './db';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const resolvers = {
   Query,
   Mutation
 }
 
 const server = new ApolloServer({
-  typeDefs: fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8'),
+  typeDefs: fs.readFileSync(join(__dirname, 'schema.graphql'), 'utf8'),
   resolvers,
 })
 
