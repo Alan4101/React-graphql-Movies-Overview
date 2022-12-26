@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import { SxProps, TextField, Theme } from '@mui/material'
 
-import classes from './TextField.module.css'
 interface TextFieldProps {
   value: string | number
   label?: string
@@ -32,7 +31,7 @@ export const MovieTextField: FC<TextFieldProps> = ({
 }) => {
   return (
     <TextField
-      classes={{ root: classes.root }}
+      style={{ outline: 'none' }}
       sx={sx}
       value={value}
       label={label}
