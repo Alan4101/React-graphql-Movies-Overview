@@ -42,7 +42,7 @@ export const styles = {
     boxShadow: '0 15px 30px rgba(0, 0, 0, 0.5)',
     padding: '15px',
     [theme.breakpoints.down(600)]:{
-      gridTemplate: '1fr minmax(min-content, 1fr) / 1fr',
+      gridTemplate: 'minmax(min-content, 1fr)/1fr',
       height: '100%'
     }
   }),

@@ -1,17 +1,17 @@
 export const styles = {
-  box: {
+  container: {},
+  wrapper: {
     height: '260px',
     position: 'relative',
     overflow: 'hidden',
-    padding: '15px',
+    margin: '0 7px',
     '&::after': {
       content: "''",
       position: 'absolute',
       top: 0,
-      left: '15px',
+      left: 0,
       height: '100%',
       width: '100%',
-      padding: '15px',
       backgroundColor: 'rgba(0, 0, 0, .5)'
     }
   },
@@ -27,7 +27,7 @@ export const styles = {
   content: {
     position: 'absolute',
     bottom: '15px',
-    left: '15px',
+    left: 0,
     width: '100%',
     height: 'min-content',
     color: '#fff',

@@ -8,6 +8,10 @@ const Loading = styled(Box)({
   justifyContent: 'center',
   alignItems: 'center'
 })
+const CardWrapper = styled(Box)<{ count: number }>(({ count }) => ({
+  display: 'grid',
+  gridTemplateColumns: `repeat(${count}, 220px)`
+}))
 const styles = {
   wrapper: {
     margin: '0 auto',
@@ -29,9 +33,6 @@ const styles = {
     alignItems: 'center'
   },
   button: { backgroundColor: '#fff', margin: 0 },
-  cardWrapper: {
-    justifyContent:'center',
-    flexWrap: 'nowrap'
-  }
+  cardWrapper: {}
 }
-export { Loading, styles }
+export { Loading, CardWrapper, styles }

@@ -135,7 +135,7 @@ export const Movie: FC = () => {
             </MovieButton>
           </Grid>
           <Grid sx={styles.castContainer}>
-            <Carousel config={{ countSlide: 4, arrowGap: 15 }}>
+            <Carousel config={{ countSlide: 4 }}>
               {castList && castList.map(actor => <ActorItem key={actor.creditId} actor={actor as Cast} />)}
             </Carousel>
           </Grid>

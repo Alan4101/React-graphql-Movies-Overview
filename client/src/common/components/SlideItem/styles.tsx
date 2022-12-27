@@ -3,7 +3,7 @@ export const styles = {
     position: 'relative',
     padding: '10px',
     borderRadius: '10px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   img: { objectFit: 'contain', width: '100%', borderRadius: '10px' },
   buttonWrapper: {

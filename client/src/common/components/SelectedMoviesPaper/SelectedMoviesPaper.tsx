@@ -40,9 +40,7 @@ export const SelectedMoviesPaper: FC<SelectedMoviePaperProps> = ({ onCreateList 
         {selectedMovies && selectedMovies.length > 3 ? (
           <Carousel config={{ countSlide: matches ? 1 : 3 }}>{renderSelectedMovies()}</Carousel>
         ) : (
-          <Grid container sx={M.styles.cardWrapper}>
-            {renderSelectedMovies()}
-          </Grid>
+          <M.CardWrapper count={selectedMovies ? selectedMovies.length : 3}>{renderSelectedMovies()}</M.CardWrapper>
         )}
       </Grid>
       <Box sx={M.styles.controlButtonBox}>

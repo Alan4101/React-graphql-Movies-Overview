@@ -15,7 +15,7 @@ const MCard = em(Grid)({
     content: '""',
     position: 'absolute',
     width: '100%',
-    height: '300px',
+    height: 'inherit',
     top: 0,
     left: 0,
     background: 'rgba(0, 0, 0, 0.25)'
@@ -81,7 +81,8 @@ const imgSx = {
   width: '100%',
   zIndex: -1,
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
-  backgroundColor: 'rgba(0, 0, 0, 1)'
+  backgroundColor: 'rgba(0, 0, 0, 1)',
+  objectFit: 'contain'
 }
 
 const MIconButton = styled(IconButton)(({ theme }) => ({

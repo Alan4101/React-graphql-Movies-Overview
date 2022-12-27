@@ -5,8 +5,6 @@ import { styles, ContentWrapper } from './styles'
 
 type CarouselConfig = {
   countSlide: number
-  // px
-  arrowGap?: number
 }
 
 interface OwnProps {
@@ -21,7 +19,7 @@ export const Carousel: FC<OwnProps> = ({ children, config }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [touchPosition, setTouchPosition] = useState<number | null>(null)
   const [countSlides, setCountSlides] = useState(config.countSlide)
-console.log(query1023)
+  console.log(query1023)
   useEffect(() => {
     if (query1023) {
       console.log('3')
@@ -33,7 +31,6 @@ console.log(query1023)
     } else if (query425) {
       setCountSlides(1)
       console.log('1')
-
     }
   }, [query1023, query768, query425])
   // console.log(countSlides)
@@ -77,10 +74,10 @@ console.log(query1023)
     <Grid container sx={styles.container}>
       <Box sx={styles.wrapper}>
         <Box sx={styles.buttonWrapper}>
-          <IconButton onClick={prevSlide} sx={{ ...styles.controlButton, ...{ left: config.arrowGap ?? '0' } }}>
+          <IconButton onClick={prevSlide} sx={{ ...styles.controlButton, ...styles.leftButton }}>
             <ArrowBackIos />
           </IconButton>
-          <IconButton onClick={nextSlide} sx={{ ...styles.controlButton, ...{ right: '-6px' } }}>
+          <IconButton onClick={nextSlide} sx={{ ...styles.controlButton, ...styles.rightButton }}>
             <ArrowForwardIos />
           </IconButton>
         </Box>
