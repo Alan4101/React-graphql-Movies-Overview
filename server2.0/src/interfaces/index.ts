@@ -1,3 +1,6 @@
 export * from './IMovie'
 export * from './IMovies'
 export * from './ISelectedMovie'
+export * from './ICrew'
+export * from './ICredits'
+export * from './ICast'
