@@ -3,7 +3,7 @@ import { CircularProgress, Container, Grid, Pagination } from '@mui/material'
 import { ToastContainer, toast, ToastOptions } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 
-import { CreateRecomendedList, MovieCard, SelectedMoviesPaper } from '../../common/components'
+import { CreateRecomendedList, DraggableList, MovieCard, SelectedMoviesPaper } from '../../common/components'
 // other
 import { useControlModal, useMovie } from './../../services/hooks'
 import { LanguageContext } from '../../services/context/LanguageContext'
@@ -49,7 +49,6 @@ export const Home: FC = () => {
   if (error) {
     return <M.MLoaderContainer>{t('content.error')}</M.MLoaderContainer>
   }
-  console.log(movies);
   
   if (loading) {
     return (

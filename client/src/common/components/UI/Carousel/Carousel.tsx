@@ -21,18 +21,14 @@ export const Carousel: FC<OwnProps> = ({ children, config }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [touchPosition, setTouchPosition] = useState<number | null>(null)
   const [countSlides, setCountSlides] = useState(config.countSlide)
-console.log(query1023)
   useEffect(() => {
     if (query1023) {
-      console.log('3')
       setCountSlides(3)
     } else if (query768) {
-      console.log('2')
 
       setCountSlides(2)
     } else if (query425) {
       setCountSlides(1)
-      console.log('1')
 
     }
   }, [query1023, query768, query425])
