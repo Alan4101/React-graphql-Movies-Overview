@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
-import { CreditsQuery } from 'graphql/__generated__'
 import { GET_CREDITS_BY_ID } from '../movies.query'
+import { CreditsQuery } from '../__generated__'
 
 const useCredits = () => {
   const [getCredits, { data, loading, error }] = useLazyQuery<CreditsQuery>(GET_CREDITS_BY_ID)
