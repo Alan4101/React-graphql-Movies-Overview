@@ -14,11 +14,11 @@ import { useTranslation } from 'react-i18next'
 // mutation
 // other
 import { MovieTextField } from '../../UI'
-import { CREATE_RECOMENDED_MOVIES } from '../../../../graphql'
-import { MovieSelected } from '../../../../graphql/__generated__/graphql'
+import { CREATE_RECOMENDED_MOVIES, MovieSelectedInput } from '../../../../graphql'
+import { MovieSelected } from '../../../../graphql/'
 
 interface CreateRecomendedProps {
-  moviesList: MovieSelected[] 
+  moviesList: MovieSelected[]
   isOpenModal: boolean
   toggleModal: () => void
 }
@@ -42,12 +42,13 @@ export const CreateRecomendedList: FC<CreateRecomendedProps> = ({ isOpenModal, m
     handleReset(e)
     toggleModal()
   }
-
   const createRecomendedList = (value: string) => {
+     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const movieListInput = moviesList.map(({ __typename, ...props }) => ({ ...props }))
     const newList = {
       title: value,
       createdData: new Date().toLocaleDateString(),
-      movies: [...moviesList]
+      movies: [...movieListInput] as MovieSelectedInput[]
     }
 
     createRecomendedMovies({

@@ -1,33 +1,20 @@
 import { FC, useState } from 'react'
 // mui
-import { Grid, Typography, IconButton, IconButtonProps, Card, CardContent, CardActions, Collapse } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { Grid, Typography, IconButton, Card, CardContent, CardActions, Collapse } from '@mui/material'
 import ShareIcon from '@mui/icons-material/Share'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 // other
-import { IRecommendedMovies } from '../../../services/models/models'
+import { DraggableList } from '../UI'
+import { RecomendedMovies } from '../../../graphql'
+import { ExpandMore } from './styles'
 // import { useNavigate } from 'react-router-dom';
 
 interface RecommendedProps {
-  movie: Required<IRecommendedMovies>
+  collection: RecomendedMovies
   shareMovieList: (id: string) => void
 }
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean
-}
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { expand, ...other } = props
-  return <IconButton {...other} />
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest
-  })
-}))
-export const MovieCardRecommended: FC<RecommendedProps> = ({ movie, shareMovieList }) => {
+export const MovieCardRecommended: FC<RecommendedProps> = ({ collection, shareMovieList }) => {
   const [expanded, setExpanded] = useState(false)
   // const navigate = useNavigate();
 
@@ -43,11 +30,11 @@ export const MovieCardRecommended: FC<RecommendedProps> = ({ movie, shareMovieLi
       <Card sx={{ maxWidth: 345 }}>
         <CardContent>
           <Typography variant='body2' color='text.secondary'>
-            {movie.title}
+            {collection.title}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label='share' onClick={() => shareMovieList(movie._id)}>
+          <IconButton aria-label='share' onClick={() => shareMovieList(collection._id as string)}>
             <ShareIcon />
           </IconButton>
           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label='show more'>
@@ -56,11 +43,17 @@ export const MovieCardRecommended: FC<RecommendedProps> = ({ movie, shareMovieLi
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
-            {movie.movies.map((item, k: number) => (
-              <Typography key={k} paragraph onClick={() => handleOpenMovie(item._id)}>
+            {/* <DraggableList>
+              {
+                
+              }
+            </DraggableList> */}
+            {/* {movie.movies.map((item, k: number) => (
+
+              <Typography key={k} onClick={() => handleOpenMovie(item._id)}>
                 {item.title}
               </Typography>
-            ))}
+            ))} */}
           </CardContent>
         </Collapse>
       </Card>
