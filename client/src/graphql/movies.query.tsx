@@ -68,8 +68,8 @@ export const GET_MOVIE_BY_ID = gql(`
   }
 `)
 export const GET_CREDITS_BY_ID = gql(`
-query Credits($movieId: ID, $language: String) {
-  credits(movieId: $movieId, language: $language) {
+  query Credits($movieId: ID, $language: String) {
+    credits(movieId: $movieId, language: $language) {
     id
     cast {
       name

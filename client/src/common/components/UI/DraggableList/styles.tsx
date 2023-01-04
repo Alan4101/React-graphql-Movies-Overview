@@ -1,22 +1,35 @@
+import { Theme } from '@mui/material'
 export const styles = {
   container: {
     position: 'relative',
-    width: '200px',
+    width: '100%',
     height: '100px',
-    '&>div': {
+    '&>div': (theme: Theme) => ({
       position: 'absolute',
-      width: '200px',
+      width: '100%',
       height: '40px',
       transformOrigin: '50% 50% 0px',
       borderRadius: '5px',
-      color: 'white',
+      color: '#fff',
       lineHeight: '40px',
       paddingLeft: '32px',
-      fontSize: '14.5px',
-      background: 'lightblue',
-      textTransform: 'uppercase',
-      letterSpacing: '2px',
-      touchAction: 'none'
+      // fontSize: '14.5px',
+      background: `${theme.palette.primary.light}`,
+      // textTransform: 'uppercase',
+      // letterSpacing: '2px',
+      touchAction: 'none',
+      // cursor: 'pointer',
+      webkitUserSelect: 'none',
+      webkitTouchCallout: 'none',
+      mozUserSelect: 'none',
+      msUserSelect: 'none',
+      userSelect: 'none',
+      cursor: 'grab'
+    }),
+    '&>div:active': {
+      cursor: 'grabbing',
+      background: 'rgba(116,87,185, 0.85)',
+      border: '2px solid'
     }
   }
 }

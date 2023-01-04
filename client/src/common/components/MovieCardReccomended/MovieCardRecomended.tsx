@@ -1,59 +1,50 @@
 import { FC, useState } from 'react'
 // mui
-import { Grid, Typography, IconButton, Card, CardContent, CardActions, Collapse } from '@mui/material'
-import ShareIcon from '@mui/icons-material/Share'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Grid, Typography, IconButton, Card, CardContent, CardActions, Collapse, Tooltip, Divider } from '@mui/material'
+import { Delete, ExpandMore as ExpandMoreIcon, Share } from '@mui/icons-material'
 // other
 import { DraggableList } from '../UI'
 import { RecomendedMovies } from '../../../graphql'
-import { ExpandMore } from './styles'
+import { ExpandMore, styles } from './styles'
 // import { useNavigate } from 'react-router-dom';
 
 interface RecommendedProps {
   collection: RecomendedMovies
-  shareMovieList: (id: string) => void
+  onShareList: (id: string) => void
+  onDeleteList: (collection: RecomendedMovies) => void
 }
 
-export const MovieCardRecommended: FC<RecommendedProps> = ({ collection, shareMovieList }) => {
+export const MovieCardRecommended: FC<RecommendedProps> = ({ collection, onShareList , onDeleteList }) => {
   const [expanded, setExpanded] = useState(false)
   // const navigate = useNavigate();
-
+  const moviesNameCollection = collection.movies.map(({ title }) => title)
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
-  const handleOpenMovie = (id: string) => {
-    console.log(id)
-    // navigate(`/${id}`);
-  }
   return (
-    <Grid item md={3}>
-      <Card sx={{ maxWidth: 345 }}>
-        <CardContent>
-          <Typography variant='body2' color='text.secondary'>
-            {collection.title}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label='share' onClick={() => shareMovieList(collection._id as string)}>
-            <ShareIcon />
+    <Grid sx={{ width: '100%' }}>
+      <Card>
+        <CardContent sx={styles.cardHeader}>
+          <Typography sx={styles.title}>{collection.title}</Typography>
+          <Typography sx={styles.description}>{collection.description}</Typography>
+          <IconButton sx={styles.deleteButton} onClick={() => onDeleteList(collection)}>
+            <Delete />
           </IconButton>
+        </CardContent>
+        <Divider />
+        <CardActions disableSpacing sx={{ padding: '0 16px' }}>
+          <Tooltip title='Share movie list' placement='bottom'>
+            <IconButton aria-label='share' onClick={() => onShareList(collection._id as string)}>
+              <Share />
+            </IconButton>
+          </Tooltip>
           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label='show more'>
             <ExpandMoreIcon />
           </ExpandMore>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
-            {/* <DraggableList>
-              {
-                
-              }
-            </DraggableList> */}
-            {/* {movie.movies.map((item, k: number) => (
-
-              <Typography key={k} onClick={() => handleOpenMovie(item._id)}>
-                {item.title}
-              </Typography>
-            ))} */}
+            <DraggableList items={moviesNameCollection} />
           </CardContent>
         </Collapse>
       </Card>

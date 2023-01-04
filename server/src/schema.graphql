@@ -51,12 +51,19 @@ input MovieSelectedInput {
   backdropPath: String
 }
 type RecomendedMovies {
-  _id: ID
-  title: String
-  createdData: String
+  _id: ID!
+  title: String!
+  description: String!
+  createdData: String!
   movies: [MovieSelected!]!
 }
-
+input RecomendedUpdateInput{
+  _id: ID!
+  title: String
+  description: String
+  createdData: String
+  movies: [MovieSelectedInput]
+}
 interface CastAndCrew {
   id: ID!
   creditId: ID!
@@ -105,6 +112,7 @@ type DeleteResponse {
   success: Boolean!
   message: String
 }
+
 type Query {
   movies(page: Int, language: String): Movies!
   movieById(_id: ID!): MovieSelected!
@@ -137,8 +145,10 @@ type Mutation {
   createRecomendedMovies(
     title: String
     createdData: String
+    description: String
     movies: [MovieSelectedInput]
   ): RecomendedMovies!
-
+  deleteMovieListById(_id: ID!):RecomendedMovies!
   deleteAll: DeleteResponse!
+  updateRecomendedList(args: RecomendedUpdateInput): RecomendedMovies!
 }

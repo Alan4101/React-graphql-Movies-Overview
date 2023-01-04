@@ -34,6 +34,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.0.7",
+    "ts-jest": "^29.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -60,6 +61,8 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.0.0",
+    "@craco/types": "^7.0.0",
     "@graphql-codegen/cli": "2.16.1",
     "@graphql-codegen/client-preset": "1.2.3",
     "@graphql-codegen/introspection": "2.2.3",

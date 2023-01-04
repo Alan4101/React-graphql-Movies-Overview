@@ -2,13 +2,14 @@ import mongoose from "mongoose";
 
 const RecomendedList = new mongoose.Schema(
   {
-    title: String,
-    createdData: String,
+    title: {type: String, required: true},
+    createdData: {type: String, required: true},
+    description: {type: String, required: true},
     movies: [
       {
-        _id: String,
-        title: String,
-        poster: String,
+        _id: {type: String, required: true} ,
+        title: {type: String, required: true},
+        poster: {type: String, required: true},
         releaseDate: String,
         adult: Boolean,
         movieId: String,

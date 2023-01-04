@@ -1,19 +1,20 @@
-import { FC, useState, useRef, ReactNode, Children } from 'react'
+import { FC, useState, useRef, ReactNode } from 'react'
 import { Box } from '@mui/material'
 import { useSprings, animated } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
 import clamp from 'lodash.clamp'
 import swap from 'lodash-move'
 import { springCallback } from './helper'
-import {styles} from './styles'
+import { styles } from './styles'
 
 interface OwnProps {
   items: string[]
-  children: ReactNode
+  children?: ReactNode
 }
 
 export const DraggableList: FC<OwnProps> = ({ items: inputItems, children }) => {
-  const [items] = useState(Children.toArray(children))
+  // const [items] = useState(Children.toArray(children))
+  const [items] = useState(inputItems)
   const order = useRef(items.map((_, index) => index))
 
   const [springs, api] = useSprings(items.length, springCallback(order.current))
@@ -26,7 +27,7 @@ export const DraggableList: FC<OwnProps> = ({ items: inputItems, children }) => 
     if (!active) order.current = newOrder
   })
   return (
-    <Box sx={{...styles.container, height: items.length * 50 }}>
+    <Box sx={{ ...styles.container, height: items.length * 50 }}>
       {springs.map(({ zIndex, shadow, y, scale }, index) => (
         <animated.div
           {...bind(index)}
@@ -38,7 +39,8 @@ export const DraggableList: FC<OwnProps> = ({ items: inputItems, children }) => 
             scale
           }}
         >
-           {children}
+          {items[index].substring(0, 25)}
+          {children}
         </animated.div>
       ))}
     </Box>

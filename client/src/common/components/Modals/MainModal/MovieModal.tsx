@@ -4,9 +4,9 @@ import { Backdrop, Box, Fade, Modal, IconButton, Grid } from '@mui/material'
 import classes from './MovieModal.module.css'
 import CloseIcon from '@mui/icons-material/Close'
 
-interface MovieModalProps {
+export interface MovieModalProps {
   isOpen: boolean
-  children: ReactNode
+  children?: ReactNode
   toggleModal: () => void
 }
 
