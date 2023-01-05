@@ -3,7 +3,8 @@ import { Box, SxProps, Tooltip } from '@mui/material'
 import { Add, Check } from '@mui/icons-material'
 
 import * as M from './styles'
-import { Movie } from '../../../graphql/__generated__/graphql'
+import { Movie } from '../../../graphql'
+import { useTranslation } from 'react-i18next'
 
 interface MovieCardProps {
   status?: boolean
@@ -13,17 +14,18 @@ interface MovieCardProps {
   onSelectMovie: (movie: Movie) => void
 }
 export const MovieCard: FC<MovieCardProps> = ({ status, movie, onRemoveMovie, onSelectMovie, styleRoot }) => {
+  const { t } = useTranslation()
   return (
     <M.MCard sx={styleRoot}>
       <M.MCardWrapper>
         {!status ? (
-          <Tooltip title='Add to selected'>
+          <Tooltip title={t('tooltipText.movieCard.addToSelected')}>
             <M.MAddButton aria-label='add-movie' onClick={() => onSelectMovie(movie)}>
               <Add />
             </M.MAddButton>
           </Tooltip>
         ) : (
-          <Tooltip title='Remove from selected'>
+          <Tooltip title={t('tooltipText.movieCard.removeFromSelected')}>
             <M.MSelectedButton aria-label='remove-movie' onClick={() => onRemoveMovie(movie.id)}>
               <Check />
             </M.MSelectedButton>

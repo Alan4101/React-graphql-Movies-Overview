@@ -82,7 +82,7 @@ const imgSx = {
   zIndex: -1,
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
   backgroundColor: 'rgba(0, 0, 0, 1)',
-  objectFit: 'contain'
+  objectFit: 'cover'
 }
 
 const MIconButton = styled(IconButton)(({ theme }) => ({
@@ -95,6 +95,7 @@ const MIconButton = styled(IconButton)(({ theme }) => ({
   margin: '5px',
   zIndex: 9,
   '&:hover': {
+    transform: 'scale(0.8)',
     transition: '0.2s cubic-bezier(0.2, 0.8, 0.2, 1)'
   }
 }))

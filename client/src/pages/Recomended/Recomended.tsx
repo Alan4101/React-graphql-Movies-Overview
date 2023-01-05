@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 import { Grid, Container, Typography } from '@mui/material'
-import { MovieCardRecommended, ShereMovieList } from '../../common/components'
+import { RecommendedCard, ShereMovieList } from '../../common/components'
 import { useControlModal } from '../../services/hooks'
 import { RecomendedMovies, useGetReccomenedMovies } from '../../graphql'
 import { DeleteModal } from './../../common/components/Modals/DeleteModal/DeleteModal'
@@ -29,7 +29,7 @@ export const Recomended: FC = () => {
         ) : (
           movies &&
           movies.map((movie: RecomendedMovies) => (
-            <MovieCardRecommended
+            <RecommendedCard
               key={movie._id}
               collection={movie}
               onDeleteList={handleDeleteList}
