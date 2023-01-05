@@ -38,5 +38,15 @@
       "no": "No"
 
     }
+  },
+  "tooltipText": {
+    "movieCard":{
+      "addToSelected": "Add to selected",
+      "removeFromSelected": "Remove from selected"
+    },
+    "recomendedCard": {
+      "deleteBtn": "Delete list",
+      "sharelistBtn": "Share"
+    }
   }
 }

@@ -37,5 +37,15 @@
       "yes": "Так",
       "no": "Ні"
     }
+  },
+  "tooltipText": {
+    "movieCard":{
+      "addToSelected": "Додати до обраних",
+      "removeFromSelected": "Видати з обраних"
+    },
+    "recomendedCard": {
+      "deleteBtn": "Видалити список",
+      "sharelistBtn": "Поділитись"
+    }
   }
 }
