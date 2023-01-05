@@ -14,7 +14,7 @@
     "titlePanel": "Обрані фільми",
     "buttonTitle": "Детальніше",
     "recomendedModal":{
-      "title": "Додайте назву"
+      "title": "Створити список"
     }
   },
   "content":{
@@ -23,6 +23,8 @@
     "realeaseData" : "Дата виходу",
     "overview":"Огляд",
     "userOverview": "Користувацький огляд",
+    "permitOnDeletingRecList": "Ви дійсно хочете видалити цей",
+    "list": "список",
     "button":{
       "goback": "Назад",
       "addreview" : "Додати огляд",
@@ -31,8 +33,9 @@
       "update": "Оновити",
       "remove": "Видалити",
       "createNewList": "Створити список",
-      "clearList" : "Очистити обрані"
-
+      "clearList" : "Очистити обрані",
+      "yes": "Так",
+      "no": "Ні"
     }
   }
 }

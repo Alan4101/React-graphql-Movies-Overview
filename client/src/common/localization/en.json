@@ -14,7 +14,7 @@
     "titlePanel": "Selected movies",
     "buttonTitle": "Open movie",
     "recomendedModal":{
-      "title": "Add title"
+      "title": "Create list"
     }
   },
   "content":{
@@ -23,6 +23,8 @@
     "realeaseData" : "Realise data",
     "overview":"Overview",
     "userOverview": "User overview",
+    "permitOnDeletingRecList":"Do you realy want to delete",
+    "list": "list",
     "button":{
       "goback": "Back ",
       "addreview" : "Add your review",
@@ -31,8 +33,9 @@
       "update": "Update",
       "remove": "Remove",
       "createNewList": "Create new list",
-      "clearList" : "Clean selected"
-
+      "clearList" : "Clean selected",
+      "yes": "Yes",
+      "no": "No"
 
     }
   }
