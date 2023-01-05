@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 // mui
 import { Button, Grid, Typography } from '@mui/material'
 
@@ -11,84 +11,109 @@ import { useFormik } from 'formik'
 import { useMutation } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
-// mutation
 // other
 import { MovieTextField } from '../../UI'
 import { CREATE_RECOMENDED_MOVIES, MovieSelectedInput } from '../../../../graphql'
 import { MovieSelected } from '../../../../graphql/'
 import { useMovie } from '../../../../services/hooks'
+import { CreacteReclistSchema } from './helper'
+import styles from './styles'
 
-interface CreateRecomendedProps {
+interface OwnProps {
   moviesList: MovieSelected[]
   isOpenModal: boolean
   toggleModal: () => void
 }
 
-export const CreateRecomendedList: FC<CreateRecomendedProps> = ({ isOpenModal, moviesList, toggleModal }) => {
+export const CreateRecomendedList: FC<OwnProps> = ({ isOpenModal, moviesList, toggleModal }) => {
   const { t } = useTranslation()
   const [createRecomendedMovies] = useMutation(CREATE_RECOMENDED_MOVIES)
   const { handleDeleteAllMovies } = useMovie()
+
+  useEffect(() => {
+    if (isOpenModal) {
+      resetForm()
+    }
+  }, [isOpenModal])
+
   const movieFormik = useFormik({
     initialValues: {
       title: '',
       description: ''
     },
     enableReinitialize: true,
+    validateOnChange: false,
+    validateOnBlur: false,
+    validationSchema: CreacteReclistSchema,
     onSubmit: values => {
       createRecomendedList(values)
     }
   })
-  const { values, handleSubmit, handleReset, setFieldValue } = movieFormik
+  const { values, handleSubmit, handleReset, handleChange, resetForm, setErrors, errors } = movieFormik
 
-  const resetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleResetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     handleReset(e)
     toggleModal()
+  }
+  const handleChangeFields = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange(e)
+    setErrors({})
   }
   const createRecomendedList = (values: { title: string; description: string }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const movieListInput = moviesList.map(({ __typename, ...props }) => ({ ...props }))
     const { title, description } = values
-    const newList = {
-      title,
-      description,
-      createdData: new Date().toLocaleDateString(),
-      movies: [...movieListInput] as MovieSelectedInput[]
-    }
 
     createRecomendedMovies({
       variables: {
-        ...newList
+        title,
+        description,
+        createdData: new Date().toLocaleDateString(),
+        movies: [...movieListInput] as MovieSelectedInput[]
       }
     })
-      .then(() => handleDeleteAllMovies())
+      .then(() => {
+        handleDeleteAllMovies()
+        resetForm()
+      })
       .then(() => toggleModal())
   }
-
+  const isValid = () => Object.keys(errors).length === 0
   return (
     <MovieModal isOpen={isOpenModal} toggleModal={toggleModal}>
-      <Grid container>
-        <Grid item xs={12}>
-          <Typography variant='h4'>{t('selectedMovies.recomendedModal.title')}</Typography>
+      <Grid sx={styles.container}>
+        <Grid sx={styles.textContainer}>
+          <Typography sx={styles.textTitle}>{t('selectedMovies.recomendedModal.title')}</Typography>
         </Grid>
-        <Grid container item md={12} xs={12}>
+        <Grid>
           <StyledForm onSubmit={handleSubmit}>
             <MovieTextField
+              autoFocus
+              margin='dense'
               value={values.title}
-              onChange={e => setFieldValue('title', e.target.value)}
-              placeholder='Enter your title, please.'
+              onChange={handleChangeFields}
+              label='Title'
               name='title'
-              sx={{ width: '100%' }}
+              error={Boolean(errors.title)}
+              helperText={errors.title}
             />
             <MovieTextField
+              autoFocus
+              margin='dense'
               value={values.description}
-              onChange={e => setFieldValue('description', e.target.value)}
-              placeholder='Enter your title, please.'
+              onChange={handleChangeFields}
+              label='Description'
               name='description'
-              sx={{ width: '100%' }}
+              error={Boolean(errors.description)}
+              multiline={true}
+              rows={3}
+              helperText={errors.description}
             />
-            <Grid container flexDirection='row'>
-              <Button onClick={resetForm}>{t('content.button.cancel')}</Button>
-              <Button type='submit'>{t('content.button.save')}</Button>
+            <Grid container flexDirection='row' justifyContent='end'>
+              <Button onClick={handleResetForm}>{t('content.button.cancel')}</Button>
+              <Button disabled={!isValid()} type='submit'>
+                {t('content.button.save')}
+              </Button>
             </Grid>
           </StyledForm>
         </Grid>

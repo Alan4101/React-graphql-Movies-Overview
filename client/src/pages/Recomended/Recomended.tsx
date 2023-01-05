@@ -11,7 +11,6 @@ export const Recomended: FC = () => {
   const [isOpenDelete, toggleModalDelete] = useControlModal()
   const [sharedLink, setSharedLink] = useState('')
   const [selectedList, setSelectedList] = useState<RecomendedMovies | null>(null)
-  console.log(movies)
   const shareMovieList = (id: string) => {
     toggleModal()
     setSharedLink(id)
