@@ -1,0 +1,5 @@
+export * from './DeleteModal/DeleteModal'
+export * from './CreateAndUpdateDescriptionModal/CreateAndUpdateDescrModal'
+export * from './CreateRecomendedList/CreateRecomendedList'
+export * from './ShereMoviesLists/ShereMoviesList'
+export * from './MainModal/MovieModal'
