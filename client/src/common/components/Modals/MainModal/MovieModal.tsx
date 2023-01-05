@@ -1,8 +1,8 @@
 import { FC, ReactNode } from 'react'
 import { Backdrop, Box, Fade, Modal, IconButton, Grid } from '@mui/material'
-
-import classes from './MovieModal.module.css'
 import CloseIcon from '@mui/icons-material/Close'
+
+import styles from './styles'
 
 export interface MovieModalProps {
   isOpen: boolean
@@ -21,18 +21,16 @@ export const MovieModal: FC<MovieModalProps> = ({ isOpen, toggleModal, children 
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500,
-        classes: {
-          root: classes.backDrop
-        }
+        sx: styles.backDrop
       }}
     >
       <Fade in={isOpen}>
-        <Box className={classes.modalWrapper}>
-          <Grid className={classes.modal}>
-            <IconButton classes={{ root: classes.closeButton }} onClick={toggleModal}>
+        <Box sx={styles.wrapper}>
+          <Grid sx={styles.modalBody}>
+            <IconButton sx={styles.closeButton} onClick={toggleModal}>
               <CloseIcon />
             </IconButton>
-            <Grid className={classes.modalBody}>{children}</Grid>
+            <Grid sx={styles.content}>{children}</Grid>
           </Grid>
         </Box>
       </Fade>
