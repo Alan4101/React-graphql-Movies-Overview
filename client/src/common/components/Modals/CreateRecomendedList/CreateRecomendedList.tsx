@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { MovieTextField } from '../../UI'
 import { CREATE_RECOMENDED_MOVIES, MovieSelectedInput } from '../../../../graphql'
 import { MovieSelected } from '../../../../graphql/'
+import { useMovie } from '../../../../services/hooks'
 
 interface CreateRecomendedProps {
   moviesList: MovieSelected[]
@@ -26,14 +27,15 @@ interface CreateRecomendedProps {
 export const CreateRecomendedList: FC<CreateRecomendedProps> = ({ isOpenModal, moviesList, toggleModal }) => {
   const { t } = useTranslation()
   const [createRecomendedMovies] = useMutation(CREATE_RECOMENDED_MOVIES)
-
+  const { handleDeleteAllMovies } = useMovie()
   const movieFormik = useFormik({
     initialValues: {
-      title: ''
+      title: '',
+      description: ''
     },
     enableReinitialize: true,
     onSubmit: values => {
-      createRecomendedList(values.title)
+      createRecomendedList(values)
     }
   })
   const { values, handleSubmit, handleReset, setFieldValue } = movieFormik
@@ -42,11 +44,13 @@ export const CreateRecomendedList: FC<CreateRecomendedProps> = ({ isOpenModal, m
     handleReset(e)
     toggleModal()
   }
-  const createRecomendedList = (value: string) => {
-     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const movieListInput = moviesList.map(({ __typename, ...props }) => ({ ...props }))
+  const createRecomendedList = (values: { title: string; description: string }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const movieListInput = moviesList.map(({ __typename, ...props }) => ({ ...props }))
+    const { title, description } = values
     const newList = {
-      title: value,
+      title,
+      description,
       createdData: new Date().toLocaleDateString(),
       movies: [...movieListInput] as MovieSelectedInput[]
     }
@@ -55,7 +59,9 @@ export const CreateRecomendedList: FC<CreateRecomendedProps> = ({ isOpenModal, m
       variables: {
         ...newList
       }
-    }).then(() => toggleModal())
+    })
+      .then(() => handleDeleteAllMovies())
+      .then(() => toggleModal())
   }
 
   return (
@@ -65,7 +71,7 @@ export const CreateRecomendedList: FC<CreateRecomendedProps> = ({ isOpenModal, m
           <Typography variant='h4'>{t('selectedMovies.recomendedModal.title')}</Typography>
         </Grid>
         <Grid container item md={12} xs={12}>
-          <StyledForm>
+          <StyledForm onSubmit={handleSubmit}>
             <MovieTextField
               value={values.title}
               onChange={e => setFieldValue('title', e.target.value)}
@@ -73,10 +79,16 @@ export const CreateRecomendedList: FC<CreateRecomendedProps> = ({ isOpenModal, m
               name='title'
               sx={{ width: '100%' }}
             />
+            <MovieTextField
+              value={values.description}
+              onChange={e => setFieldValue('description', e.target.value)}
+              placeholder='Enter your title, please.'
+              name='description'
+              sx={{ width: '100%' }}
+            />
             <Grid container flexDirection='row'>
               <Button onClick={resetForm}>{t('content.button.cancel')}</Button>
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              <Button onClick={(e: any) => handleSubmit(e)}>{t('content.button.save')}</Button>
+              <Button type='submit'>{t('content.button.save')}</Button>
             </Grid>
           </StyledForm>
         </Grid>
