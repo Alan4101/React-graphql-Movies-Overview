@@ -4,17 +4,18 @@ import { useNavigate } from 'react-router-dom'
 import { Box, Grid, IconButton, Tooltip } from '@mui/material'
 import { DeleteOutline } from '@mui/icons-material'
 
-
-import {styles} from './styles'
+import { styles } from './styles'
 import { useMovie } from '../../../services/hooks'
-import { MovieSelected } from '../../../graphql/__generated__/'
+import { MovieSelected } from '../../../graphql'
+import { useTranslation } from 'react-i18next'
 
 interface OwnProps {
   movie: MovieSelected
 }
-const SlideItem: FC<OwnProps> = ({movie}) => {
+const SlideItem: FC<OwnProps> = ({ movie }) => {
   const navigate = useNavigate()
   const { handleDeleteMove } = useMovie()
+  const { t } = useTranslation()
 
   const onDeleteMovie = (e: React.MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation()
@@ -28,13 +29,15 @@ const SlideItem: FC<OwnProps> = ({movie}) => {
   return (
     <Tooltip title='Open movie page'>
       <Grid sx={styles.carouselItem} onClick={() => handleOpenMoviePage(movie)}>
-        <Box component='img' src={movie.poster} sx={styles.img} />
-        <Box sx={styles.buttonWrapper}>
-          <Tooltip title='Remove movie' placement='bottom'>
-            <IconButton onClick={(e: React.MouseEvent<HTMLElement>) => onDeleteMovie(e, movie.movieId ?? movie._id)}>
-              <DeleteOutline />
-            </IconButton>
-          </Tooltip>
+        <Box sx={styles.wrapper}>
+          <Box component='img' src={movie.poster} sx={styles.img} />
+          <Box sx={styles.buttonWrapper}>
+            <Tooltip title={t('tooltipText.slideItemSelected.removeMovie')} placement='bottom'>
+              <IconButton onClick={(e: React.MouseEvent<HTMLElement>) => onDeleteMovie(e, movie.movieId ?? movie._id)}>
+                <DeleteOutline />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
       </Grid>
     </Tooltip>

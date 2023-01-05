@@ -43,6 +43,9 @@
       "addToSelected": "Додати до обраних",
       "removeFromSelected": "Видати з обраних"
     },
+    "slideItemSelected":{
+      "removeMovie": "Видалити"
+    },
     "recomendedCard": {
       "deleteBtn": "Видалити список",
       "sharelistBtn": "Поділитись"

@@ -44,6 +44,9 @@
       "addToSelected": "Add to selected",
       "removeFromSelected": "Remove from selected"
     },
+    "slideItemSelected":{
+      "removeMovie":"Remove movie"
+    },
     "recomendedCard": {
       "deleteBtn": "Delete list",
       "sharelistBtn": "Share"
