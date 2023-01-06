@@ -3,7 +3,7 @@ import { CircularProgress, Container, Grid, Pagination } from '@mui/material'
 import { ToastContainer, toast, ToastOptions } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 
-import { CreateRecomendedList, MovieCard, SelectedMoviesPaper } from '../../common/components'
+import { CreateRecomendedList, MovieCard, SelectedMovies } from '../../common/components'
 // other
 import { useControlModal, useMovie } from './../../services/hooks'
 import { LanguageContext } from '../../services/context/LanguageContext'
@@ -28,7 +28,7 @@ export const Home: FC = () => {
 
   const pagesCount = movies && movies?.totalPages <= 500 ? movies?.totalPages : 500
 
-  const { handleSelecMovie, handleDeleteMove } = useMovie()
+  const { handleSelecMovie, handleDeleteMove, handleDeleteAllMovies } = useMovie()
 
   useEffect(() => {
     if (selectedMovies) {
@@ -49,7 +49,7 @@ export const Home: FC = () => {
   if (error) {
     return <M.MLoaderContainer>{t('content.error')}</M.MLoaderContainer>
   }
-  
+
   if (loading) {
     return (
       <M.MLoaderContainer>
@@ -61,7 +61,7 @@ export const Home: FC = () => {
     <Container maxWidth='xl'>
       <Grid container spacing={2} sx={{ mt: '10px' }}>
         <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
-          {isEmptySelectList && <SelectedMoviesPaper onCreateList={hanleCreateList} />}
+          {isEmptySelectList && <SelectedMovies onDeleteList={handleDeleteAllMovies} onCreateList={hanleCreateList} />}
 
           <Grid sx={M.cardWrapperSX}>
             {movies &&

@@ -56,8 +56,9 @@ export const ADD_USER_DESCRIPTION = gql(`
 // `;
 export const CREATE_RECOMENDED_MOVIES = gql(`
   mutation CreateRecomendedMovie($title: String, $createdData: String, $description: String, $movies: [MovieSelectedInput]) {
-    createRecomendedMovies(title: $title, createdData: $createdData, movies: $movies) {
+    createRecomendedMovies(title: $title, createdData: $createdData, description: $description, movies: $movies) {
       title
+      description
       movies {
         title
       }

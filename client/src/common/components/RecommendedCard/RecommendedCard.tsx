@@ -7,14 +7,17 @@ import { DraggableList } from '../UI'
 import { RecomendedMovies } from '../../../graphql'
 import { ExpandMore, styles } from './styles'
 // import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-interface RecommendedProps {
+interface OwnProps {
   collection: RecomendedMovies
   onShareList: (id: string) => void
   onDeleteList: (collection: RecomendedMovies) => void
 }
 
-export const MovieCardRecommended: FC<RecommendedProps> = ({ collection, onShareList , onDeleteList }) => {
+export const RecommendedCard: FC<OwnProps> = ({ collection, onShareList, onDeleteList }) => {
+  const { t } = useTranslation()
+
   const [expanded, setExpanded] = useState(false)
   // const navigate = useNavigate();
   const moviesNameCollection = collection.movies.map(({ title }) => title)
@@ -27,13 +30,16 @@ export const MovieCardRecommended: FC<RecommendedProps> = ({ collection, onShare
         <CardContent sx={styles.cardHeader}>
           <Typography sx={styles.title}>{collection.title}</Typography>
           <Typography sx={styles.description}>{collection.description}</Typography>
-          <IconButton sx={styles.deleteButton} onClick={() => onDeleteList(collection)}>
-            <Delete />
-          </IconButton>
+
+          <Tooltip title={t('tooltipText.recomendedCard.deleteBtn')} placement='top-end'>
+            <IconButton sx={styles.deleteButton} onClick={() => onDeleteList(collection)}>
+              <Delete />
+            </IconButton>
+          </Tooltip>
         </CardContent>
         <Divider />
         <CardActions disableSpacing sx={{ padding: '0 16px' }}>
-          <Tooltip title='Share movie list' placement='bottom'>
+          <Tooltip title={t('tooltipText.recomendedCard.sharelistBtn')} placement='bottom'>
             <IconButton aria-label='share' onClick={() => onShareList(collection._id as string)}>
               <Share />
             </IconButton>
