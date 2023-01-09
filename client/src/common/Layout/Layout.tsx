@@ -7,12 +7,14 @@ import { Home, Movie, Recomended, RecommendedList, Settings } from '../../pages'
 import { PublicRoutes } from '../constants/routes'
 // components
 import { Nav } from '../components'
+import { ToastContainer } from 'react-toastify';
 
 export const Layout: FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <Grid container flexDirection='column'>
       <CssBaseline />
       <Nav />
+      <ToastContainer />
 
       <Routes>
         <Route path={PublicRoutes.Home} element={<Home />} />

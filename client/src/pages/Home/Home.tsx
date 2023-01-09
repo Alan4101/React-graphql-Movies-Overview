@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
 import { Container, Grid, Pagination } from '@mui/material'
-import { ToastContainer, toast, ToastOptions } from 'react-toastify'
+import { toast, ToastOptions } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 
 import { CreateRecomendedList, ErrorContainer, Loader, MovieCard, SelectedMovies } from '../../common/components'
@@ -18,11 +18,10 @@ export const Home: FC = () => {
 
   const [page, setPage] = useState(1)
   const [isOpenModal, toggleModal] = useControlModal()
-  const [isEmptySelectList, setIsEmptySelectList] = useState(false)
 
   const context = useContext(LanguageContext)
 
-  const { selectedMovies } = useSelectedMovies()
+  const { selectedMovies, selectedError, selectedLoading } = useSelectedMovies()
   const { loading, error, movies } = useGetAllMovies(page, context?.state.locale || 'en-US')
 
   const pagesCount = movies && movies?.totalPages <= 500 ? movies?.totalPages : 500
@@ -30,21 +29,21 @@ export const Home: FC = () => {
   const { handleSelecMovie, handleDeleteMove, handleDeleteAllMovies } = useMovie()
 
   useEffect(() => {
-    if (selectedMovies) {
-      selectedMovies.length > 0 ? setIsEmptySelectList(true) : setIsEmptySelectList(false)
+    if (selectedError) toast.error('Can`t load selected list!', toastOptions as ToastOptions)
+
+    return () => {
+      toast.dismiss()
     }
-  }, [selectedMovies])
+  }, [selectedError])
 
   const paginationHandler = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page)
   }
 
-  const hanleCreateList = () => {
-    isEmptySelectList ? toggleModal() : toast.warn('List is empty', toastOptions as ToastOptions)
-  }
   const getSelectedStatus = (id: string) => {
     if (selectedMovies) return selectedMovies.some(item => item.movieId === id)
   }
+
   if (error) {
     return <ErrorContainer error={t('content.error')} />
   }
@@ -55,8 +54,12 @@ export const Home: FC = () => {
     <Container maxWidth='xl'>
       <Grid container spacing={2} sx={{ mt: '10px' }}>
         <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
-          {isEmptySelectList && <SelectedMovies onDeleteList={handleDeleteAllMovies} onCreateList={hanleCreateList} />}
-
+          <SelectedMovies
+            loading={selectedLoading}
+            movies={selectedMovies}
+            onDeleteList={handleDeleteAllMovies}
+            onCreateList={toggleModal}
+          />
           <Grid sx={styles.cardWrapper}>
             {movies &&
               movies.results.map(
@@ -77,7 +80,6 @@ export const Home: FC = () => {
           </Grid>
         </Grid>
         <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
-        <ToastContainer />
       </Grid>
     </Container>
   )

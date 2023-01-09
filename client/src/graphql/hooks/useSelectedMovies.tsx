@@ -9,10 +9,10 @@ const useSelectedMovies = () => {
   useEffect(() => {
     setSelected(data ? data.selectedMovies : [])
   }, [data, loading, error])
-  
+
   return {
-    loading,
-    error,
+    selectedLoading: loading,
+    selectedError: error,
     selectedMovies
   }
 }
