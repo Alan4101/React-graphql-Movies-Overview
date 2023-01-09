@@ -1,11 +1,10 @@
 import { FC, useEffect, useState } from 'react'
-import { Box, CircularProgress, Grid, Typography, Container } from '@mui/material'
-import { KeyboardReturn } from '@mui/icons-material'
+import { Box, CircularProgress, Grid, Typography, Container, Skeleton, Button } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from '@apollo/client'
 
-import { ActorItem, Carousel, CreateAndDeleteDescrModal, MovieButton } from '../../common/components'
+import { ActorItem, Carousel, CreateAndDeleteDescrModal, CustomOverview, MovieButton } from '../../common/components'
 
 import { useControlModal } from '../../services/hooks'
 import { ADD_USER_DESCRIPTION, Cast, useCredits, useGetSelectedMoviesById } from '../../graphql'
@@ -25,8 +24,7 @@ export const Movie: FC = () => {
   const { movie, loading, error, refetchMovie } = useGetSelectedMoviesById(id)
 
   const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION)
-  const { castList, getCredits } = useCredits()
-
+  const { castList, castLoading, castError, getCredits } = useCredits()
   useEffect(() => {
     if (movie && movie.backdropPath) {
       const imgPath = movie.backdropPath.split('/').at(-1)
@@ -49,9 +47,9 @@ export const Movie: FC = () => {
     }
   }, [movie])
 
-  // const handleRemoveDescription = () => {
-  //   addUserDescription({ variables: { id, userDescription: '' } }).then(() => refetchMovie())
-  // }
+  const handleRemoveDescription = () => {
+    addUserDescription({ variables: { id, userDescription: '' } }).then(() => refetchMovie())
+  }
 
   const updateDescription = (value: string) => {
     addUserDescription({ variables: { id, userDescription: value } })
@@ -72,84 +70,97 @@ export const Movie: FC = () => {
       </Grid>
     )
   }
-  if (loading && !movie) {
+  if (loading) {
     return (
       <Grid container sx={styles.loaderContainer}>
         <CircularProgress />
       </Grid>
     )
   }
-
+  if (!movie) {
+    return null
+  }
   return (
-    <Grid container sx={styles.mainContainer}>
-      <Box component='img' src={background} sx={styles.backgroundPicture} />
-      <Container maxWidth='lg' sx={styles.wrapper}>
-        <Grid sx={styles.content}>
-          <Grid sx={styles.pictureWrapper}>
-            <Box sx={styles.poster} src={movie?.poster} component='img' alt={movie?.title} />
-          </Grid>
+    <>
+      <Box sx={styles.bgWrapper}>
+        <Box component='img' src={background} sx={styles.backgroundPicture} />
+      </Box>
+      <Grid container sx={styles.mainContainer}>
+        <Container maxWidth='lg' sx={styles.wrapper}>
+          <Grid sx={styles.content}>
+            <Grid sx={styles.pictureWrapper}>
+              <Box sx={styles.poster} src={movie.poster} component='img' alt={movie.title} />
+            </Grid>
 
-          <Grid sx={styles.detailsContainer} container>
-            <Box sx={{ width: '100%' }}>
-              <Typography component='div' sx={styles.title}>
-                {movie?.title}
-              </Typography>
-              <Typography sx={styles.text}>
-                {movie?.releaseDate} | {movie?.genres ? movie.genres.join(', ') : ''} | {movie?.voteAverage}
-              </Typography>
-            </Box>
+            <Grid sx={styles.detailsContainer} container>
+              <Box sx={{ width: '100%' }}>
+                <Typography component='div' sx={styles.title}>
+                  {movie.title}
+                </Typography>
+                <Typography sx={styles.text}>
+                  {movie.releaseDate} | {movie.genres ? movie.genres.join(', ') : ''} | {movie?.voteAverage}
+                </Typography>
+              </Box>
 
-            <Box sx={styles.overviewText}>
-              <Typography variant='body1' sx={styles.contrastText}>
-                {movie?.overview}
-              </Typography>
-            </Box>
-            {/* {movie?.userDescription && movie?.userDescription?.length > 0 ? (
-              <Grid container>
-                <Grid item md={10}>
-                  <Typography variant='h5'>{t('content.userOverview')}</Typography>
-                </Grid>
-                <Grid item md={2}>
-                  <IconButton onClick={toggleModal}>
-                    <Edit />
-                  </IconButton>
-                  <IconButton onClick={handleRemoveDescription}>
-                    <Delete />
-                  </IconButton>
-                </Grid>
-                <Grid item md={12} xs={12}>
-                  <Typography variant='body1'>{movie?.userDescription}</Typography>
-                </Grid>
-              </Grid>
-            ) : (
-              <Button variant='text' sx={{ color: '#fff', textDecoration: 'underline' }} onClick={toggleModal}>
-                {t('content.button.addreview')}
-              </Button>
-            )} */}
-          </Grid>
-          <Grid sx={styles.buttonBackContainer}>
-            <MovieButton sx={styles.buttonBack} variant='outlined' onClick={handleReturnToHomePage}>
-              <KeyboardReturn sx={{ paddingRight: '5px' }} />
-              {t('content.button.goback')}
-            </MovieButton>
-          </Grid>
-          <Grid sx={styles.castContainer}>
-            <Carousel config={{ countSlide: 4 }}>
-              {castList && castList.map(actor => <ActorItem key={actor.creditId} actor={actor as Cast} />)}
-            </Carousel>
-          </Grid>
-        </Grid>
-      </Container>
+              <Box sx={styles.overviewText}>
+                <Typography variant='body1' sx={styles.contrastText}>
+                  {movie?.overview}
+                </Typography>
+              </Box>
 
-      {movie && (
-        <CreateAndDeleteDescrModal
-          isUpdate={isUpdate}
-          isOpenModal={isOpenModal}
-          toggleModal={toggleModal}
-          value={movie.userDescription ?? ''}
-          updateDescription={updateDescription}
-        />
-      )}
-    </Grid>
+              {movie?.userDescription && movie?.userDescription?.length > 0 ? (
+                <CustomOverview
+                  overview={movie.userDescription}
+                  toggleModal={toggleModal}
+                  onRemoveDescription={handleRemoveDescription}
+                />
+              ) : (
+                <Button variant='text' sx={{ color: '#fff', textDecoration: 'underline' }} onClick={toggleModal}>
+                  {t('content.button.addreview')}
+                </Button>
+              )}
+            </Grid>
+            <Grid sx={styles.buttonBackContainer}>
+              <MovieButton sx={styles.buttonBack} variant='outlined' onClick={handleReturnToHomePage}>
+                {t('content.button.goback')}
+              </MovieButton>
+            </Grid>
+            <Grid sx={styles.castContainer}>
+              {castError ? (
+                <Box>
+                  <Typography sx={styles.errorText}>Some error, pleace try later!</Typography>
+                </Box>
+              ) : (
+                <Carousel config={{ countSlide: 4 }}>
+                  {castLoading
+                    ? Array.from(new Array(4)).map((_, index) => (
+                        <Box key={index}>
+                          <Skeleton
+                            key={index}
+                            variant='rectangular'
+                            height={260}
+                            animation='pulse'
+                            sx={{ bgcolor: '#7e7c7c', m: '0 7px' }}
+                          />
+                        </Box>
+                      ))
+                    : castList && castList.map(actor => <ActorItem key={actor.creditId} actor={actor as Cast} />)}
+                </Carousel>
+              )}
+            </Grid>
+          </Grid>
+        </Container>
+
+        {movie && (
+          <CreateAndDeleteDescrModal
+            isUpdate={isUpdate}
+            isOpenModal={isOpenModal}
+            toggleModal={toggleModal}
+            value={movie.userDescription ?? ''}
+            updateDescription={updateDescription}
+          />
+        )}
+      </Grid>
+    </>
   )
 }

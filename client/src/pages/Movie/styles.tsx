@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material'
 export const styles = {
-  mainContainer: (theme: Theme)=>({ 
+  mainContainer: (theme: Theme) => ({
     height: 'calc(100vh - 68px)',
     position: 'relative',
     [theme.breakpoints.down(600)]: {
@@ -12,10 +12,11 @@ export const styles = {
       top: 0,
       left: 0,
       width: '100%',
-      height: 'inherit',
+      height: 'max-content',
       backgroundColor: 'rgba(0,0,0,.4)'
     }
   }),
+
   wrapper: (theme: Theme) => ({
     marginTop: '5%',
     [theme.breakpoints.down(425)]: {
@@ -23,15 +24,25 @@ export const styles = {
       padding: 0
     }
   }),
+  bgWrapper: {
+    position: 'fixed',
+    top: '-50%',
+    left: '-50%',
+    width: '200%',
+    height: '200%',
+    zindex: '-1'
+  },
   backgroundPicture: {
     position: 'absolute',
     top: 0,
     left: 0,
-    objectFit: 'cover',
-    height: 'inherit',
-    width: '100%'
+    right: 0,
+    bottom: 0,
+    margin: 'auto',
+    minWidth: '50%',
+    minHeight: '50%'
   },
-  content:(theme: Theme)=>({ 
+  content: (theme: Theme) => ({
     display: 'grid',
 
     gridTemplate: '1fr auto / minmax(min-content, 200px) minmax(min-content, auto)',
@@ -41,16 +52,19 @@ export const styles = {
     backgroundColor: 'rgba(0,0,0, .6)',
     boxShadow: '0 15px 30px rgba(0, 0, 0, 0.5)',
     padding: '15px',
-    [theme.breakpoints.down(600)]:{
+    [theme.breakpoints.down(600)]: {
       gridTemplate: 'minmax(min-content, 1fr)/1fr',
       height: '100%'
     }
   }),
-  pictureWrapper: {
+  pictureWrapper: (theme: Theme) => ({
     position: 'relative',
     width: '200px',
-    height: '270px'
-  },
+    height: '270px',
+    [theme.breakpoints.down(426)]: {
+      justifySelf: 'center'
+    }
+  }),
   poster: {
     position: 'absolute',
     top: 0,
@@ -61,7 +75,7 @@ export const styles = {
     backgroundColor: 'rgba(0, 0, 0, 1)',
     objectFit: 'cover'
   },
-  detailsContainer:{
+  detailsContainer: {
     height: 'fit-content'
   },
   text: {
@@ -89,9 +103,9 @@ export const styles = {
     display: 'grid',
     alignSelf: 'end'
   },
-  buttonBack:(theme: Theme)=>({
+  buttonBack: (theme: Theme) => ({
     color: theme.palette.secondary.light,
-    border:`1px solid ${theme.palette.secondary.main}` 
+    border: `1px solid ${theme.palette.secondary.main}`
   }),
   loaderContainer: {
     width: '100%',
@@ -103,5 +117,11 @@ export const styles = {
     display: 'grid',
     height: 'fit-content',
     alignSelf: 'end'
+  },
+  errorText: {
+    textAlign: 'center',
+    color: '#fff',
+    letterSpacing: '2px',
+    fontStyle: 'italic'
   }
 }

@@ -70,7 +70,7 @@ export const Nav: FC = () => {
   )
 
   return (
-    <Box>
+    <Box sx={{ zIndex: '2' }}>
       <AppBar position='static'>
         <Toolbar
           sx={{
