@@ -13,15 +13,15 @@ export const styles = {
    */
 
   wrapper: {
-    '&:hover': {
-      transition: '.2s cubic-bezier(0.2, 0.8, 0.2, 1)',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      height: '100%',
-      width: '100%',
-      transform: 'scale(1.2)'
-    }
+    // '&:hover': {
+    //   transition: '.2s cubic-bezier(0.2, 0.8, 0.2, 1)',
+    //   position: 'absolute',
+    //   top: 0,
+    //   left: 0,
+    //   height: '100%',
+    //   width: '100%',
+    //   transform: 'scale(1.2)'
+    // }
   },
   img: { objectFit: 'contain', width: '100%', borderRadius: '10px' },
   buttonWrapper: {
