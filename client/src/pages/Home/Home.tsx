@@ -1,16 +1,16 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
-import { CircularProgress, Container, Grid, Pagination } from '@mui/material'
+import { Container, Grid, Pagination } from '@mui/material'
 import { ToastContainer, toast, ToastOptions } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 
-import { CreateRecomendedList, MovieCard, SelectedMovies } from '../../common/components'
+import { CreateRecomendedList, ErrorContainer, Loader, MovieCard, SelectedMovies } from '../../common/components'
 // other
 import { useControlModal, useMovie } from './../../services/hooks'
 import { LanguageContext } from '../../services/context/LanguageContext'
 import { toastOptions } from '../../services/helpers/helper'
 import { Movie, useGetAllMovies, useSelectedMovies } from '../../graphql'
 // styles
-import * as M from './styles'
+import styles from './styles'
 import 'react-toastify/dist/ReactToastify.css'
 
 export const Home: FC = () => {
@@ -19,7 +19,6 @@ export const Home: FC = () => {
   const [page, setPage] = useState(1)
   const [isOpenModal, toggleModal] = useControlModal()
   const [isEmptySelectList, setIsEmptySelectList] = useState(false)
-  const [search] = useState('')
 
   const context = useContext(LanguageContext)
 
@@ -47,15 +46,10 @@ export const Home: FC = () => {
     if (selectedMovies) return selectedMovies.some(item => item.movieId === id)
   }
   if (error) {
-    return <M.MLoaderContainer>{t('content.error')}</M.MLoaderContainer>
+    return <ErrorContainer error={t('content.error')} />
   }
-
   if (loading) {
-    return (
-      <M.MLoaderContainer>
-        <CircularProgress />
-      </M.MLoaderContainer>
-    )
+    return <Loader />
   }
   return (
     <Container maxWidth='xl'>
@@ -63,7 +57,7 @@ export const Home: FC = () => {
         <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
           {isEmptySelectList && <SelectedMovies onDeleteList={handleDeleteAllMovies} onCreateList={hanleCreateList} />}
 
-          <Grid sx={M.cardWrapperSX}>
+          <Grid sx={styles.cardWrapper}>
             {movies &&
               movies.results.map(
                 (item: Movie) =>
@@ -78,13 +72,11 @@ export const Home: FC = () => {
                   )
               )}
           </Grid>
-          <Grid container sx={{ m: '10px' }}>
-            {search.length === 0 ? <Pagination count={pagesCount} page={page} onChange={paginationHandler} /> : null}
+          <Grid container sx={{ m: '10px' }} justifyContent='center'>
+            <Pagination count={pagesCount} page={page} onChange={paginationHandler} />
           </Grid>
         </Grid>
-        {selectedMovies && (
-          <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
-        )}
+        <CreateRecomendedList moviesList={selectedMovies} isOpenModal={isOpenModal} toggleModal={toggleModal} />
         <ToastContainer />
       </Grid>
     </Container>

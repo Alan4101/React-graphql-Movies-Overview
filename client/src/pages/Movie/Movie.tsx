@@ -1,10 +1,18 @@
 import { FC, useEffect, useState } from 'react'
-import { Box, CircularProgress, Grid, Typography, Container, Skeleton, Button } from '@mui/material'
+import { Box, Grid, Typography, Container, Skeleton, Button } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from '@apollo/client'
 
-import { ActorItem, Carousel, CreateAndDeleteDescrModal, CustomOverview, MovieButton } from '../../common/components'
+import {
+  ActorItem,
+  Carousel,
+  CreateAndDeleteDescrModal,
+  CustomOverview,
+  ErrorContainer,
+  Loader,
+  MovieButton
+} from '../../common/components'
 
 import { useControlModal } from '../../services/hooks'
 import { ADD_USER_DESCRIPTION, Cast, useCredits, useGetSelectedMoviesById } from '../../graphql'
@@ -25,6 +33,7 @@ export const Movie: FC = () => {
 
   const [addUserDescription] = useMutation(ADD_USER_DESCRIPTION)
   const { castList, castLoading, castError, getCredits } = useCredits()
+
   useEffect(() => {
     if (movie && movie.backdropPath) {
       const imgPath = movie.backdropPath.split('/').at(-1)
@@ -62,20 +71,11 @@ export const Movie: FC = () => {
   const handleReturnToHomePage = () => {
     navigate('/')
   }
-
   if (error) {
-    return (
-      <Grid>
-        <Typography>Error: {error.name}</Typography>
-      </Grid>
-    )
+    return <ErrorContainer error={error.name} />
   }
   if (loading) {
-    return (
-      <Grid container sx={styles.loaderContainer}>
-        <CircularProgress />
-      </Grid>
-    )
+    return <Loader />
   }
   if (!movie) {
     return null

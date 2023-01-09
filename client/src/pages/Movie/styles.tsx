@@ -12,7 +12,7 @@ export const styles = {
       top: 0,
       left: 0,
       width: '100%',
-      height: 'max-content',
+      height: '100%',
       backgroundColor: 'rgba(0,0,0,.4)'
     }
   }),
@@ -29,8 +29,7 @@ export const styles = {
     top: '-50%',
     left: '-50%',
     width: '200%',
-    height: '200%',
-    zindex: '-1'
+    height: '200%'
   },
   backgroundPicture: {
     position: 'absolute',
