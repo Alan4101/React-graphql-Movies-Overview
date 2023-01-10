@@ -73,16 +73,23 @@ const MCardWrapper = em(Box)({
     }
   }
 })
-
-const imgSx = {
-  position: 'absolute',
-  top: 0,
-  height: '110%',
-  width: '100%',
-  zIndex: -1,
-  transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
-  backgroundColor: 'rgba(0, 0, 0, 1)',
-  objectFit: 'cover'
+const styles = {
+  raitingWrapper: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    margin: '5px'
+  },
+  img: {
+    position: 'absolute',
+    top: 0,
+    height: '110%',
+    width: '100%',
+    zIndex: -1,
+    transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
+    backgroundColor: 'rgba(0, 0, 0, 1)',
+    objectFit: 'cover'
+  }
 }
 
 const MIconButton = styled(IconButton)(({ theme }) => ({
@@ -115,4 +122,4 @@ const MSelectedButton = styled(MIconButton)(({ theme }) => ({
   }
 }))
 
-export { MCard, MCardWrapper, MTittle, MDescription, MAddButton, MSelectedButton, imgSx }
+export { MCard, MCardWrapper, MTittle, MDescription, MAddButton, MSelectedButton, styles }

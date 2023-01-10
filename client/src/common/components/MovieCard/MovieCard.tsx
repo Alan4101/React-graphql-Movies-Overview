@@ -5,6 +5,7 @@ import { Add, Check } from '@mui/icons-material'
 import * as M from './styles'
 import { Movie } from '../../../graphql'
 import { useTranslation } from 'react-i18next'
+import { CircularProgresWithLable } from '../UI'
 
 interface MovieCardProps {
   status?: boolean
@@ -18,6 +19,9 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onRemoveMovie, on
   return (
     <M.MCard sx={styleRoot}>
       <M.MCardWrapper>
+        <Box sx={M.styles.raitingWrapper}>
+          <CircularProgresWithLable value={movie.voteAverage ?? 0} />
+        </Box>
         {!status ? (
           <Tooltip title={t('tooltipText.movieCard.addToSelected')}>
             <M.MAddButton aria-label='add-movie' onClick={() => onSelectMovie(movie)}>
@@ -38,7 +42,7 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onRemoveMovie, on
           <M.MDescription>{movie.releaseDate}</M.MDescription>
         </Box>
       </M.MCardWrapper>
-      <Box component='img' src={movie.poster} alt={movie.title} sx={M.imgSx} className='cardImg' />
+      <Box component='img' src={movie.poster} alt={movie.title} sx={M.styles.img} className='cardImg' />
     </M.MCard>
   )
 }
