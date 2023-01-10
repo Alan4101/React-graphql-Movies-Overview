@@ -1,6 +1,16 @@
 import { FC, ReactNode } from 'react'
 // mui
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Link, Divider, Button } from '@mui/material'
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Link,
+  Divider,
+  Button,
+  Typography
+} from '@mui/material'
 import LanguageIcon from '@mui/icons-material/Language'
 
 // lib
@@ -23,11 +33,11 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ isSideBar, toggleDrawer, chi
         <Box role='presentation' onClick={toggleDrawer}>
           <List>
             {menuItem.map(item => (
-              <Link component={RouterLink} to={item.route} key={item.route}>
+              <Link component={RouterLink} to={item.route} key={item.route} sx={{ textDecoration: 'none' }}>
                 <ListItem disablePadding>
                   <ListItemButton>
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={t(item.title)} />
+                    <ListItemIcon sx={{ color: '#fff' }}>{item.icon}</ListItemIcon>
+                    <Typography sx={{ color: '#fff' }}>{t(item.title)}</Typography>
                   </ListItemButton>
                 </ListItem>
               </Link>
@@ -36,10 +46,11 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ isSideBar, toggleDrawer, chi
             <Divider />
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemIcon>
+                <ListItemIcon sx={{ color: '#fff' }}>
                   <LanguageIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('home.language')} />
+                {/* <Typography sx={{ color: '#fff' }}>{t('home.language')}</Typography> */}
+
                 {children}
               </ListItemButton>
             </ListItem>

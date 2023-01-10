@@ -14,9 +14,8 @@ import {
   MenuItem
 } from '@mui/material'
 //icon & style
-import classes from './Nav.module.css'
 
-import MenuIcon from '@mui/icons-material/Menu'
+import { Menu } from '@mui/icons-material'
 // lib
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -24,6 +23,7 @@ import { useTranslation } from 'react-i18next'
 import { LanguageContext } from '../../../services/context/LanguageContext'
 import { MenuSidebar } from '../MenuSideBar/MenuSideBar'
 import { changeLanguage } from '../../../utils'
+import styles from './styles'
 
 type Languages = 'en-US' | 'uk-UA'
 
@@ -53,16 +53,12 @@ export const Nav: FC = () => {
       label=''
       displayEmpty
       MenuProps={{
-        classes: { paper: classes.dropdownSelect },
         variant: 'menu'
       }}
-      sx={{
-        border: 'none !important',
-        outline: 'none !important',
-        color: '#fff',
-
-        fontSize: '14px'
+      inputProps={{
+        sx:{borderBottom: 'none'}
       }}
+      sx={styles.select}
     >
       <MenuItem value='en-US'>EN</MenuItem>
       <MenuItem value='uk-UA'>UA</MenuItem>
@@ -72,24 +68,10 @@ export const Nav: FC = () => {
   return (
     <Box sx={{ zIndex: '2' }}>
       <AppBar position='static'>
-        <Toolbar
-          sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            height: '68px'
-          }}
-        >
+        <Toolbar sx={styles.toolbar}>
           <Hidden only={['lg', 'xl']}>
-            <IconButton
-              size='large'
-              edge='start'
-              color='inherit'
-              aria-label='menu'
-              sx={{ mr: 2 }}
-              onClick={toggleDrawer}
-            >
-              <MenuIcon />
+            <IconButton size='large' edge='start' color='inherit' sx={{ mr: 2 }} onClick={toggleDrawer}>
+              <Menu />
             </IconButton>
           </Hidden>
           <Link component={RouterLink} to='/'>
@@ -111,7 +93,7 @@ export const Nav: FC = () => {
         </Toolbar>
       </AppBar>
 
-      <Drawer anchor={'left'} open={isDrawerOpen} onClose={toggleDrawer}>
+      <Drawer anchor='left' open={isDrawerOpen} onClose={toggleDrawer} PaperProps={{ sx: styles.sideBar }}>
         <MenuSidebar toggleDrawer={toggleDrawer} isSideBar={true}>
           {dropdown()}
         </MenuSidebar>
