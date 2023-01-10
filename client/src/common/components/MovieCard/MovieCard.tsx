@@ -19,9 +19,12 @@ export const MovieCard: FC<MovieCardProps> = ({ status, movie, onRemoveMovie, on
   return (
     <M.MCard sx={styleRoot}>
       <M.MCardWrapper>
-        <Box sx={M.styles.raitingWrapper}>
-          <CircularProgresWithLable value={movie.voteAverage ?? 0} />
-        </Box>
+        {movie.voteAverage && (
+          <Box sx={M.styles.raitingWrapper}>
+            <CircularProgresWithLable value={movie.voteAverage} />
+          </Box>
+        )}
+
         {!status ? (
           <Tooltip title={t('tooltipText.movieCard.addToSelected')}>
             <M.MAddButton aria-label='add-movie' onClick={() => onSelectMovie(movie)}>

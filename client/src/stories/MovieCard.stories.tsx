@@ -14,14 +14,14 @@ export default {
 
 const Template: ComponentStory<typeof MovieCard> = args => <MovieCard {...args} />
 
-export const OneMovieCardSelected = Template.bind({})
-OneMovieCardSelected.args = {
-  movie: movies[1] as Movie,
+export const MovieCardSelected = Template.bind({})
+MovieCardSelected.args = {
+  movie: movies[1] as unknown as Movie,
   styleRoot: { width: '200px' },
   status: true
 }
-export const OneMovieCardNotSelected = Template.bind({})
-OneMovieCardNotSelected.args = {
-  movie: movies[2] as Movie,
+export const MovieCardUnselected = Template.bind({})
+MovieCardUnselected.args = {
+  movie: movies[2] as unknown as Movie,
   styleRoot: { width: '200px' }
 }

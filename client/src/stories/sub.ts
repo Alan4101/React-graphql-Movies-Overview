@@ -5,19 +5,24 @@ export const movies = [
     title: 'Koogle',
     poster: 'https://media-cache.cinematerial.com/p/500x/pdufvdif/sherlock-holmes-movie-cover.jpg?v=1456822182',
     releaseDate: '22/12/22',
-    genres: ['Detective']
+    genres: ['Detective'],
+    voteAverage: '2.1'
   },
   {
     id: '62e7b4da97b631b62d95810b',
     title: 'Exoplode',
     poster: 'https://media-cache.cinematerial.com/p/500x/pdufvdif/sherlock-holmes-movie-cover.jpg?v=1456822182',
-    releaseDate: '22/12/22'
+    releaseDate: '22/12/22',
+    voteAverage: '8.1'
+
   },
   {
     _id: '62e7b4da71e4255d99400ae9',
     title: 'Medicroix',
     poster: 'https://media-cache.cinematerial.com/p/500x/pdufvdif/sherlock-holmes-movie-cover.jpg?v=1456822182',
-    releaseDate: '22/12/22'
+    releaseDate: '22/12/22',
+    voteAverage: '10'
+
   }
   // {
   //   id: "62e7b4da4efe6da325ab78a9",
