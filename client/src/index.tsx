@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from 'react-dom/client';
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
@@ -13,7 +13,8 @@ const client = new ApolloClient({
   connectToDevTools: true
 })
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+const container = document.getElementById('app');
+const root = createRoot(container as HTMLElement)
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
