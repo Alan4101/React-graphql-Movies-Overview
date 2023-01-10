@@ -50,6 +50,9 @@ export const Home: FC = () => {
   if (loading) {
     return <Loader />
   }
+  if (!movies) {
+    return <Grid>problem</Grid>
+  }
   return (
     <Container maxWidth='xl'>
       <Grid container spacing={2} sx={{ mt: '10px' }}>
@@ -61,19 +64,18 @@ export const Home: FC = () => {
             onCreateList={toggleModal}
           />
           <Grid sx={styles.cardWrapper}>
-            {movies &&
-              movies.results.map(
-                (item: Movie) =>
-                  item && (
-                    <MovieCard
-                      key={item.id}
-                      movie={item}
-                      status={getSelectedStatus(item.id)}
-                      onRemoveMovie={handleDeleteMove}
-                      onSelectMovie={handleSelecMovie}
-                    />
-                  )
-              )}
+            {movies.results.map(
+              (item: Movie) =>
+                item && (
+                  <MovieCard
+                    key={item.id}
+                    movie={item}
+                    status={getSelectedStatus(item.id)}
+                    onRemoveMovie={handleDeleteMove}
+                    onSelectMovie={handleSelecMovie}
+                  />
+                )
+            )}
           </Grid>
           <Grid container sx={{ m: '10px' }} justifyContent='center'>
             <Pagination count={pagesCount} page={page} onChange={paginationHandler} />
