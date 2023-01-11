@@ -1,11 +1,12 @@
 import { FC } from 'react'
 import { Box, Button, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 import { MovieModal, MovieModalProps } from '../MainModal/MovieModal'
 
 import { RecomendedMovies, useDeleteMovieList } from '../../../../graphql'
+
 import styles from './styles'
-import { useTranslation } from 'react-i18next'
 
 interface OwnProps extends MovieModalProps {
   collection: RecomendedMovies

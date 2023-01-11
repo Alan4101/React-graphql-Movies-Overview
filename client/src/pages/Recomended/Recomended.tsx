@@ -1,33 +1,39 @@
-import React, { FC, useState } from 'react'
-import { Grid, Container, Typography } from '@mui/material'
-import { RecommendedCard, ShereMovieList } from '../../common/components'
+import { FC, useState } from 'react'
+import { Grid, Container } from '@mui/material'
+
+import { DeleteModal, ErrorContainer, Loader, RecommendedCard, ShereMovieList } from '../../common/components'
 import { useControlModal } from '../../services/hooks'
-import { RecomendedMovies, useGetReccomenedMovies } from '../../graphql'
-import { DeleteModal } from './../../common/components/Modals/DeleteModal/DeleteModal'
+import { RecomendedMovies, useGetRecommenedMovies } from '../../graphql'
 
 export const Recomended: FC = () => {
-  const { error, loading, movies } = useGetReccomenedMovies()
+  const { error, loading, movies } = useGetRecommenedMovies()
   const [isOpen, toggleModal] = useControlModal()
   const [isOpenDelete, toggleModalDelete] = useControlModal()
   const [sharedLink, setSharedLink] = useState('')
   const [selectedList, setSelectedList] = useState<RecomendedMovies | null>(null)
+
   const shareMovieList = (id: string) => {
     toggleModal()
     setSharedLink(id)
   }
+
   const handleDeleteList = (collection: RecomendedMovies) => {
     toggleModalDelete()
     setSelectedList(collection)
   }
+
+  if (error) {
+    return <ErrorContainer error='Problem...' />
+  }
+
+  if (loading) {
+    return <Loader />
+  }
+
   return (
     <Container>
       <Grid sx={styles.wrapper} gap={2} mt={2}>
-        {error ? (
-          <Typography>Problem</Typography>
-        ) : loading ? (
-          <>Loading...</>
-        ) : (
-          movies &&
+        {movies &&
           movies.map((movie: RecomendedMovies) => (
             <RecommendedCard
               key={movie._id}
@@ -35,8 +41,7 @@ export const Recomended: FC = () => {
               onDeleteList={handleDeleteList}
               onShareList={shareMovieList}
             />
-          ))
-        )}
+          ))}
       </Grid>
       {selectedList && <DeleteModal isOpen={isOpenDelete} toggleModal={toggleModalDelete} collection={selectedList} />}
       <ShereMovieList isOpen={isOpen} toggleModal={toggleModal} value={sharedLink} />

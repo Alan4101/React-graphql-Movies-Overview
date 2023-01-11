@@ -10,10 +10,10 @@ const styles = {
     textAlign: 'center'
   },
   buttonCancel: {
-    gridArea: 'submit'
+    gridArea: 'cancel'
   },
   buttonSubmit: {
-    gridArea: 'cancel'
+    gridArea: 'submit'
   }
 }
 export default styles
