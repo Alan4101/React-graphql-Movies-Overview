@@ -13,8 +13,7 @@ import { useTranslation } from 'react-i18next'
 
 // other
 import { MovieTextField } from '../../UI'
-import { CREATE_RECOMENDED_MOVIES, MovieSelectedInput } from '../../../../graphql'
-import { MovieSelected } from '../../../../graphql/'
+import { CREATE_RECOMENDED_MOVIES, MovieSelectedInput, MovieSelected, useGetRecommenedMovies } from '../../../../graphql'
 import { useMovie } from '../../../../services/hooks'
 import { CreacteReclistSchema } from './helper'
 import styles from './styles'
@@ -28,6 +27,8 @@ interface OwnProps {
 export const CreateRecomendedList: FC<OwnProps> = ({ isOpenModal, moviesList, toggleModal }) => {
   const { t } = useTranslation()
   const [createRecomendedMovies] = useMutation(CREATE_RECOMENDED_MOVIES)
+  const { refetchRecList } = useGetRecommenedMovies()
+
   const { handleDeleteAllMovies } = useMovie()
 
   useEffect(() => {
@@ -61,7 +62,10 @@ export const CreateRecomendedList: FC<OwnProps> = ({ isOpenModal, moviesList, to
   }
   const createRecomendedList = (values: { title: string; description: string }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const movieListInput = moviesList.map(({ __typename, ...props }) => ({ ...props }))
+    const movieListInput = moviesList.map(({ __typename, ...props }, index) => ({
+      ...props,
+      sequenceNumber: index + 1
+    }))
     const { title, description } = values
 
     createRecomendedMovies({
@@ -74,6 +78,7 @@ export const CreateRecomendedList: FC<OwnProps> = ({ isOpenModal, moviesList, to
     })
       .then(() => {
         handleDeleteAllMovies()
+        refetchRecList()
         resetForm()
       })
       .then(() => toggleModal())

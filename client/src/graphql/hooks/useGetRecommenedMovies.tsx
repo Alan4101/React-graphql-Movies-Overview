@@ -1,12 +1,13 @@
 import { useQuery } from '@apollo/client'
 import { GET_RECOMMENDED } from '../recommended.query'
 
-const useGetReccomenedMovies = () => {
-  const { loading, error, data } = useQuery(GET_RECOMMENDED)
+const useGetRecommenedMovies = () => {
+  const { loading, error, data, refetch } = useQuery(GET_RECOMMENDED)
   return {
     loading,
     error,
+    refetchRecList: refetch,
     movies: data?.getRecommended
   }
 }
-export default useGetReccomenedMovies
+export default useGetRecommenedMovies

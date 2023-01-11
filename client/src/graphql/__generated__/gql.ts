@@ -25,7 +25,7 @@ const documents = {
     "\n  query Credits($movieId: ID, $language: String) {\n    credits(movieId: $movieId, language: $language) {\n    id\n    cast {\n      name\n      profilePath\n      id\n      creditId\n      adult\n      gender\n      originalName\n    }\n  }\n}\n": types.CreditsDocument,
     "\n  mutation DeleteMovieList($id: ID!) {\n    deleteMovieListById(_id: $id) {\n    _id\n    title\n    }\n  }\n": types.DeleteMovieListDocument,
     "\n  mutation UpdateList($args: RecomendedUpdateInput) {\n    updateRecomendedList(args: $args) {\n      title\n      description\n  }\n}\n": types.UpdateListDocument,
-    "\n  query GetRecommended {\n    getRecommended {\n      title\n      _id\n      createdData\n      description\n      movies {\n        _id\n        title\n        poster\n        adult\n        movieId\n        genres\n        releaseDate\n        overview\n        voteCount\n        userDescription\n      }\n    }\n  }\n": types.GetRecommendedDocument,
+    "\n  query GetRecommended {\n    getRecommended {\n      title\n      _id\n      createdData\n      description\n      movies {\n        _id\n        title\n        poster\n        adult\n        movieId\n        genres\n        releaseDate\n        overview\n        voteCount\n        userDescription\n        sequenceNumber\n\n      }\n    }\n  }\n": types.GetRecommendedDocument,
 };
 
 /**
@@ -79,7 +79,7 @@ export function graphql(source: "\n  mutation UpdateList($args: RecomendedUpdate
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetRecommended {\n    getRecommended {\n      title\n      _id\n      createdData\n      description\n      movies {\n        _id\n        title\n        poster\n        adult\n        movieId\n        genres\n        releaseDate\n        overview\n        voteCount\n        userDescription\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetRecommended {\n    getRecommended {\n      title\n      _id\n      createdData\n      description\n      movies {\n        _id\n        title\n        poster\n        adult\n        movieId\n        genres\n        releaseDate\n        overview\n        voteCount\n        userDescription\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query GetRecommended {\n    getRecommended {\n      title\n      _id\n      createdData\n      description\n      movies {\n        _id\n        title\n        poster\n        adult\n        movieId\n        genres\n        releaseDate\n        overview\n        voteCount\n        userDescription\n        sequenceNumber\n\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetRecommended {\n    getRecommended {\n      title\n      _id\n      createdData\n      description\n      movies {\n        _id\n        title\n        poster\n        adult\n        movieId\n        genres\n        releaseDate\n        overview\n        voteCount\n        userDescription\n        sequenceNumber\n\n      }\n    }\n  }\n"];
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.

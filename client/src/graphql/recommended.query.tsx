@@ -18,6 +18,8 @@ export const GET_RECOMMENDED = gql(`
         overview
         voteCount
         userDescription
+        sequenceNumber
+
       }
     }
   }

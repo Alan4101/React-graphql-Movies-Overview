@@ -35,6 +35,7 @@ type MovieSelected {
   voteAverage: Float
   userDescription: String
   backdropPath: String
+  sequenceNumber: Int
 }
 input MovieSelectedInput {
   _id: ID!
@@ -49,6 +50,7 @@ input MovieSelectedInput {
   voteAverage: Float
   userDescription: String
   backdropPath: String
+  sequenceNumber: Int
 }
 type RecomendedMovies {
   _id: ID!
