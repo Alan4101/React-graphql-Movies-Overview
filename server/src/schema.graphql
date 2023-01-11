@@ -59,7 +59,7 @@ type RecomendedMovies {
   createdData: String!
   movies: [MovieSelected!]!
 }
-input RecomendedUpdateInput{
+input RecomendedUpdateInput {
   _id: ID!
   title: String
   description: String
@@ -114,6 +114,23 @@ type DeleteResponse {
   success: Boolean!
   message: String
 }
+type User {
+  _id: ID!
+  firstName: String!
+  lastName: String!
+  age: Int!
+  email: String!
+  password: String!
+  role: String!
+}
+input UserInput {
+  firstName: String!
+  lastName: String!
+  age: Int!
+  email: String!
+  password: String!
+  role: String!
+}
 
 type Query {
   movies(page: Int, language: String): Movies!
@@ -123,9 +140,19 @@ type Query {
   getRecommended: [RecomendedMovies!]!
 
   credits(movieId: ID, language: String): Credits!
+  users: [User!]!
 }
 
 type Mutation {
+  registration(
+    firstName: String!
+    lastName: String!
+    age: Int!
+    email: String!
+    password: String!
+    role: String!
+  ): User!
+
   createMovie(
     title: String
     poster: String
@@ -150,7 +177,7 @@ type Mutation {
     description: String
     movies: [MovieSelectedInput]
   ): RecomendedMovies!
-  deleteMovieListById(_id: ID!):RecomendedMovies!
+  deleteMovieListById(_id: ID!): RecomendedMovies!
   deleteAll: DeleteResponse!
   updateRecomendedList(args: RecomendedUpdateInput): RecomendedMovies!
 }
