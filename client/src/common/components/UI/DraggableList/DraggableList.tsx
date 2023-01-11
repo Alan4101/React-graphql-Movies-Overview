@@ -1,5 +1,5 @@
 import { FC, useState, useRef, ReactNode } from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useSprings, animated } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
 import clamp from 'lodash.clamp'
@@ -39,7 +39,15 @@ export const DraggableList: FC<OwnProps> = ({ items: inputItems, children }) => 
             scale
           }}
         >
-          {items[index].substring(0, 25)}
+          <Box>
+            <Typography sx={styles.text} component='span'>
+              {order.current[index] + 1}.
+            </Typography>
+            <Typography sx={styles.text} component='span'>
+              {items[index].substring(0, 25)}
+            </Typography>
+          </Box>
+
           {children}
         </animated.div>
       ))}

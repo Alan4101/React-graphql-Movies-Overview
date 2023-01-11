@@ -26,10 +26,14 @@ export const styles = {
       userSelect: 'none',
       cursor: 'grab'
     }),
-    '&>div:active': {
+    '&>div:active': (theme: Theme)=>({
       cursor: 'grabbing',
-      background: 'rgba(116,87,185, 0.85)',
-      border: '2px solid'
-    }
+      background: theme.palette.secondary.main,
+      // background: 'rgba(116,87,185, 0.85)',
+      // border: '2px solid'
+    })
+  },
+  text: {
+    color: '#fff'
   }
 }
