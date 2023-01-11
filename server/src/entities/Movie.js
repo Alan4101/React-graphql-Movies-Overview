@@ -1,4 +1,7 @@
-import { IMAGE_BASE_PATH } from "../../../config";
+import * as dotenv from 'dotenv' 
+dotenv.config()
+
+const path = process.env.IMAGE_BASE_PATH
 
 export class Movie {
   constructor(movie) {
@@ -6,10 +9,10 @@ export class Movie {
       this.id = movie.id;
       this.title = movie.title;
       this.releaseDate = movie.release_date;
-      this.poster = `${IMAGE_BASE_PATH}${movie.poster_path}`;
+      this.poster = `${path}${movie.poster_path}`;
       this.adult = movie.adult;
       this.overview = movie.overview;
-      this.backdropPath = `${IMAGE_BASE_PATH}${movie.backdrop_path}`;
+      this.backdropPath = `${path}${movie.backdrop_path}`;
       this.video = movie.video;
       this.voteAverage = movie.vote_average;
       this.voteCount = movie.vote_count;

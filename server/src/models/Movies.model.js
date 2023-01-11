@@ -12,6 +12,7 @@ const Movie = new mongoose.Schema({
   userDescription: String,
   backdropPath: String,
   voteAverage: Number,
+  sequenceNumber: Number
 });
 const MovieModel = mongoose.model("Movie", Movie);
 

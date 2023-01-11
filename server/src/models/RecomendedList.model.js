@@ -17,6 +17,8 @@ const RecomendedList = new mongoose.Schema(
         overview: String,
         voteCount: Number,
         userDescription: String,
+        sequenceNumber: Number
+
       },
     ],
   },

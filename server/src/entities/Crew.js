@@ -1,4 +1,5 @@
-import { IMAGE_BASE_PATH } from "../../../config";
+import * as dotenv from 'dotenv' 
+dotenv.config()
 
 export class Crew {
   constructor(crew) {
