@@ -67,7 +67,7 @@ export const SignUp: FC = () => {
               <TextField required fullWidth id='age' label='Age' name='age' type='number' />
             </Grid>
             <Grid item xs={12}>
-              <TextField required fullWidth id='age' label='Age' name='age' type='file' />
+              <TextField required fullWidth name='picture' type='file' />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -92,7 +92,7 @@ export const SignUp: FC = () => {
           </Button>
           <Grid container justifyContent='flex-end'>
             <Grid item>
-              <Link href='#' variant='body2'>
+              <Link href='/sign-in' variant='body2'>
                 Already have an account? Sign in
               </Link>
             </Grid>

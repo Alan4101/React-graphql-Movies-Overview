@@ -20,5 +20,16 @@ export const menuItem: IMenuItem[] = [
     icon: <Recommend />,
     title: 'page.recommended',
     route: 'recomended'
+  },
+  {
+    icon: <Recommend />,
+    title: 'page.signUp',
+    route: 'sign-up'
+  },
+  {
+    icon: <Recommend />,
+    title: 'page.signIn',
+    route: 'sign-in'
   }
+
 ]

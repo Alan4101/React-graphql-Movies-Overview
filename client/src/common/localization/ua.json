@@ -2,7 +2,9 @@
   "page":{
     "recommended": "Рекомендовані",
     "settings":"Налдаштування",
-    "home": "Головна"
+    "home": "Головна",
+    "signIn": "Увійти",
+    "signUp": "Зареєструватись"
   },
   "home": {
     "header": "OverMovies",

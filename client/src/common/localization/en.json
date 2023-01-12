@@ -2,7 +2,9 @@
   "page":{
     "recommended": "Recomended",
     "settings":"Settings",
-    "home": "Home"
+    "home": "Home",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
   
   },
   "home": {
