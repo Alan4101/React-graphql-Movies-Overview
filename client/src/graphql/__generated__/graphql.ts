@@ -12,6 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** Date custom scalar type */
+  DateTime: any;
 };
 
 export type Cast = CastAndCrew & {
@@ -76,6 +78,11 @@ export type Genre = {
   name: Scalars['String'];
 };
 
+export type LoginInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 export type Movie = {
   __typename?: 'Movie';
   adult?: Maybe<Scalars['Boolean']>;
@@ -90,6 +97,20 @@ export type Movie = {
   video?: Maybe<Scalars['Boolean']>;
   voteAverage?: Maybe<Scalars['Float']>;
   voteCount?: Maybe<Scalars['Int']>;
+};
+
+export type MovieCreatedInput = {
+  adult?: InputMaybe<Scalars['Boolean']>;
+  backdropPath?: InputMaybe<Scalars['String']>;
+  genres?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  movieId?: InputMaybe<Scalars['String']>;
+  overview?: InputMaybe<Scalars['String']>;
+  poster?: InputMaybe<Scalars['String']>;
+  releaseDate?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+  userDescription?: InputMaybe<Scalars['String']>;
+  voteAverage?: InputMaybe<Scalars['Float']>;
+  voteCount?: InputMaybe<Scalars['Int']>;
 };
 
 export type MovieSelected = {
@@ -141,6 +162,9 @@ export type Mutation = {
   deleteAll: DeleteResponse;
   deleteMovie: MovieSelected;
   deleteMovieListById: RecomendedMovies;
+  loginUser: TokenResponse;
+  registration: User;
+  signUpUser: UserResponse;
   updateRecomendedList: RecomendedMovies;
 };
 
@@ -152,17 +176,7 @@ export type MutationAddUserDescriptionArgs = {
 
 
 export type MutationCreateMovieArgs = {
-  adult?: InputMaybe<Scalars['Boolean']>;
-  backdropPath?: InputMaybe<Scalars['String']>;
-  genres?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  movieId?: InputMaybe<Scalars['String']>;
-  overview?: InputMaybe<Scalars['String']>;
-  poster?: InputMaybe<Scalars['String']>;
-  releaseDate?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  userDescription?: InputMaybe<Scalars['String']>;
-  voteAverage?: InputMaybe<Scalars['Float']>;
-  voteCount?: InputMaybe<Scalars['Int']>;
+  movie: MovieCreatedInput;
 };
 
 
@@ -184,6 +198,21 @@ export type MutationDeleteMovieListByIdArgs = {
 };
 
 
+export type MutationLoginUserArgs = {
+  input: LoginInput;
+};
+
+
+export type MutationRegistrationArgs = {
+  params: SingUpInput;
+};
+
+
+export type MutationSignUpUserArgs = {
+  input: SingUpInput;
+};
+
+
 export type MutationUpdateRecomendedListArgs = {
   args?: InputMaybe<RecomendedUpdateInput>;
 };
@@ -194,8 +223,11 @@ export type Query = {
   genres: Array<Genre>;
   getRecommended: Array<RecomendedMovies>;
   getSelectedMovies: Array<MovieSelected>;
+  logoutUser: Scalars['Boolean'];
   movieById: MovieSelected;
   movies: Movies;
+  refreshAccessToken: TokenResponse;
+  users: Array<User>;
 };
 
 
@@ -232,18 +264,44 @@ export type RecomendedUpdateInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type SingUpInput = {
+  age: Scalars['Int'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password: Scalars['String'];
+  picture: Scalars['String'];
+};
+
+export type TokenResponse = {
+  __typename?: 'TokenResponse';
+  access_token: Scalars['String'];
+  status: Scalars['String'];
+};
+
+export type User = {
+  __typename?: 'User';
+  _id: Scalars['ID'];
+  age: Scalars['Int'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password: Scalars['String'];
+  picture: Scalars['String'];
+  role: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  verified: Scalars['Boolean'];
+};
+
+export type UserResponse = {
+  __typename?: 'UserResponse';
+  status: Scalars['String'];
+  user: User;
+};
+
 export type AddMovieMutationVariables = Exact<{
-  title?: InputMaybe<Scalars['String']>;
-  releaseDate?: InputMaybe<Scalars['String']>;
-  adult?: InputMaybe<Scalars['Boolean']>;
-  poster?: InputMaybe<Scalars['String']>;
-  genres?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  movieId?: InputMaybe<Scalars['String']>;
-  overview?: InputMaybe<Scalars['String']>;
-  userDescription?: InputMaybe<Scalars['String']>;
-  voteCount?: InputMaybe<Scalars['Int']>;
-  backdropPath?: InputMaybe<Scalars['String']>;
-  voteAverage?: InputMaybe<Scalars['Float']>;
+  movie: MovieCreatedInput;
 }>;
 
 
@@ -332,7 +390,7 @@ export type GetRecommendedQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetRecommendedQuery = { __typename?: 'Query', getRecommended: Array<{ __typename?: 'RecomendedMovies', title: string, _id: string, createdData: string, description: string, movies: Array<{ __typename?: 'MovieSelected', _id: string, title: string, poster: string, adult?: boolean | null, movieId: string, genres: Array<string>, releaseDate: string, overview?: string | null, voteCount?: number | null, userDescription?: string | null, sequenceNumber?: number | null }> }> };
 
 
-export const AddMovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddMovie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"releaseDate"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"adult"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"poster"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"genres"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"movieId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"overview"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userDescription"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"voteCount"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"backdropPath"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"voteAverage"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMovie"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"Argument","name":{"kind":"Name","value":"releaseDate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"releaseDate"}}},{"kind":"Argument","name":{"kind":"Name","value":"adult"},"value":{"kind":"Variable","name":{"kind":"Name","value":"adult"}}},{"kind":"Argument","name":{"kind":"Name","value":"poster"},"value":{"kind":"Variable","name":{"kind":"Name","value":"poster"}}},{"kind":"Argument","name":{"kind":"Name","value":"genres"},"value":{"kind":"Variable","name":{"kind":"Name","value":"genres"}}},{"kind":"Argument","name":{"kind":"Name","value":"movieId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"movieId"}}},{"kind":"Argument","name":{"kind":"Name","value":"overview"},"value":{"kind":"Variable","name":{"kind":"Name","value":"overview"}}},{"kind":"Argument","name":{"kind":"Name","value":"voteCount"},"value":{"kind":"Variable","name":{"kind":"Name","value":"voteCount"}}},{"kind":"Argument","name":{"kind":"Name","value":"userDescription"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userDescription"}}},{"kind":"Argument","name":{"kind":"Name","value":"backdropPath"},"value":{"kind":"Variable","name":{"kind":"Name","value":"backdropPath"}}},{"kind":"Argument","name":{"kind":"Name","value":"voteAverage"},"value":{"kind":"Variable","name":{"kind":"Name","value":"voteAverage"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<AddMovieMutation, AddMovieMutationVariables>;
+export const AddMovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddMovie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"movie"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MovieCreatedInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMovie"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"movie"},"value":{"kind":"Variable","name":{"kind":"Name","value":"movie"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<AddMovieMutation, AddMovieMutationVariables>;
 export const RemoveMovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveMovie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMovie"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}}]}}]}}]} as unknown as DocumentNode<RemoveMovieMutation, RemoveMovieMutationVariables>;
 export const AddUserDescriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddUserDescription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userDescription"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addUserDescription"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"userDescription"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userDescription"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<AddUserDescriptionMutation, AddUserDescriptionMutationVariables>;
 export const CreateRecomendedMovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateRecomendedMovie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createdData"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"description"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"movies"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MovieSelectedInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createRecomendedMovies"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"Argument","name":{"kind":"Name","value":"createdData"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createdData"}}},{"kind":"Argument","name":{"kind":"Name","value":"description"},"value":{"kind":"Variable","name":{"kind":"Name","value":"description"}}},{"kind":"Argument","name":{"kind":"Name","value":"movies"},"value":{"kind":"Variable","name":{"kind":"Name","value":"movies"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"movies"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}}]} as unknown as DocumentNode<CreateRecomendedMovieMutation, CreateRecomendedMovieMutationVariables>;

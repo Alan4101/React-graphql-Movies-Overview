@@ -2,30 +2,32 @@ import { graphql as gql } from './__generated__/'
 
 export const ADD_MOVIE_TO_SELECTED = gql(`
   mutation AddMovie(
-    $title: String
-    $releaseDate: String
-    $adult: Boolean
-    $poster: String
-    $genres: [String]
-    $movieId: String
-    $overview: String
-    $userDescription: String
-    $voteCount: Int
-    $backdropPath: String
-    $voteAverage: Float
+    $movie: MovieCreatedInput!
+    # $title: String
+    # $releaseDate: String
+    # $adult: Boolean
+    # $poster: String
+    # $genres: [String]
+    # $movieId: String
+    # $overview: String
+    # $userDescription: String
+    # $voteCount: Int
+    # $backdropPath: String
+    # $voteAverage: Float
   ) {
     createMovie(
-      title: $title
-      releaseDate: $releaseDate
-      adult: $adult
-      poster: $poster
-      genres: $genres
-      movieId: $movieId
-      overview: $overview
-      voteCount: $voteCount
-      userDescription: $userDescription
-      backdropPath: $backdropPath
-      voteAverage: $voteAverage
+      movie: $movie
+      # title: $title
+      # releaseDate: $releaseDate
+      # adult: $adult
+      # poster: $poster
+      # genres: $genres
+      # movieId: $movieId
+      # overview: $overview
+      # voteCount: $voteCount
+      # userDescription: $userDescription
+      # backdropPath: $backdropPath
+      # voteAverage: $voteAverage
     ) {
         _id
         movieId      

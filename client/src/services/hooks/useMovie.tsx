@@ -77,13 +77,15 @@ export const useMovie = () => {
     if (!isNewMovie) {
       createMovie({
         variables: {
-          ...movie,
-          genres: getGenresName(movie.genreIds),
-          movieId: movie.id,
-          userDescription: '',
-          voteCount: movie.voteCount,
-          backdropPath: movie.backdropPath,
-          voteAverage: movie.voteAverage
+          movie: {
+            ...movie,
+            genres: getGenresName(movie.genreIds),
+            movieId: movie.id,
+            userDescription: '',
+            voteCount: movie.voteCount,
+            backdropPath: movie.backdropPath,
+            voteAverage: movie.voteAverage
+          }
         }
       }).then(() => {
         toast.success('Movie added!', toastOptions as ToastOptions)
