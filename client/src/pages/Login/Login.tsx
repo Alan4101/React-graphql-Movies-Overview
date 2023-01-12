@@ -1,12 +1,38 @@
 import { FC } from 'react'
-import { FormControlLabel } from '@material-ui/core'
-import { Avatar, Box, Checkbox, Container, CssBaseline, Grid, Link, TextField, Typography, Button } from '@mui/material'
+// import { FormControlLabel } from '@material-ui/core'
+import { Avatar, Box, Container, CssBaseline, Grid, Link, TextField, Typography, Button } from '@mui/material'
 import { LockOutlined } from '@mui/icons-material'
+import { useSignIn } from '../../graphql'
+import { useFormik } from 'formik'
 
 export const Login: FC = () => {
-  const handleSubmit = () => {
-    console.log('login')
+  const { signIn } = useSignIn()
+
+  const signInFormik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    enableReinitialize: true,
+    onSubmit: values => {
+      login(values)
+    }
+  })
+  const { values, handleSubmit, handleChange } = signInFormik
+
+  const login = (values: unknown) => {
+    if (values instanceof Object && 'email' in values && 'password' in values) {
+      signIn({
+        variables: {
+          input: {
+            email: values.email as string,
+            password: values.password as string
+          }
+        }
+      })
+    }
   }
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -32,8 +58,10 @@ export const Login: FC = () => {
             id='email'
             label='Email Address'
             name='email'
+            value={values.email}
             autoComplete='email'
             autoFocus
+            onChange={handleChange}
           />
           <TextField
             margin='normal'
@@ -42,10 +70,12 @@ export const Login: FC = () => {
             name='password'
             label='Password'
             type='password'
+            value={values.password}
             id='password'
             autoComplete='current-password'
+            onChange={handleChange}
           />
-          <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' />
+          {/* <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' /> */}
           <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>

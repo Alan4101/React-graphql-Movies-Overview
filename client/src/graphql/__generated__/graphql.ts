@@ -44,6 +44,14 @@ export type CastAndCrew = {
   profilePath: Scalars['String'];
 };
 
+export type CreateUserListInput = {
+  createdData?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  movies?: InputMaybe<Array<InputMaybe<MovieSelectedInput>>>;
+  title?: InputMaybe<Scalars['String']>;
+  userId: Scalars['ID'];
+};
+
 export type Credits = {
   __typename?: 'Credits';
   cast: Array<Cast>;
@@ -159,6 +167,7 @@ export type Mutation = {
   addUserDescription: MovieSelected;
   createMovie: MovieSelected;
   createRecomendedMovies: RecomendedMovies;
+  createUserList: User;
   deleteAll: DeleteResponse;
   deleteMovie: MovieSelected;
   deleteMovieListById: RecomendedMovies;
@@ -185,6 +194,11 @@ export type MutationCreateRecomendedMoviesArgs = {
   description?: InputMaybe<Scalars['String']>;
   movies?: InputMaybe<Array<InputMaybe<MovieSelectedInput>>>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationCreateUserListArgs = {
+  params: CreateUserListInput;
 };
 
 
@@ -289,6 +303,7 @@ export type User = {
   lastName: Scalars['String'];
   password: Scalars['String'];
   picture: Scalars['String'];
+  recomendedList: Array<RecomendedMovies>;
   role: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
   verified: Scalars['Boolean'];
@@ -389,6 +404,13 @@ export type GetRecommendedQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetRecommendedQuery = { __typename?: 'Query', getRecommended: Array<{ __typename?: 'RecomendedMovies', title: string, _id: string, createdData: string, description: string, movies: Array<{ __typename?: 'MovieSelected', _id: string, title: string, poster: string, adult?: boolean | null, movieId: string, genres: Array<string>, releaseDate: string, overview?: string | null, voteCount?: number | null, userDescription?: string | null, sequenceNumber?: number | null }> }> };
 
+export type LoginUserMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'TokenResponse', access_token: string, status: string } };
+
 
 export const AddMovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddMovie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"movie"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MovieCreatedInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMovie"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"movie"},"value":{"kind":"Variable","name":{"kind":"Name","value":"movie"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<AddMovieMutation, AddMovieMutationVariables>;
 export const RemoveMovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveMovie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMovie"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}}]}}]}}]} as unknown as DocumentNode<RemoveMovieMutation, RemoveMovieMutationVariables>;
@@ -403,3 +425,4 @@ export const CreditsDocument = {"kind":"Document","definitions":[{"kind":"Operat
 export const DeleteMovieListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteMovieList"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMovieListById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<DeleteMovieListMutation, DeleteMovieListMutationVariables>;
 export const UpdateListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateList"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"args"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"RecomendedUpdateInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateRecomendedList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"args"},"value":{"kind":"Variable","name":{"kind":"Name","value":"args"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<UpdateListMutation, UpdateListMutationVariables>;
 export const GetRecommendedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRecommended"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getRecommended"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"createdData"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"movies"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"poster"}},{"kind":"Field","name":{"kind":"Name","value":"adult"}},{"kind":"Field","name":{"kind":"Name","value":"movieId"}},{"kind":"Field","name":{"kind":"Name","value":"genres"}},{"kind":"Field","name":{"kind":"Name","value":"releaseDate"}},{"kind":"Field","name":{"kind":"Name","value":"overview"}},{"kind":"Field","name":{"kind":"Name","value":"voteCount"}},{"kind":"Field","name":{"kind":"Name","value":"userDescription"}},{"kind":"Field","name":{"kind":"Name","value":"sequenceNumber"}}]}}]}}]}}]} as unknown as DocumentNode<GetRecommendedQuery, GetRecommendedQueryVariables>;
+export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"access_token"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
