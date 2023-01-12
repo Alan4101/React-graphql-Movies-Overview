@@ -1,18 +1,22 @@
-import * as fs from 'fs';
-import { ApolloServer } from "apollo-server";
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import express from 'express'
+import cookieParser from 'cookie-parser'
 
-import resolvers from "./resolvers/resolvers";
-import connectDB from './db';
+const app = express()
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+app.use(cookieParser())
 
-const server = new ApolloServer({
-  typeDefs: fs.readFileSync(join(__dirname, 'schema.graphql'), 'utf8'),
-  resolvers,
-})
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION ? Shutting down...');
+  console.error('Error?', err.message);
+  process.exit(1);
+});
 
-connectDB();
-server.listen().then(({url})=> console.log('Server runing on '+ url))
+export default app
+
+// const server = new ApolloServer({
+//   typeDefs: fs.readFileSync(join(__dirname, 'schema.graphql'), 'utf8'),
+//   resolvers,
+// })
+
+// connectDB();
+// server.listen().then(({url})=> console.log('Server runing on '+ url))
