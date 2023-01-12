@@ -14,12 +14,24 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import { useFormik } from 'formik'
 
 export const SignUp: FC = () => {
-  const handleSubmit = () => {
-    console.log('submit')
-  }
-
+  const signUpFormik = useFormik({
+    initialValues: {
+      age: 0,
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      picture: ''
+    },
+    enableReinitialize: true,
+    onSubmit: values => {
+      values
+    }
+  })
+  const { values, handleSubmit, handleChange } = signUpFormik
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -48,6 +60,7 @@ export const SignUp: FC = () => {
                 id='firstName'
                 label='First Name'
                 autoFocus
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -58,17 +71,26 @@ export const SignUp: FC = () => {
                 label='Last Name'
                 name='lastName'
                 autoComplete='family-name'
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField required fullWidth id='email' label='Email Address' name='email' autoComplete='email' />
+              <TextField
+                required
+                fullWidth
+                onChange={handleChange}
+                id='email'
+                label='Email Address'
+                name='email'
+                autoComplete='email'
+              />
             </Grid>
             <Grid item xs={12}>
-              <TextField required fullWidth id='age' label='Age' name='age' type='number' />
+              <TextField required onChange={handleChange} fullWidth id='age' label='Age' name='age' type='number' />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextField required fullWidth name='picture' type='file' />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 required
@@ -78,6 +100,7 @@ export const SignUp: FC = () => {
                 type='password'
                 id='password'
                 autoComplete='new-password'
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>

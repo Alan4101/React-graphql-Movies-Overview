@@ -8,6 +8,26 @@ export const SIGN_IN = gql(`
   }
 }
 `)
+export const SIGN_UP = gql(`
+mutation SignUpUser($input: SingUpInput!) {
+  signUpUser(input: $input) {
+    user {
+      createdAt
+      firstName
+      email
+      age
+      _id
+      lastName
+      password
+      picture
+      role
+      updatedAt
+      verified
+    }
+    status
+  }
+}
+`)
 // {
 //   "input": {
 //     "email": "example@email.com",
