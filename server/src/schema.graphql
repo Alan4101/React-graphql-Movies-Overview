@@ -1,3 +1,6 @@
+#scalar type
+scalar DateTime
+
 type Movies {
   page: Int!
   totalResults: Int!
@@ -51,6 +54,19 @@ input MovieSelectedInput {
   userDescription: String
   backdropPath: String
   sequenceNumber: Int
+}
+input MovieCreatedInput {
+  title: String
+  poster: String
+  genres: [String]
+  adult: Boolean
+  releaseDate: String
+  movieId: String
+  overview: String
+  voteCount: Int
+  userDescription: String
+  backdropPath: String
+  voteAverage: Float
 }
 type RecomendedMovies {
   _id: ID!
@@ -114,6 +130,7 @@ type DeleteResponse {
   success: Boolean!
   message: String
 }
+#Users types
 type User {
   _id: ID!
   firstName: String!
@@ -122,16 +139,39 @@ type User {
   email: String!
   password: String!
   role: String!
+  verified: Boolean!
+  picture: String!
+  createdAt: DateTime
+  updatedAt: DateTime
 }
-input UserInput {
+type UserResponse {
+  status: String!
+  user: User!
+}
+input SingUpInput {
   firstName: String!
   lastName: String!
   age: Int!
   email: String!
   password: String!
-  role: String!
+  picture: String!
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+type TokenResponse {
+  status: String!
+  access_token: String!
+}
+type TokenResponse {
+  status: String!
+  access_token: String!
+}
+#end Users type
+
+#--------Queries---------
 type Query {
   movies(page: Int, language: String): Movies!
   movieById(_id: ID!): MovieSelected!
@@ -141,32 +181,24 @@ type Query {
 
   credits(movieId: ID, language: String): Credits!
   users: [User!]!
+
+  #Auth
+  refreshAccessToken: TokenResponse!
+  logoutUser: Boolean!
+  # User
+  # getMe: UserResponse!
 }
-
+# ----- Mutations-------
 type Mutation {
-  registration(
-    firstName: String!
-    lastName: String!
-    age: Int!
-    email: String!
-    password: String!
-    role: String!
-  ): User!
+  #Auth
+  loginUser(input: LoginInput!): TokenResponse!
+  signUpUser(input: SingUpInput!): UserResponse!
 
-  createMovie(
-    title: String
-    poster: String
-    genres: [String]
-    adult: Boolean
-    releaseDate: String
-    movieId: String
-    overview: String
-    voteCount: Int
-    userDescription: String
-    backdropPath: String
-    voteAverage: Float
-  ): MovieSelected!
+  registration(params: SingUpInput!): User!
+  # Create new selected movie
+  createMovie(movie: MovieCreatedInput!): MovieSelected!
 
+  #delete selected movie by id
   deleteMovie(_id: ID): MovieSelected!
 
   addUserDescription(_id: ID, userDescription: String): MovieSelected!
@@ -177,7 +209,10 @@ type Mutation {
     description: String
     movies: [MovieSelectedInput]
   ): RecomendedMovies!
+
   deleteMovieListById(_id: ID!): RecomendedMovies!
+  
   deleteAll: DeleteResponse!
+  
   updateRecomendedList(args: RecomendedUpdateInput): RecomendedMovies!
 }

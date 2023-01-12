@@ -6,7 +6,7 @@ const UserResolvers = {
     users: async (_, __) => await getAllUsers(),
   },
   Mutation: {
-    registration: async (_, args) => await createUser(args),
+    registration: async (_, { params: user }) => await createUser(user),
   },
 };
 export default UserResolvers;

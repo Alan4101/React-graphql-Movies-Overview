@@ -2,6 +2,7 @@ import http from "http";
 import cors from "cors";
 import fs from "fs";
 import bodyParser from "body-parser";
+import session from "express-session";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
@@ -27,11 +28,15 @@ const corsOptions = {
   ],
   credentials: true,
 };
+const sessOptions = {
+  secret: "keybord cat",
+  resave: true,
+  saveUninitialized: true,
+};
 
 const httpServer = http.createServer(app);
 
 app.use(cors(corsOptions));
-
 (async function () {
   const server = new ApolloServer({
     typeDefs: fs.readFileSync(join(__dirname, "schema.graphql"), "utf8"),
@@ -44,11 +49,14 @@ app.use(cors(corsOptions));
   connectDB();
 
   await server.start();
+  
+  app.use(session(sessOptions));
 
   app.use(
     "/graphql",
     cors(corsOptions),
     bodyParser.json(),
+    session(sessOptions),
     expressMiddleware(server, {
       context: async ({ req, res }) => ({ req, res, getAuthUser }),
       // context: async ({req}) => ({token: req.headers.token})

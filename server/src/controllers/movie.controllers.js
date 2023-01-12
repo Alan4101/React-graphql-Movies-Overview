@@ -20,7 +20,7 @@ const MoviesResolvers = {
     movieById: async (_, { _id }) => await getMovieById(_id),
   },
   Mutation: {
-    createMovie: async (_, args) => await createMovie(args),
+    createMovie: async (_, { movie: data }) => await createMovie(data),
 
     deleteMovie: async (_, { _id }) => await deleteOneMovie(_id),
 

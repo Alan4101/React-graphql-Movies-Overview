@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-
+const defaultImg= 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRBu9nYd722gKRVUMrE8FHpc6eALfJNEP9cna7_4XCyg&s'
 const Movie = new mongoose.Schema(
   {
     title: String,
-    poster: String,
+    poster: {type: String, default: defaultImg},
     releaseDate: String,
     adult: Boolean,
     movieId: String,
