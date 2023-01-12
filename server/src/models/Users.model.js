@@ -28,6 +28,30 @@ const Users = new mongoose.Schema(
       default: true,
       select: false,
     },
+    // temperary solution
+    recomendedList: [
+      {
+        title: {type: String, required: true},
+        createdData: {type: String, required: true},
+        description: {type: String, required: true},
+        movies: [
+          {
+            _id: {type: String, required: true},
+            title: {type: String, required: true},
+            poster: {type: String, required: true},
+            releaseDate: String,
+            adult: Boolean,
+            movieId: String,
+            genres: [String],
+            overview: String,
+            voteCount: Number,
+            userDescription: String,
+            sequenceNumber: Number
+    
+          },
+        ],
+      },
+    ]
   },
   {
     versionKey: false,
@@ -37,25 +61,7 @@ const Users = new mongoose.Schema(
   }
 );
 Users.index({ email: 1 });
-// Users.pre("save", function (next) {
-//   const user = this;
-//   if (this.isModified("password") || this.isNew) {
-//     bcrypt.genSalt(10, function (saltError, salt) {
-//       if (saltError) {
-//         return next(saltError);
-//       } else {
-//         bcrypt.hash(user.password, salt, function (hashError, hash) {
-//           if (hashError) return next(hashError);
 
-//           user.password = hash;
-//           next();
-//         });
-//       }
-//     });
-//   } else {
-//     return next();
-//   }
-// });
 Users.pre("save", async function (next) {
   // Check if the password has been modified
   if (!this.isModified("password")) return next();
@@ -68,11 +74,6 @@ Users.pre("save", async function (next) {
   next();
 });
 
-// Users.methods.comparePassword = function (password, callback) {
-//   bcrypt.compare(password, this.password, function (error, isMatch) {
-//     return error ? callback(error) : callback(null, isMatch);
-//   });
-// };
 Users.methods.comparePassword = async function (
   candidatePassword,
   hashedPassword

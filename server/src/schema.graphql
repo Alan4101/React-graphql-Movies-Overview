@@ -82,6 +82,13 @@ input RecomendedUpdateInput {
   createdData: String
   movies: [MovieSelectedInput]
 }
+input CreateUserListInput {
+   userId: ID!
+  title: String
+  description: String
+  createdData: String
+  movies: [MovieSelectedInput]
+}
 interface CastAndCrew {
   id: ID!
   creditId: ID!
@@ -141,6 +148,7 @@ type User {
   role: String!
   verified: Boolean!
   picture: String!
+  recomendedList: [RecomendedMovies!]!
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -194,6 +202,10 @@ type Mutation {
   loginUser(input: LoginInput!): TokenResponse!
   signUpUser(input: SingUpInput!): UserResponse!
 
+  createUserList(
+    params:CreateUserListInput!
+  ): User!
+
   registration(params: SingUpInput!): User!
   # Create new selected movie
   createMovie(movie: MovieCreatedInput!): MovieSelected!
@@ -211,8 +223,8 @@ type Mutation {
   ): RecomendedMovies!
 
   deleteMovieListById(_id: ID!): RecomendedMovies!
-  
+
   deleteAll: DeleteResponse!
-  
+
   updateRecomendedList(args: RecomendedUpdateInput): RecomendedMovies!
 }
