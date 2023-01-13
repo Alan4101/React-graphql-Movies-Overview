@@ -3,8 +3,36 @@ import { graphql as gql } from './__generated__'
 export const SIGN_IN = gql(`
   mutation LoginUser($input: LoginInput!) {
   loginUser(input: $input) {
-    access_token
     status
+    user {
+      authToken
+      lastName
+      _id
+      firstName
+      picture
+      recomendedList {
+        _id
+        createdData
+        description
+        movies {
+          _id
+          adult
+          backdropPath
+          genres
+          overview
+          poster
+          releaseDate
+          title
+          sequenceNumber
+          userDescription
+          voteAverage
+          voteCount
+          movieId
+        }
+        title
+      }
+      role
+    }
   }
 }
 `)

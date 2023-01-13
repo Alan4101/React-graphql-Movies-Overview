@@ -1,22 +1,15 @@
 import React, { FC } from 'react'
 
 import { LockOutlined } from '@mui/icons-material'
-import {
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  CssBaseline,
-  FormControlLabel,
-  Grid,
-  Link,
-  TextField,
-  Typography
-} from '@mui/material'
+import { Avatar, Box, Button, Container, CssBaseline, Grid, Link, TextField, Typography } from '@mui/material'
 import { useFormik } from 'formik'
+import { useSignUp } from '../../graphql'
 
 export const SignUp: FC = () => {
+  const { signUp, data } = useSignUp()
+
+  console.log(data)
+
   const signUpFormik = useFormik({
     initialValues: {
       age: 0,
@@ -24,14 +17,24 @@ export const SignUp: FC = () => {
       firstName: '',
       lastName: '',
       password: '',
-      picture: ''
+      picture: ' '
     },
     enableReinitialize: true,
     onSubmit: values => {
-      values
+      handleSignUp(values)
     }
   })
   const { values, handleSubmit, handleChange } = signUpFormik
+  console.log(values)
+
+  const handleSignUp = (data: typeof values) => {
+    signUp({
+      variables: {
+        input: { ...data }
+      }
+    })
+  }
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -60,6 +63,7 @@ export const SignUp: FC = () => {
                 id='firstName'
                 label='First Name'
                 autoFocus
+                value={values.firstName}
                 onChange={handleChange}
               />
             </Grid>
@@ -71,6 +75,7 @@ export const SignUp: FC = () => {
                 label='Last Name'
                 name='lastName'
                 autoComplete='family-name'
+                value={values.lastName}
                 onChange={handleChange}
               />
             </Grid>
@@ -82,6 +87,7 @@ export const SignUp: FC = () => {
                 id='email'
                 label='Email Address'
                 name='email'
+                value={values.email}
                 autoComplete='email'
               />
             </Grid>
@@ -99,14 +105,9 @@ export const SignUp: FC = () => {
                 label='Password'
                 type='password'
                 id='password'
+                value={values.password}
                 autoComplete='new-password'
                 onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value='allowExtraEmails' color='primary' />}
-                label='I want to receive inspiration, marketing promotions and updates via email.'
               />
             </Grid>
           </Grid>

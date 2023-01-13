@@ -1,12 +1,12 @@
-import { FC } from 'react'
-// import { FormControlLabel } from '@material-ui/core'
+import { FC, useEffect, useState } from 'react'
 import { Avatar, Box, Container, CssBaseline, Grid, Link, TextField, Typography, Button } from '@mui/material'
 import { LockOutlined } from '@mui/icons-material'
 import { useSignIn } from '../../graphql'
 import { useFormik } from 'formik'
 
 export const Login: FC = () => {
-  const { signIn } = useSignIn()
+  const { signIn, authError } = useSignIn()
+  const [loginErrors, setLoginErros] = useState({})
 
   const signInFormik = useFormik({
     initialValues: {
@@ -20,19 +20,24 @@ export const Login: FC = () => {
   })
   const { values, handleSubmit, handleChange } = signInFormik
 
-  const login = (values: unknown) => {
-    if (values instanceof Object && 'email' in values && 'password' in values) {
-      signIn({
-        variables: {
-          input: {
-            email: values.email as string,
-            password: values.password as string
-          }
-        }
-      })
+  useEffect(() => {
+    if (authError) {
+      setLoginErros({ ...loginErrors, authError })
     }
+  }, [authError])
+
+  const login = (data: typeof values) => {
+    signIn({
+      variables: {
+        input: {
+          email: data.email,
+          password: data.password
+        }
+      }
+    })
   }
 
+  console.log(loginErrors)
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
