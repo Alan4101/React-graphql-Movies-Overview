@@ -22,6 +22,11 @@ const Users = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    authToken: { type: String, required: true },
+    // roles: [{
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'RolesModel'
+    // }],
     picture: { type: String },
     verified: {
       type: Boolean,
@@ -31,14 +36,14 @@ const Users = new mongoose.Schema(
     // temperary solution
     recomendedList: [
       {
-        title: {type: String, required: true},
-        createdData: {type: String, required: true},
-        description: {type: String, required: true},
+        title: { type: String, required: true },
+        createdData: { type: String, required: true },
+        description: { type: String, required: true },
         movies: [
           {
-            _id: {type: String, required: true},
-            title: {type: String, required: true},
-            poster: {type: String, required: true},
+            _id: { type: String, required: true },
+            title: { type: String, required: true },
+            poster: { type: String, required: true },
             releaseDate: String,
             adult: Boolean,
             movieId: String,
@@ -46,12 +51,11 @@ const Users = new mongoose.Schema(
             overview: String,
             voteCount: Number,
             userDescription: String,
-            sequenceNumber: Number
-    
+            sequenceNumber: Number,
           },
         ],
       },
-    ]
+    ],
   },
   {
     versionKey: false,
@@ -62,16 +66,21 @@ const Users = new mongoose.Schema(
 );
 Users.index({ email: 1 });
 
-Users.pre("save", async function (next) {
+Users.pre("save", function (next) {
+  const user = this;
+
   // Check if the password has been modified
-  if (!this.isModified("password")) return next();
+  if (!user.isModified("password")) return next();
 
-  // Hash password with strength of 12
-  this.password = await bcrypt.hash(this.password, 12);
-
-  // Remove the password confirm field
-  this.passwordConfirm = undefined;
-  next();
+  bcrypt.genSalt(12, (err, salt) => {
+    if (err) return next(err);
+    // Hash password with strength of 12
+    user.password = bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
 });
 
 Users.methods.comparePassword = async function (

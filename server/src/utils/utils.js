@@ -43,17 +43,31 @@ export const ForbiddenError = (message, codeGQL = "FORBIDDEN") => {
   });
 };
 
-export const signJwt = (payload, Key, options) => {
-  const privateKey = Buffer.from(process.env[Key], "base64").toString("ascii");
+// export const signJwt = (payload, Key, options) => {
+//   const privateKey = Buffer.from(process.env[Key], "base64").toString("ascii");
+//   return jwt.sign(payload, privateKey, {
+//     ...(options && options),
+//     algorithm: "RS256",
+//   });
+// };
+export const signJwt = (payload, privateKey, options) => {
   return jwt.sign(payload, privateKey, {
     ...(options && options),
-    algorithm: "RS256",
+    // algorithm: "RS256",
   });
 };
 
-export const verifyJwt = (token, Key) => {
+// export const verifyJwt = (token, Key) => {
+//   try {
+//     const publicKey = Buffer.from(process.env[Key], "base64").toString("ascii");
+//     const decoded = jwt.verify(token, publicKey);
+//     return decoded;
+//   } catch (error) {
+//     errorHandler(error);
+//   }
+// };
+export const verifyJwt = (token, publicKey) => {
   try {
-    const publicKey = Buffer.from(process.env[Key], "base64").toString("ascii");
     const decoded = jwt.verify(token, publicKey);
     return decoded;
   } catch (error) {

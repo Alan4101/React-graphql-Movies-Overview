@@ -1,10 +1,9 @@
 import base from "./../config/default";
 import errorHandler from "./error.controller";
 import checkIsLoggedIn from "./../middleware/checkIsLoggedIn";
-import { ForbiddenError, verifyJwt } from "../utils/utils";
+import { ForbiddenError, signJwt, verifyJwt } from "../utils/utils";
 import { UsersModel } from "../models";
 
-const { accessTokenExpireIn, refreshTokenExpireIn } = base;
 const cookieOptions = {
   httpOnly: true,
   // domain: 'localhost',
@@ -14,30 +13,33 @@ const cookieOptions = {
 
 const accessTokenCookieOptions = {
   ...cookieOptions,
-  maxAge: accessTokenExpireIn * 60 * 1000,
-  expires: new Date(Date.now() + accessTokenExpireIn * 60 * 1000),
+  maxAge: base.jwtAccessTokenExpiresIn * 60 * 1000,
+  expires: new Date(Date.now() + base.jwtAccessTokenExpiresIn * 60 * 1000),
 };
 
 const refreshTokenCookieOptions = {
   ...cookieOptions,
-  maxAge: refreshTokenExpireIn * 60 * 1000,
-  expires: new Date(Date.now() + refreshTokenExpireIn * 60 * 1000),
+  maxAge: base.jwtRefreshTokenExpiresIn * 60 * 1000,
+  expires: new Date(Date.now() + base.jwtRefreshTokenExpiresIn * 60 * 1000),
 };
 async function signTokens(user) {
-  // Create a Session
-  // await redisClient.set(user.id, JSON.stringify(user), {
-  //   EX: 60 * 60,
-  // });
 
-  // Create access token
-  const access_token = signJwt({ user: user.id }, "JWT_ACCESS_PRIVATE_KEY", {
-    expiresIn: `${base.jwtAccessTokenExpiresIn}m`,
-  });
+  const access_token = signJwt(
+    { user: user.id },
+    process.env.JWT_ACCESS_PRIVATE_KEY,
+    {
+      expiresIn: `${base.jwtAccessTokenExpiresIn}m`,
+    }
+  );
 
   // Create refresh token
-  const refresh_token = signJwt({ user: user.id }, "JWT_REFRESH_PRIVATE_KEY", {
-    expiresIn: `${base.jwtRefreshTokenExpiresIn}m`,
-  });
+  const refresh_token = signJwt(
+    { user: user.id },
+    process.env.JWT_REFRESH_PRIVATE_KEY,
+    {
+      expiresIn: `${base.jwtRefreshTokenExpiresIn}m`,
+    }
+  );
 
   return { access_token, refresh_token };
 }
@@ -50,12 +52,15 @@ const AuthResolvers = {
         const { refresh_token } = req.cookies;
 
         // Validate the RefreshToken
-        const decoded = verifyJwt(refresh_token, "JWT_REFRESH_PUBLIC_KEY");
+        const decoded = verifyJwt(
+          refresh_token,
+          process.env.JWT_REFRESH_PUBLIC_KEY
+        );
 
         if (!decoded) {
           throw ForbiddenError("Could not refresh access token");
         }
-        const session = req.session
+        const session = req.session;
 
         // Check if user exist and is verified
         const user = await UsersModel.findById(JSON.parse(session).id).select(
@@ -107,31 +112,26 @@ const AuthResolvers = {
     },
   },
   Mutation: {
-    loginUser: async (_, { input: { email, password } }) => {
+    loginUser: async (_, { input: { email, password } }, { req, res }) => {
       try {
-        const user = UsersModel.findOne({ email }).select(
+        const user = await UsersModel.findOne({ email }).select(
           "+password +verified"
         );
-
         if (!user || !(await user.comparePassword(password, user.password))) {
           throw ForbiddenError("Invalid email or password", "UNAUTHENTICATED");
         }
-        user.password = undefined;
 
-        // Create a session and tokens
-        const { access_token, refresh_token } = await signTokens(user);
-
-        // Add refreshToken to cookie
-        res.cookie("refresh_token", refresh_token, refreshTokenCookieOptions);
-        res.cookie("access_token", access_token, accessTokenCookieOptions);
-        res.cookie("logged_in", true, {
-          ...accessTokenCookieOptions,
-          httpOnly: false,
-        });
-
+        // Create a token
+        const { access_token } = await signTokens(user);
+        
+        user.authToken = access_token;
+        
         return {
           status: "success",
-          access_token,
+          user:{
+            _id: user._id,
+            ...user._doc
+          }
         };
       } catch (error) {
         errorHandler(error);

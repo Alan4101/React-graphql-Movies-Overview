@@ -149,6 +149,7 @@ type User {
   verified: Boolean!
   picture: String!
   recomendedList: [RecomendedMovies!]!
+  authToken: String!
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -171,12 +172,9 @@ input LoginInput {
 }
 type TokenResponse {
   status: String!
-  access_token: String!
+  user: User!
 }
-type TokenResponse {
-  status: String!
-  access_token: String!
-}
+
 #end Users type
 
 #--------Queries---------
