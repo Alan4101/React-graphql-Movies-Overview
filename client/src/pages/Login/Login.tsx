@@ -40,7 +40,7 @@ export const Login: FC = () => {
   }
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component='main' maxWidth='xs' data-testid='loginContainer'>
       <CssBaseline />
       <Box
         sx={{
