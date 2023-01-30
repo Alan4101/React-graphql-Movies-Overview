@@ -3,6 +3,7 @@ import { Avatar, Box, Container, CssBaseline, Grid, Link, TextField, Typography,
 import { LockOutlined } from '@mui/icons-material'
 import { useSignIn } from '../../graphql'
 import { useFormik } from 'formik'
+import { validationSchema } from './helper';
 
 export const Login: FC = () => {
   const { signIn, authError } = useSignIn()
@@ -13,12 +14,13 @@ export const Login: FC = () => {
       email: '',
       password: ''
     },
+    validationSchema,
     enableReinitialize: true,
     onSubmit: values => {
       login(values)
     }
   })
-  const { values, handleSubmit, handleChange } = signInFormik
+  const { values, errors, handleSubmit, handleChange } = signInFormik
 
   useEffect(() => {
     if (authError) {
@@ -37,7 +39,6 @@ export const Login: FC = () => {
     })
   }
 
-  console.log(loginErrors)
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -67,6 +68,8 @@ export const Login: FC = () => {
             autoComplete='email'
             autoFocus
             onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
           />
           <TextField
             margin='normal'
@@ -79,7 +82,14 @@ export const Login: FC = () => {
             id='password'
             autoComplete='current-password'
             onChange={handleChange}
+            error={!!errors.password}
+            helperText={errors.password}
           />
+          {authError && (
+            <Grid container>
+              <Typography color='error'>{authError.message}</Typography>
+            </Grid>
+          )}
           {/* <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' /> */}
           <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
             Sign In
